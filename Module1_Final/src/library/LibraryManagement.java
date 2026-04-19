@@ -53,6 +53,18 @@ public class LibraryManagement {
         }
 
         printMainMenu();
+        int choice = readNum("Chọn: ");
+        if (choice == 0) {
+            return;
+        }
+        if (choice != 1) {
+            System.out.println("Lựa chọn không hợp lệ!");
+        }
+        switch (choice) {
+            case 1:
+                userScreen(userId);
+                break;
+        }
     }
 
     public void printMainMenu() {
@@ -100,5 +112,33 @@ public class LibraryManagement {
         int choice = sc.nextInt();
         sc.nextLine(); // consume leftover newline
         return choice;
+    }
+
+    public void userScreen(String userId) {
+        do {
+            System.out.println("\n======Menu======");
+            System.out.println("1. Đăng xuất");
+            System.out.println("2. Thay đổi mật khẩu");
+            System.out.println("3. Cập nhật thông tin cá nhân");
+            System.out.println("4. Tạo người dùng");
+            System.out.println("5. Phân quyền người dùng");
+            int choice = readNum("Chọn: ");
+            if (choice == 0) {
+                return;
+            }
+            if (choice != 1) {
+                System.out.println("Lựa chọn không hợp lệ!");
+                continue;
+            }
+
+            switch (choice) {
+                case 1:
+                    userId = userService.logout(userId);
+                    if (userId == null) {
+                        System.out.println("Đăng xuất thành công!");
+                        return;
+                    }
+            }
+        } while (true);
     }
 }

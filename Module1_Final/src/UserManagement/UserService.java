@@ -17,11 +17,15 @@ public class UserService {
     public User login(String userName, String password, String userId) {
         for (User user: userList) {
             if (user.getUserName().equals(userName)
-                && user.getPassword().equals(password)
-                && userId == null) {
+                    && user.getPassword().equals(password)
+                    && userId == null) {
                 return user;
             }
         }
+        return null;
+    }
+
+    public String logout(String userId) {
         return null;
     }
 }
