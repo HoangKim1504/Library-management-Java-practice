@@ -13,4 +13,15 @@ public class UserService {
     public List<User> getAllUsers() {
         return new ArrayList<>(userList); // return copy so that outside cannot modify the internal list
     }
+
+    public User login(String userName, String password, String userId) {
+        for (User user: userList) {
+            if (user.getUserName().equals(userName)
+                && user.getPassword().equals(password)
+                && userId == null) {
+                return user;
+            }
+        }
+        return null;
+    }
 }

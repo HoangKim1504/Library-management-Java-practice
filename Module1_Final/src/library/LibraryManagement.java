@@ -44,19 +44,61 @@ public class LibraryManagement {
     }
 
     public void run() {
+        String userId = null;
+        if (userId == null) {
+            boolean isLogin = loginScreen(userId);
+            if (!isLogin) {
+                return;
+            }
+        }
+
         printMainMenu();
     }
 
-    public void printMainMenu () {
-        System.out.println("\n=======Main Chính======");
-        System.out.println("1. Chức năng người dùng (đăng xuất, đổi MK, cập nhật TT, ...");
+    public void printMainMenu() {
+        System.out.println("\n=======Menu Chính======");
+        System.out.println("1. Chức năng người dùng (đăng xuất, đổi MK, cập nhật TT, ...)");
         System.out.println("2. Quản lý độc giả");
         System.out.println("3. Quản lý sách");
         System.out.println("4. Lập phiếu mượn sách");
         System.out.println("5. Lập phiếu trả sách");
         System.out.println("6. Thống kê");
-        System.out.println("Chọn chức năng (1-6): ");
     }
 
+    public boolean loginScreen (String userId) {
+        do {
+            System.out.println("\n=====Menu=====");
+            System.out.println("1. Đăng nhập");
+            System.out.println("0. Thoát chương trình");
+            int choice = readNum("Chọn: ");
+            if (choice == 0) {
+                return false;
+            }
+            if (choice != 1) {
+                System.out.println("Lựa chọn không hợp lệ!");
+                continue;
+            }
 
+            System.out.print("Tên đăng nhập: ");
+            String userName = sc.nextLine().trim();
+            System.out.print("Mật khẩu: ");
+            String password = sc.nextLine();
+
+            User n = userService.login(userName, password, userId);
+            if (n == null) {
+                System.out.println("Đăng nhập thất bại (sai tài khoản/ mật khẩu hoặc tài khoản bị khoá).");
+            } else {
+                System.out.println("Xin chào, " + n.getUserName() + " (" + n.getUserType().getDisplayName() + ").");
+                n.setUserId(userId);
+                return true;
+            }
+        } while (true);
+    }
+
+    public int readNum(String prompt) {
+        System.out.print(prompt);
+        int choice = sc.nextInt();
+        sc.nextLine(); // consume leftover newline
+        return choice;
+    }
 }
