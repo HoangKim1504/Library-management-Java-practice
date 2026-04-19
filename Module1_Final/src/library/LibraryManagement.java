@@ -1,7 +1,7 @@
 package library;
 
-import UserManagement.User;
-import UserManagement.UserService;
+import user.User;
+import user.UserService;
 import util.Gender;
 import util.Status;
 import util.UserType;
@@ -10,8 +10,12 @@ import java.time.LocalDate;
 import java.util.Scanner;
 
 public class LibraryManagement {
+
     private final Scanner sc = new Scanner(System.in);
     private final UserService userService = new UserService();
+
+    private static final String NOT_LOGIN = "0";
+    private String userId = NOT_LOGIN;
 
     public static void main(String[] args) {
         LibraryManagement app = new LibraryManagement();
@@ -19,6 +23,7 @@ public class LibraryManagement {
         app.run();
     }
 
+    // ================= INIT DATA =================
     public void createInitData() {
         User admin = new User(
                 "admin", "admin", "Admin system", LocalDate.of(1990, 1, 1),
@@ -43,30 +48,41 @@ public class LibraryManagement {
         userService.createUser(user3);
     }
 
+    // ================= MAIN PROGRAM FLOW =================
     public void run() {
-        String userId = null;
-        if (userId == null) {
-            boolean isLogin = loginScreen(userId);
-            if (!isLogin) {
-                return;
-            }
-        }
+        while (true) {
+            // Force user to login before using system
+            requireLogin();
 
-        printMainMenu();
-        int choice = readNum("Chọn: ");
-        if (choice == 0) {
-            return;
-        }
-        if (choice != 1) {
-            System.out.println("Lựa chọn không hợp lệ!");
-        }
-        switch (choice) {
-            case 1:
-                userScreen(userId);
-                break;
+            // Main menu loop
+            printMainMenu();
+            int choice = readNum("Chọn: ");
+
+            switch (choice) {
+                case 1:
+                    userScreen();
+                    break;
+                case 0:
+                    return;
+                default:
+                    System.out.println("Lựa chọn không hợp lệ!");
+            }
         }
     }
 
+
+    // ================= REQUIRE LOGIN =================
+    private void requireLogin() {
+        while (userId.equals(NOT_LOGIN)) {
+            boolean isLogin = loginScreen();
+            if (!isLogin) {
+                System.out.println("Thoát chương trình...");
+                System.exit(0); // exit program
+            }
+        }
+    }
+
+    // ================= MAIN MENU =================
     public void printMainMenu() {
         System.out.println("\n=======Menu Chính======");
         System.out.println("1. Chức năng người dùng (đăng xuất, đổi MK, cập nhật TT, ...)");
@@ -77,68 +93,79 @@ public class LibraryManagement {
         System.out.println("6. Thống kê");
     }
 
-    public boolean loginScreen (String userId) {
-        do {
-            System.out.println("\n=====Menu=====");
+    // ================= LOGIN FUNCTION =================
+    public boolean loginScreen () {
+        while (true) {
+            System.out.println("\n===== MENU =====");
             System.out.println("1. Đăng nhập");
             System.out.println("0. Thoát chương trình");
+
             int choice = readNum("Chọn: ");
-            if (choice == 0) {
-                return false;
-            }
+
+            if (choice == 0) return false;
+
             if (choice != 1) {
                 System.out.println("Lựa chọn không hợp lệ!");
                 continue;
             }
 
+            // Input username & password
             System.out.print("Tên đăng nhập: ");
             String userName = sc.nextLine().trim();
+
             System.out.print("Mật khẩu: ");
             String password = sc.nextLine();
 
-            User n = userService.login(userName, password, userId);
-            if (n == null) {
+            // Call service to authenticate
+            User user = userService.login(userName, password);
+
+            if (user == null) {
                 System.out.println("Đăng nhập thất bại (sai tài khoản/ mật khẩu hoặc tài khoản bị khoá).");
             } else {
-                System.out.println("Xin chào, " + n.getUserName() + " (" + n.getUserType().getDisplayName() + ").");
-                n.setUserId(userId);
+                // Save logged-in userId
+                this.userId = user.getUserId();
+
+                System.out.println("Xin chào, " + user.getUserName() + " (" + user.getUserType().getDisplayName() + ").");
                 return true;
             }
-        } while (true);
+        }
     }
 
-    public int readNum(String prompt) {
-        System.out.print(prompt);
-        int choice = sc.nextInt();
-        sc.nextLine(); // consume leftover newline
-        return choice;
-    }
-
-    public void userScreen(String userId) {
-        do {
-            System.out.println("\n======Menu======");
+    // ================= USER MENU =================
+    public void userScreen() {
+        while (true) {
+            System.out.println("\n====== USER MENU ======");
             System.out.println("1. Đăng xuất");
             System.out.println("2. Thay đổi mật khẩu");
             System.out.println("3. Cập nhật thông tin cá nhân");
             System.out.println("4. Tạo người dùng");
             System.out.println("5. Phân quyền người dùng");
+
             int choice = readNum("Chọn: ");
-            if (choice == 0) {
-                return;
-            }
-            if (choice != 1) {
-                System.out.println("Lựa chọn không hợp lệ!");
-                continue;
-            }
 
             switch (choice) {
                 case 1:
-                    userId = userService.logout(userId);
-                    if (userId == null) {
-                        System.out.println("Đăng xuất thành công!");
-                        return;
-                    }
+                    // Call logout service
+                    userService.logout(userId);
+
+                    // Reset login state
+                    userId = NOT_LOGIN;
+
+                    System.out.println("Đăng xuất thành công!");
+                    return;
+                case 0:
+                    return;
+                default:
+                    System.out.println("Lựa chọn không hợp lệ!");
             }
-        } while (true);
+        }
+    }
+
+    // ================= INPUT HELPER =================
+    public int readNum(String prompt) {
+        System.out.print(prompt);
+        int num = sc.nextInt();
+        sc.nextLine(); // clear buffer
+        return num;
     }
 }
