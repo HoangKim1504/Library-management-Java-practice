@@ -34,9 +34,29 @@ public class UserService {
         return null ;// wrong credentials
     }
 
+    // Logout function
     public void logout(String userId) {
         if (userId == null || userId.equals("0")) {
             System.out.println("Hiện chưa có người dùng nào đăng nhập.");
         }
+    }
+
+    // Change password function
+    public boolean changePassword (String userId, String oldPass, String newPass) {
+        for (User user: userList) {
+            // Find curent user
+            if (user.getUserId().equals(userId)) {
+                // Check old password
+                if (!user.getPassword().equals(oldPass)) {
+                    return false;
+                }
+
+                // Update new password
+                user.setPassword(newPass);
+                return true;
+            }
+        }
+
+        return false;
     }
 }

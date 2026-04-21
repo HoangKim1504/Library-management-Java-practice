@@ -1,5 +1,7 @@
 package library;
 
+import org.jetbrains.annotations.NotNull;
+
 import user.User;
 import user.UserService;
 import util.Gender;
@@ -134,7 +136,7 @@ public class LibraryManagement {
     // ================= USER MENU =================
     public void userScreen() {
         while (true) {
-            System.out.println("\n====== USER MENU ======");
+            System.out.println("\n====== MENU NGƯỜI DÙNG ======");
             System.out.println("1. Đăng xuất");
             System.out.println("2. Thay đổi mật khẩu");
             System.out.println("3. Cập nhật thông tin cá nhân");
@@ -153,10 +155,59 @@ public class LibraryManagement {
 
                     System.out.println("Đăng xuất thành công!");
                     return;
+                case 2:
+                    // Call changePassword service
+                    changePassScreen();
+                    break;
                 case 0:
                     return;
                 default:
                     System.out.println("Lựa chọn không hợp lệ!");
+            }
+        }
+    }
+
+    // ================= CHANGE PASSWORD FUNCTION =================
+    public void changePassScreen () {
+        while (true) {
+            System.out.println("\n====== ĐỔI MẬT KHẨU ======");
+            System.out.print("Nhập mật khẩu cũ: ");
+            String oldPass = sc.nextLine();
+            System.out.println("Mật khẩu mạnh là mật khẩu:");
+            System.out.println("\uF0A7 Có ít nhất 8 ký tự");
+            System.out.println("\uF0A7 Có ít nhất 1 chữ in hoa, 1 chữ thường, 1 số, 1 ký tự đặc biệt (!@#$%^&*)");
+            System.out.print("Nhập mật khẩu mới: ");
+            String newPass = sc.nextLine();
+            System.out.print("Nhập lại mật khẩu mới: ");
+            String confirmPass = sc.nextLine();
+
+            // Validate confirm password
+            if (!newPass.equals(confirmPass)) {
+                System.out.println("Mật khẩu xác nhận không khớp với mật khẩu mới!");
+                changePassScreen();
+            }
+
+            // Prevent same password
+            if (oldPass.equals(newPass)) {
+                System.out.println("Mật khẩu mới phải khác với mật khẩu cũ");
+                changePassScreen();
+            }
+
+            // Check validate new password
+            boolean isCheckValidPw = checkValidPass(newPass);
+            if (!isCheckValidPw) {
+                changePassScreen();
+            }
+
+            // Call service
+            boolean isChangePassword = userService.changePassword(userId, oldPass, newPass);
+
+            if (isChangePassword) {
+                System.out.println("Thay đổi mật khẩu thành công!");
+                loginScreen(); // login again
+            } else {
+                System.out.println("Mật khẩu cũ không đúng!");
+                changePassScreen();
             }
         }
     }
@@ -167,5 +218,33 @@ public class LibraryManagement {
         int num = sc.nextInt();
         sc.nextLine(); // clear buffer
         return num;
+    }
+
+    // ================= VALID NEW PASSWORD =================
+    public boolean checkValidPass(@NotNull String pw) {
+        // Check length
+        if (pw.length() < 8) {
+            System.out.println("Mật khẩu phải có ít nhất 8 kí tự.");
+            return false;
+        }
+
+        // Check uppercase
+        boolean hasUpper = !pw.equals(pw.toLowerCase());
+
+        // Check lowercase
+        boolean hasLower = !pw.equals(pw.toUpperCase());
+
+        // Check digit
+        boolean hasDigit = pw.matches(".*\\d.*");
+
+        // Check special character
+        boolean hasSpecial = pw.matches(".*[!@#$%^&*].*");
+
+        if (hasUpper && hasLower && hasDigit && hasSpecial) {
+            return true;
+        } else {
+            System.out.println("Mật khẩu không hợp lệ!");
+            return false;
+        }
     }
 }
