@@ -31,17 +31,17 @@ public class LibraryManagement {
                 "admin", "admin", "Admin system", LocalDate.of(1990, 1, 1),
                 "123456789", "TP.HCM", Gender.MALE, Status.ACTIVATED, UserType.ADMIN);
         User manager = new User(
-                "manager", "manager", "Manager system", LocalDate.of(1995, 12, 1),
+                "manager", "manager", "Manager", LocalDate.of(1995, 12, 1),
                 "987654321", "TP.HCM", Gender.FEMALE, Status.ACTIVATED, UserType.MANAGER);
         User user1 = new User(
-                "admin", "admin", "Admin system", LocalDate.of(1994, 8, 17),
+                "user1", "user1", "User1", LocalDate.of(1994, 8, 17),
                 "159753852", "TP.Ha Noi", Gender.MALE, Status.ACTIVATED, UserType.USER);
         User user2 = new User(
-                "admin", "admin", "Admin system", LocalDate.of(1999, 5, 20),
+                "user2", "user2", "User2", LocalDate.of(1999, 5, 20),
                 "456789158", "TP.Can Tho", Gender.FEMALE, Status.ACTIVATED, UserType.USER);
         User user3 = new User(
-                "admin", "admin", "Admin system", LocalDate.of(2000, 1, 15),
-                "789541259", "TP.HCM", Gender.MALE, Status.ACTIVATED, UserType.USER);
+                "user3", "user3", "User3", LocalDate.of(2000, 1, 15),
+                "789541259", "TP.HCM", Gender.MALE, Status.BLOCK, UserType.USER);
 
         userService.createUser(admin);
         userService.createUser(manager);
