@@ -1,7 +1,9 @@
 package user;
 
+import util.Gender;
 import util.Status;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +15,17 @@ public class UserService {
     // Add new user
     public void createUser(User initData) {
         userList.add(initData);
+    }
+
+    // Find current user
+    public User findCurrentUser(String userId) {
+        for (User user : userList) {
+            // Find curent user
+            if (user.getUserId().equals(userId)) {
+                return user;
+            }
+        }
+        return null; // not found
     }
 
     // Login function
@@ -43,20 +56,48 @@ public class UserService {
 
     // Change password function
     public boolean changePassword (String userId, String oldPass, String newPass) {
-        for (User user: userList) {
-            // Find curent user
-            if (user.getUserId().equals(userId)) {
-                // Check old password
-                if (!user.getPassword().equals(oldPass)) {
-                    return false;
-                }
+        User user = findCurrentUser(userId);
 
-                // Update new password
-                user.setPassword(newPass);
-                return true;
-            }
+        // Check user exists
+        if (user == null) return false;
+
+        // Check old password
+        if (!user.getPassword().equals(oldPass)) return false;
+
+        // Update new password
+        user.setPassword(newPass);
+        return true;
+    }
+
+    // Update current user info
+    public User updateUserInfo(int choice, String userId, String newInfo) {
+        User user = findCurrentUser(userId);
+
+        // Update user info
+        switch (choice) {
+            case 1:
+                user.setFullName(newInfo);
+                break;
+            case 2:
+                user.setBirthDate(LocalDate.parse(newInfo));
+                break;
+            case 3:
+                user.setUserId(newInfo);
+                break;
+            case 4:
+                user.setAddress(newInfo);
+                break;
+            case 5:
+                user.setGender(Gender.valueOf(newInfo));
+                break;
+            case 6:
+                user.setStatus(Status.valueOf(newInfo));
+                break;
+            default:
+                System.out.println("Lựa chọn không hợp lệ!");
         }
 
-        return false;
+        return user;
     }
+
 }

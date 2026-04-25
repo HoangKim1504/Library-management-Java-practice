@@ -1,12 +1,11 @@
 package library;
 
-import org.jetbrains.annotations.NotNull;
-
 import user.User;
 import user.UserService;
 import util.Gender;
 import util.Status;
 import util.UserType;
+import validator.UserValidator;
 
 import java.time.LocalDate;
 import java.util.Scanner;
@@ -72,7 +71,6 @@ public class LibraryManagement {
         }
     }
 
-
     // ================= REQUIRE LOGIN =================
     private void requireLogin() {
         while (userId.equals(NOT_LOGIN)) {
@@ -86,7 +84,7 @@ public class LibraryManagement {
 
     // ================= MAIN MENU =================
     public void printMainMenu() {
-        System.out.println("\n=======Menu Chính======");
+        System.out.println("\n======= MENU CHÍNH ======");
         System.out.println("1. Chức năng người dùng (đăng xuất, đổi MK, cập nhật TT, ...)");
         System.out.println("2. Quản lý độc giả");
         System.out.println("3. Quản lý sách");
@@ -165,6 +163,10 @@ public class LibraryManagement {
                         return;
                     }
                     break;
+                case 3:
+                    // Navigate to update user info
+                    updateInfoScreen();
+                    break;
                 case 0:
                     return;
                 default:
@@ -206,7 +208,7 @@ public class LibraryManagement {
             }
 
             // Check validate new password
-            if (!checkValidPass(newPass)) {
+            if (!UserValidator.isValidPass(newPass)) {
                 continue;
             }
 
@@ -223,40 +225,96 @@ public class LibraryManagement {
         }
     }
 
+    // ================= UPDATE USER INFO FUNCTION =================
+    public void updateInfoScreen() {
+        while (true) {
+            String newInfo = "";
+            boolean isValid = false;
+            boolean isUpdate = false;
+
+            User user = userService.findCurrentUser(userId);
+
+            if (user == null) {
+                System.out.println("Không tìm thấy người dùng!");
+                return;
+            }
+
+            // Print user info
+            printUserInfo(user, isUpdate);
+            int choice = readNum("Chọn thông tin muốn cập nhật (1-6) hoặc chọn 0 để quay lại menu người dùng: ");
+
+            if (choice == 0) return;
+
+            while (true) {
+                System.out.print("Thông tin cập nhật mới: ");
+                newInfo = sc.nextLine();
+
+                // Validate input
+                switch (choice) {
+                    case 1:
+                        if (UserValidator.isValidName(newInfo)) isValid = true;
+                        break;
+                    case 2:
+                        if (UserValidator.isValidDate(newInfo)) isValid = true;
+                        break;
+                    case 3:
+                        if (UserValidator.isValidId(newInfo)) isValid = true;
+                        break;
+                    case 4:
+                        if (UserValidator.isValidAddress(newInfo)) isValid = true;
+                        break;
+                    default:
+                        System.out.println("Lựa chọn không hợp lệ!");
+                        break;
+                }
+
+                if (isValid) {
+                    break;
+                }
+
+                System.out.println("Vui lòng nhập lại thông tin.");
+            }
+
+            // Update use info
+            User newUserInfo = userService.updateUserInfo(choice, userId, newInfo);
+
+            // Update fail
+            if (newUserInfo == null) {
+                System.out.println("Cập nhật thông tin thất bại. Vui lòng thử lại.");
+                return;
+            }
+
+            // Update userId
+            if (choice == 3) {
+                userId = newInfo;
+            }
+
+            // Update successfully
+            System.out.println("Cập nhật thông tin thành công!");
+            isUpdate = true;
+            printUserInfo(newUserInfo, isUpdate);
+        }
+    }
+
+    public void printUserInfo(User user, boolean isUpdate) {
+        if (isUpdate) {
+            System.out.println("\n====== THÔNG TIN NGƯỜI DÙNG ĐÃ ĐƯỢC CẬP NHẬP ======");
+        } else {
+            System.out.println("\n====== THÔNG TIN NGƯỜI DÙNG ======");
+        }
+        System.out.println("1. Họ Tên: " + user.getFullName());
+        System.out.println("2. Ngày sinh: " + user.getBirthDate());
+        System.out.println("3. CMND: " + user.getUserId());
+        System.out.println("4. Địa chỉ: " + user.getAddress());
+        System.out.println("5. Giới tính: " + user.getGender().getDisplayName());
+        System.out.println("6. Tình trạng: " + user.getStatus().getDisplayName());
+    }
+
     // ================= INPUT HELPER =================
     public int readNum(String prompt) {
         System.out.print(prompt);
         int num = sc.nextInt();
         sc.nextLine(); // clear buffer
         return num;
-    }
-
-    // ================= VALID NEW PASSWORD =================
-    public boolean checkValidPass(@NotNull String pw) {
-        // Check length
-        if (pw.length() < 8) {
-            System.out.println("Mật khẩu phải có ít nhất 8 kí tự.");
-            return false;
-        }
-
-        // Check uppercase
-        boolean hasUpper = !pw.equals(pw.toLowerCase());
-
-        // Check lowercase
-        boolean hasLower = !pw.equals(pw.toUpperCase());
-
-        // Check digit
-        boolean hasDigit = pw.matches(".*\\d.*");
-
-        // Check special character
-        boolean hasSpecial = pw.matches(".*[!@#$%^&*].*");
-
-        // Final validation
-        if (!hasUpper || !hasLower || !hasDigit || !hasSpecial) {
-            System.out.println("Mật khẩu phải chứa chữ hoa, chữ thường, số và ký tự đặc biệt!");
-            return false;
-        }
-
-        return true;
     }
 }
