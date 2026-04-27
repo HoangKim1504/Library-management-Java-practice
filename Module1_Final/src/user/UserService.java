@@ -87,7 +87,7 @@ public class UserService {
                 user.setBirthDate(LocalDate.parse(newInfo));
                 break;
             case 3:
-                user.setUserId(newInfo);
+                user.setNationalId(newInfo);
                 break;
             case 4:
                 user.setAddress(newInfo);

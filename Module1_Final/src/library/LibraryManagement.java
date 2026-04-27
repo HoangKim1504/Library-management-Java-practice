@@ -28,19 +28,19 @@ public class LibraryManagement {
     public void createInitData() {
         User admin = new User(
                 "admin", "admin", "Admin system", LocalDate.of(1990, 1, 1),
-                "123456789", "TP.HCM", Gender.MALE, Status.ACTIVATED, UserType.ADMIN);
+                "123456789875", "TP.HCM", Gender.MALE, Status.ACTIVATED, UserType.ADMIN, "01");
         User manager = new User(
                 "manager", "manager", "Manager", LocalDate.of(1995, 12, 1),
-                "987654321", "TP.HCM", Gender.FEMALE, Status.ACTIVATED, UserType.MANAGER);
+                "987654321954", "TP.HCM", Gender.FEMALE, Status.ACTIVATED, UserType.MANAGER, "02");
         User user1 = new User(
                 "user1", "user1", "User1", LocalDate.of(1994, 8, 17),
-                "159753852", "TP.Ha Noi", Gender.MALE, Status.ACTIVATED, UserType.USER);
+                "159753852851", "TP.Ha Noi", Gender.MALE, Status.ACTIVATED, UserType.USER, "03");
         User user2 = new User(
                 "user2", "user2", "User2", LocalDate.of(1999, 5, 20),
-                "456789158", "TP.Can Tho", Gender.FEMALE, Status.ACTIVATED, UserType.USER);
+                "456789158487", "TP.Can Tho", Gender.FEMALE, Status.ACTIVATED, UserType.USER, "04");
         User user3 = new User(
                 "user3", "user3", "User3", LocalDate.of(2000, 1, 15),
-                "789541259", "TP.HCM", Gender.MALE, Status.BLOCK, UserType.USER);
+                "789541259851", "TP.HCM", Gender.MALE, Status.BLOCK, UserType.USER, "05");
 
         userService.createUser(admin);
         userService.createUser(manager);
@@ -280,11 +280,6 @@ public class LibraryManagement {
                 return;
             }
 
-            // Update userId
-            if (choice == 3) {
-                userId = newInfo;
-            }
-
             // Update successfully
             System.out.println("Cập nhật thông tin thành công!");
             isUpdate = true;
@@ -301,7 +296,7 @@ public class LibraryManagement {
         }
         System.out.println("1. Họ Tên: " + user.getFullName());
         System.out.println("2. Ngày sinh: " + user.getBirthDate());
-        System.out.println("3. CMND: " + user.getUserId());
+        System.out.println("3. CMND: " + user.getNationalId());
         System.out.println("4. Địa chỉ: " + user.getAddress());
         System.out.println("5. Giới tính: " + user.getGender().getDisplayName());
         System.out.println("6. Tình trạng: " + user.getStatus().getDisplayName());

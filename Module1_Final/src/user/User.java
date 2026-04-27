@@ -12,25 +12,27 @@ public class User {
     private String password;
     private String fullName;
     LocalDate birthDate;
-    private String userId;
+    private String nationalId;
     private String address;
     private Gender gender;
     private Status status;
     private UserType userType;
+    private String userId;
 
     public User() {
     }
 
-    public User(String userName, String password, String fullName, LocalDate birthDate, String userId, String address, Gender gender, Status status, UserType userType) {
+    public User(String userName, String password, String fullName, LocalDate birthDate, String nationalId, String address, Gender gender, Status status, UserType userType, String userId) {
         this.userName = userName;
         this.password = password;
         this.fullName = fullName;
         this.birthDate = birthDate;
-        this.userId = userId;
+        this.nationalId = nationalId;
         this.address = address;
         this.gender = gender;
         this.status = status;
         this.userType = userType;
+        this.userId = userId;
     }
 
     public String getUserName() {
@@ -65,12 +67,12 @@ public class User {
         this.birthDate = birthDate;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getNationalId() {
+        return nationalId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setNationalId(String nationalId) {
+        this.nationalId = nationalId;
     }
 
     public String getAddress() {
@@ -103,5 +105,13 @@ public class User {
 
     public void setUserType(UserType userType) {
         this.userType = userType;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }
