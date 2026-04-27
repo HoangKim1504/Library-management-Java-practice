@@ -313,7 +313,7 @@ public class LibraryManagement {
             }
 
             // Generate userId
-            String userId = userService.createNewUserId();
+            String userId = userService.generateNewUserId();
             if (userId == null) {
                 System.out.println("Không thể tạo userId!");
                 continue;

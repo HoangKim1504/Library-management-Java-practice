@@ -11,10 +11,10 @@ import java.util.List;
 
 public class UserService {
 
-    // Store all users
+    // ================= STORE ALL USERS =================
     private final List<User> userList = new ArrayList<>(); // Prevents accidental reassignment to the list
 
-    // Add new user
+    // ================= CREATE NEW USER =================
     public boolean createUser(User user) {
         // Check null
         if (user == null) {
@@ -32,7 +32,7 @@ public class UserService {
         return true;
     }
 
-    // Find current user
+    // ================= FIND CURRENT USER =================
     public User findCurrentUser(String userId) {
         for (User user : userList) {
             // Find current user
@@ -43,7 +43,7 @@ public class UserService {
         return null; // not found
     }
 
-    // Login function
+    // ================= LOGIN FUNCTION =================
     public User login(String userName, String password) {
         for (User user: userList) {
             // Check userName & password
@@ -62,14 +62,14 @@ public class UserService {
         return null ;// wrong credentials
     }
 
-    // Logout function
+    // ================= LOGOUT FUNCTION =================
     public void logout(String userId) {
         if (userId == null || userId.equals("0")) {
             System.out.println("Hiện chưa có người dùng nào đăng nhập.");
         }
     }
 
-    // Change password function
+    // ================= CHANGE PASSWORD FUNCTION =================
     public boolean changePassword (String userId, String oldPass, String newPass) {
         User user = findCurrentUser(userId);
 
@@ -84,7 +84,7 @@ public class UserService {
         return true;
     }
 
-    // Update current user info
+    // ================= UPDATE CURRENT USER INFO =================
     public User updateUserInfo(int choice, String userId, Object newInfo) {
         User user = findCurrentUser(userId);
 
@@ -126,7 +126,7 @@ public class UserService {
         return user;
     }
 
-    // Convert date from String to LocalDate
+    // ================= CONVERT DATE FRON STRING TO LOCAL DATE =================
     public LocalDate convertToLocalDate(String date, String dateFormat) {
         // Date format
         DateTimeFormatter df = DateTimeFormatter.ofPattern(dateFormat);
@@ -137,8 +137,8 @@ public class UserService {
         return LocalDate.parse(date, df);
     }
 
-    // Create new userId
-    public String createNewUserId() {
+    // ================= GENERATE NEW USERID =================
+    public String generateNewUserId() {
         // Check empty list
         if (userList.isEmpty()) {
             return "01";
