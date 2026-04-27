@@ -164,7 +164,7 @@ public class LibraryManagement {
                     }
                     break;
                 case 3:
-                    // Navigate to update user info
+                    // Navigate to update user info screen
                     updateInfoScreen();
                     break;
                 case 0:
@@ -225,7 +225,7 @@ public class LibraryManagement {
 
         // Print user info
         printUserInfo(user, isSuccess);
-        int choice = readNum("Chọn thông tin muốn cập nhật (1-6) hoặc chọn 0 để quay lại menu người dùng: ");
+        int choice = readNum("Chọn thông tin muốn cập nhật (1-7) hoặc chọn 0 để quay lại menu người dùng: ");
 
         if (choice == 0) return;
 
@@ -241,6 +241,12 @@ public class LibraryManagement {
                 if (status == null) return;
 
                 isSuccess = userService.updateUserInfo(choice, userId, status) != null;
+                break;
+            case 7: // UserType (use Menu)
+                UserType userType = inputUserType();
+                if (userType == null) return;
+
+                isSuccess = userService.updateUserInfo(choice, userId, userType) != null;
                 break;
             default:
                 // Handle normal string input
@@ -272,12 +278,13 @@ public class LibraryManagement {
         System.out.println("4. Địa chỉ: " + user.getAddress());
         System.out.println("5. Giới tính: " + user.getGender().getDisplayName());
         System.out.println("6. Tình trạng: " + user.getStatus().getDisplayName());
+        System.out.println("7. Loại người dùng: " + user.getUserType().getDisplayName());
     }
 
     // ================= MAP GENDER INFO =================
     public Gender inputGender() {
         while (true) {
-            System.out.println("Hãy chọn giới tính của bạn: ");
+            System.out.println("\nChọn giới tính: ");
             System.out.println("1. Nam");
             System.out.println("2. Nữ");
             System.out.println("3. Khác");
@@ -303,7 +310,7 @@ public class LibraryManagement {
     // ================= MAP STATUS INFO =================
     public Status inputStatus() {
         while (true) {
-            System.out.println("Hãy chọn tình trạng tài khoản của bạn: ");
+            System.out.println("\nChọn tình trạng tài khoản: ");
             System.out.println("1. Hoạt động");
             System.out.println("2. Khoá");
             System.out.println("3. Khác");
@@ -318,6 +325,34 @@ public class LibraryManagement {
                     return Status.BLOCK;
                 case 3:
                     return Status.OTHER;
+                case 0:
+                    return null; // cancel
+                default:
+                    System.out.println("Lựa chọn không hợp lệ!");
+            }
+        }
+    }
+
+    // ================= MAP USER TYPE INFO =================
+    public UserType inputUserType() {
+        while (true) {
+            System.out.println("\nChọn loại người dùng: ");
+            System.out.println("1. Quản trị viên");
+            System.out.println("2. Quản lý");
+            System.out.println("3. Người dùng");
+            System.out.println("0. Quay lại");
+
+            int choice = readNum("Chọn: ");
+
+            switch (choice) {
+                case 1:
+                    return UserType.ADMIN;
+                case 2:
+                    return UserType.MANAGER;
+                case 3:
+                    return UserType.USER;
+                case 4:
+                    return UserType.OTHER;
                 case 0:
                     return null; // cancel
                 default:

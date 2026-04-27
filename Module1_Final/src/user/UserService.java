@@ -2,6 +2,7 @@ package user;
 
 import util.Gender;
 import util.Status;
+import util.UserType;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -97,6 +98,9 @@ public class UserService {
                 break;
             case 6:
                 user.setStatus((Status) newInfo);
+                break;
+            case 7:
+                user.setUserType((UserType) newInfo);
                 break;
             default:
                 System.out.println("Lựa chọn không hợp lệ!");
