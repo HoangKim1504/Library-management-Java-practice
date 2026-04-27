@@ -9,6 +9,7 @@ import validator.UserValidator;
 
 import java.time.LocalDate;
 import java.util.Scanner;
+import java.util.function.Function;
 
 public class LibraryManagement {
 
@@ -278,25 +279,17 @@ public class LibraryManagement {
             System.out.println("\n====== TẠO NGƯỜI DÙNG MỚI ======");
 
             // Full name
-            System.out.print("Họ Tên: ");
-            String fullName = sc.nextLine();
-            if (!UserValidator.isValidName(fullName)) continue;
+            String fullName = inputValidString("Họ Tên: ", UserValidator::isValidName);
 
             // Birthdate
-            System.out.print("Ngày sinh: ");
-            String inputBirthDate = sc.nextLine();
-            if (!UserValidator.isValidDate(inputBirthDate)) continue;
+            String inputBirthDate = inputValidString("Ngày sinh: ", UserValidator::isValidDate);
             LocalDate birthDate = userService.convertToLocalDate(inputBirthDate, "yyyy-MM-dd");
 
             // NationalId
-            System.out.print("CMND: ");
-            String nationalId = sc.nextLine();
-            if (!UserValidator.isValidId(nationalId)) continue;
+            String nationalId = inputValidString("CMND: ", UserValidator::isValidId);
 
             // Address
-            System.out.print("Địa chỉ: ");
-            String address = sc.nextLine();
-            if (!UserValidator.isValidAddress(address)) continue;
+            String address = inputValidString("Địa chỉ: ", UserValidator::isValidAddress);
 
             // Gender
             Gender gender = inputGender();
@@ -319,16 +312,26 @@ public class LibraryManagement {
                 continue;
             }
 
-            // UserId
+            // Generate userId
             String userId = userService.createNewUserId();
             if (userId == null) {
-                System.out.println("Thông tin userId bị lỗi!");
+                System.out.println("Không thể tạo userId!");
                 continue;
             }
 
-            // User info
-            User user = new User(DEFAULT_USERNAME, DEFAULT_PASSWORD, fullName, birthDate,
-                    nationalId, address, gender, status, userType, userId);
+            // Create user object
+            User user = new User(
+                    DEFAULT_USERNAME,
+                    DEFAULT_PASSWORD,
+                    fullName,
+                    birthDate,
+                    nationalId,
+                    address,
+                    gender,
+                    status,
+                    userType,
+                    userId
+            );
 
             // Create new user
             boolean isSuccess = userService.createUser(user);
@@ -460,6 +463,20 @@ public class LibraryManagement {
             User updatedUser = userService.updateUserInfo(choice, userId, newInfo);
 
             return updatedUser != null;
+        }
+    }
+
+    // ================= INPUT + VALIDATE STRING =================
+    private String inputValidString(String prompt, Function<String, Boolean> validator) {
+        while (true) {
+            System.out.print(prompt);
+            String input = sc.nextLine().trim();
+
+            if (validator.apply(input)) {
+                return input;
+            }
+
+            System.out.println("Vui lòng nhập lại!");
         }
     }
 
