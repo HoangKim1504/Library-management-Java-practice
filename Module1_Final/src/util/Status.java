@@ -1,10 +1,10 @@
 package util;
 
 public enum Status {
-    ACTIVATED("Activated"),
-    BLOCK("Block"),
-    OTHER("Other"),
-    NONE("None");
+    ACTIVATED("Hoạt động"),
+    BLOCK("Khoá"),
+    OTHER("Khác"),
+    NONE("");
 
     private final String displayName;
 

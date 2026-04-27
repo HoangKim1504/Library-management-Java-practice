@@ -1,10 +1,10 @@
 package util;
 
 public enum Gender {
-    MALE("Male"),
-    FEMALE("Female"),
-    OTHER("Other"),
-    NONE("none");
+    MALE("Nam"),
+    FEMALE("Nữ"),
+    OTHER("Khác"),
+    NONE("");
 
     private final String displayName;
 
