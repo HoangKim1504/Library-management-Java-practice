@@ -1,11 +1,11 @@
 package util;
 
 public enum UserType {
-    ADMIN("Admin"),
-    MANAGER("Manager"),
-    USER("User"),
-    OTHER("Other"),
-    NONE("None");
+    ADMIN("Quản trị viên"),
+    MANAGER("Quản lý"),
+    USER("Người dùng"),
+    OTHER("Khác"),
+    NONE("");
 
     private final String displayName;
 
