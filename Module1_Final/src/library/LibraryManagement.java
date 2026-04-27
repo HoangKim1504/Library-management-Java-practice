@@ -18,6 +18,9 @@ public class LibraryManagement {
     private static final String NOT_LOGIN = "0";
     private String userId = NOT_LOGIN;
 
+    private static final String DEFAULT_USERNAME = "default";
+    private static final String DEFAULT_PASSWORD = "default";
+
     public static void main(String[] args) {
         LibraryManagement app = new LibraryManagement();
         app.createInitData();
@@ -167,6 +170,10 @@ public class LibraryManagement {
                     // Navigate to update user info screen
                     updateInfoScreen();
                     break;
+                case 4:
+                    // Navigate to create user screen
+                    createUserScreen();
+                    break;
                 case 0:
                     return;
                 default:
@@ -263,6 +270,80 @@ public class LibraryManagement {
         // Update successfully
         System.out.println("Cập nhật thông tin thành công!");
         printUserInfo(user, isSuccess);
+    }
+
+    // ================= CREATE USER FUNCTION =================
+    public void createUserScreen() {
+        while (true) {
+            System.out.println("\n====== TẠO NGƯỜI DÙNG MỚI ======");
+
+            // Full name
+            System.out.print("1. Họ Tên: ");
+            String fullName = sc.nextLine();
+            if (!UserValidator.isValidName(fullName)) continue;
+
+            // Birthdate
+            System.out.print("2. Ngày sinh: ");
+            String inputBirthDate = sc.nextLine();
+            if (!UserValidator.isValidDate(inputBirthDate)) continue;
+            LocalDate birthDate = userService.convertToLocalDate(inputBirthDate, "yyyy-MM-dd");
+
+            // NationalId
+            System.out.print("3. CMND: ");
+            String nationalId = sc.nextLine();
+            if (!UserValidator.isValidId(nationalId)) continue;
+
+            // Address
+            System.out.print("4. Địa chỉ: ");
+            String address = sc.nextLine();
+            if (!UserValidator.isValidAddress(address)) continue;
+
+            // Gender
+            Gender gender = inputGender();
+            if (gender == null) {
+                System.out.println("Thông tin giới tính bị lỗi!");
+                continue;
+            }
+
+            // Status
+            Status status = inputStatus();
+            if (status == null) {
+                System.out.println("Thông tin tình trạng tài khoản bị lỗi!");
+                continue;
+            }
+
+            // User type
+            UserType userType = inputUserType();
+            if (userType == null) {
+                System.out.println("Thông tin loại người dùng bị lỗi!");
+                continue;
+            }
+
+            // UserId
+            String userId = userService.createNewUserId();
+            if (userId == null) {
+                System.out.println("Thông tin userId bị lỗi!");
+                continue;
+            }
+
+            // User info
+            User user = new User(DEFAULT_USERNAME, DEFAULT_PASSWORD, fullName, birthDate,
+                    nationalId, address, gender, status, userType, userId);
+
+            // Create new user
+            boolean isSuccess = userService.createUser(user);
+
+            // Create user fail
+            if (!isSuccess) {
+                System.out.println("Tạo người dùng thất bại!");
+                continue;
+            }
+
+            // Create user successfully
+            System.out.println("Tạo người dùng thành công!");
+            printUserInfo(user, false);
+            return;
+        }
     }
 
     // ================= PRINT USER INFO =================

@@ -5,6 +5,7 @@ import util.Status;
 import util.UserType;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,8 +15,21 @@ public class UserService {
     private final List<User> userList = new ArrayList<>(); // Prevents accidental reassignment to the list
 
     // Add new user
-    public void createUser(User initData) {
-        userList.add(initData);
+    public boolean createUser(User user) {
+        // Check null
+        if (user == null) {
+            System.out.println("Người dùng không hợp lệ!");
+            return false;
+        }
+
+        // Check duplicate userId
+        if (findCurrentUser(user.getUserId()) != null) {
+            System.out.println("Người dùng đã tồn tại!");
+            return false;
+        }
+
+        userList.add(user);
+        return true;
     }
 
     // Find current user
@@ -109,4 +123,37 @@ public class UserService {
         return user;
     }
 
+    // Convert date from String to LocalDate
+    public LocalDate convertToLocalDate(String date, String dateFormat) {
+        // Date format
+        DateTimeFormatter df = DateTimeFormatter.ofPattern(dateFormat);
+
+        // Remove spaces on the beginning and the end
+        date = date.trim();
+
+        return LocalDate.parse(date, df);
+    }
+
+    // Create new userId
+    public String createNewUserId() {
+        // Check empty list
+        if (userList.isEmpty()) {
+            return "01";
+        }
+
+        // Get last user
+        User lastUser = userList.getLast();
+
+        // Get last userId
+        String lastUserId = lastUser.getUserId();
+
+        // Create new userId
+        try {
+            int id = Integer.parseInt(lastUserId);
+            return String.format("%02d", id + 1); // keep format: 01, 02, ...
+        } catch (NumberFormatException e) {
+            System.out.println("UserId không phải số!");
+            return null;
+        }
+    }
 }

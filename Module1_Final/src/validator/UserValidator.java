@@ -1,12 +1,13 @@
 package validator;
 
 import org.jetbrains.annotations.NotNull;
+import user.UserService;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class UserValidator {
+    private static final UserService userService = new UserService();
+
     // ================= VALID PASSWORDS =================
     public static boolean isValidPasswords(String oldPw, String newPw, String confirmPw) {
         // Validate confirm password
@@ -114,17 +115,11 @@ public class UserValidator {
         // Check null
         if (date == null || date.trim().isEmpty()) return false;
 
-        // Date format
-        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-        // Remove spaces on the beginning and the end
-        date = date.trim();
-
         try {
-            LocalDate.parse(date, df);
+            userService.convertToLocalDate(date, "yyyy-MM-dd");
             return true; // valid date
         } catch (DateTimeParseException e) {
-            System.out.println("Thông tin thời gian không hợp lệ!");
+            System.out.println("Thông tin thời gian không hợp lệ! (yyyy-MM-dd)");
             return false; // invalid date
         }
     }
@@ -174,4 +169,5 @@ public class UserValidator {
 
         return true;
     }
+
 }
