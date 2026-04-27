@@ -375,9 +375,15 @@ public class LibraryManagement {
 
     // ================= INPUT HELPER =================
     public int readNum(String prompt) {
-        System.out.print(prompt);
-        int num = sc.nextInt();
-        sc.nextLine(); // clear buffer
-        return num;
+        while (true) {
+            System.out.print(prompt);
+            String input = sc.nextLine().trim();
+
+            try {
+                return Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                System.out.println("Vui lòng nhập số hợp lệ!");
+            }
+        }
     }
 }
