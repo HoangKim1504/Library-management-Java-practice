@@ -7,7 +7,25 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class UserValidator {
-    // ================= VALID NEW PASSWORD =================
+    // ================= VALID PASSWORDS =================
+    public static boolean isValidPasswords(String oldPw, String newPw, String confirmPw) {
+        // Validate confirm password
+        if (!newPw.equals(confirmPw)) {
+            System.out.println("Mật khẩu xác nhận không khớp với mật khẩu mới!");
+            return false;
+        }
+
+        // Prevent same password
+        if (oldPw.equals(newPw)) {
+            System.out.println("Mật khẩu mới phải khác với mật khẩu cũ!");
+            return false;
+        }
+
+        // Check validate new password
+        return isValidPass(newPw);
+    }
+
+    // ================= VALID FORMAT PASSWORD =================
     public static boolean isValidPass(@NotNull String pw) {
         // Check length
         if (pw.length() < 8) {

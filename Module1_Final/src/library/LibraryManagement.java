@@ -195,22 +195,8 @@ public class LibraryManagement {
             System.out.print("Nhập lại mật khẩu mới: ");
             String confirmPass = sc.nextLine();
 
-            // Validate confirm password
-            if (!newPass.equals(confirmPass)) {
-                System.out.println("Mật khẩu xác nhận không khớp với mật khẩu mới!");
-                continue;
-            }
-
-            // Prevent same password
-            if (oldPass.equals(newPass)) {
-                System.out.println("Mật khẩu mới phải khác với mật khẩu cũ");
-                continue;
-            }
-
-            // Check validate new password
-            if (!UserValidator.isValidPass(newPass)) {
-                continue;
-            }
+            // Validate passwords
+            if (!UserValidator.isValidPasswords(oldPass, newPass, confirmPass)) continue;
 
             // Call service to update password
             boolean isChanged = userService.changePassword(userId, oldPass, newPass);
