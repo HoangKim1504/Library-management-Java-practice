@@ -70,7 +70,7 @@ public class UserService {
     }
 
     // Update current user info
-    public User updateUserInfo(int choice, String userId, String newInfo, Gender gender, Status status) {
+    public User updateUserInfo(int choice, String userId, Object newInfo) {
         User user = findCurrentUser(userId);
 
         if (user == null) {
@@ -81,22 +81,22 @@ public class UserService {
         // Update user info
         switch (choice) {
             case 1:
-                user.setFullName(newInfo);
+                user.setFullName((String) newInfo);
                 break;
             case 2:
-                user.setBirthDate(LocalDate.parse(newInfo));
+                user.setBirthDate(LocalDate.parse((String) newInfo));
                 break;
             case 3:
-                user.setNationalId(newInfo);
+                user.setNationalId((String) newInfo);
                 break;
             case 4:
-                user.setAddress(newInfo);
+                user.setAddress((String) newInfo);
                 break;
             case 5:
-                user.setGender(gender);
+                user.setGender((Gender) newInfo);
                 break;
             case 6:
-                user.setStatus(status);
+                user.setStatus((Status) newInfo);
                 break;
             default:
                 System.out.println("Lựa chọn không hợp lệ!");

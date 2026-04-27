@@ -54,6 +54,29 @@ public class UserValidator {
         return true;
     }
 
+    // ================= VALID USER NEW INFO =================
+    public static boolean isValidateInput(int choice, String newInfo) {
+        switch (choice) {
+            case 1:
+                if (isValidName(newInfo)) return true;
+                break;
+            case 2:
+                if (isValidDate(newInfo)) return true;
+                break;
+            case 3:
+                if (isValidId(newInfo)) return true;
+                break;
+            case 4:
+                if (isValidAddress(newInfo)) return true;
+                break;
+            default:
+                System.out.println("Lựa chọn không hợp lệ!");
+                break;
+        }
+
+        return false;
+    }
+
     // ================= VALID NEW NAME =================
     public static boolean isValidName(String name) {
         // Check null

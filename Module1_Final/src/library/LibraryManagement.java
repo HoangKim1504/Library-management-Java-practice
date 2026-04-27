@@ -213,78 +213,49 @@ public class LibraryManagement {
 
     // ================= UPDATE USER INFO FUNCTION =================
     public void updateInfoScreen() {
-        while (true) {
-            String newInfo = "";
-            Gender gender = null;
-            Status status = null;
-            boolean isValid = false;
-            boolean isUpdate = false;
+        boolean isSuccess = false;
 
-            User user = userService.findCurrentUser(userId);
+        // Find current user
+        User user = userService.findCurrentUser(userId);
 
-            if (user == null) {
-                System.out.println("Không tìm thấy người dùng!");
-                return;
-            }
-
-            // Print user info
-            printUserInfo(user, isUpdate);
-            int choice = readNum("Chọn thông tin muốn cập nhật (1-6) hoặc chọn 0 để quay lại menu người dùng: ");
-
-            if (choice == 0) return;
-
-            while (true) {
-                if (choice == 5) {
-                    gender = inputGender();
-                    break;
-                } else if (choice == 6) {
-                    status = inputStatus();
-                    break;
-                } else {
-                    System.out.print("Thông tin cập nhật mới: ");
-                    newInfo = sc.nextLine();
-                }
-
-                // Validate input
-                switch (choice) {
-                    case 1:
-                        if (UserValidator.isValidName(newInfo)) isValid = true;
-                        break;
-                    case 2:
-                        if (UserValidator.isValidDate(newInfo)) isValid = true;
-                        break;
-                    case 3:
-                        if (UserValidator.isValidId(newInfo)) isValid = true;
-                        break;
-                    case 4:
-                        if (UserValidator.isValidAddress(newInfo)) isValid = true;
-                        break;
-                    default:
-                        System.out.println("Lựa chọn không hợp lệ!");
-                        break;
-                }
-
-                if (isValid) {
-                    break;
-                }
-
-                System.out.println("Vui lòng nhập lại thông tin.");
-            }
-
-            // Update use info
-            User newUserInfo = userService.updateUserInfo(choice, userId, newInfo, gender, status);
-
-            // Update fail
-            if (newUserInfo == null) {
-                System.out.println("Cập nhật thông tin thất bại. Vui lòng thử lại.");
-                return;
-            }
-
-            // Update successfully
-            System.out.println("Cập nhật thông tin thành công!");
-            isUpdate = true;
-            printUserInfo(newUserInfo, isUpdate);
+        if (user == null) {
+            System.out.println("Không tìm thấy người dùng!");
+            return;
         }
+
+        // Print user info
+        printUserInfo(user, isSuccess);
+        int choice = readNum("Chọn thông tin muốn cập nhật (1-6) hoặc chọn 0 để quay lại menu người dùng: ");
+
+        if (choice == 0) return;
+
+        switch (choice) {
+            case 5: // Gender (use Menu)
+                Gender gender = inputGender();
+                if (gender == null) return;
+
+                isSuccess = userService.updateUserInfo(choice, userId, gender) != null;
+                break;
+            case 6: // Status (use Menu)
+                Status status = inputStatus();
+                if (status == null) return;
+
+                isSuccess = userService.updateUserInfo(choice, userId, status) != null;
+                break;
+            default:
+                // Handle normal string input
+                isSuccess = handleTextUpdate(choice);
+                break;
+        }
+
+        if (!isSuccess) {
+            System.out.println("Cập nhật thông tin thất bại. Vui lòng thử lại.");
+            return;
+        }
+
+        // Update successfully
+        System.out.println("Cập nhật thông tin thành công!");
+        printUserInfo(user, isSuccess);
     }
 
     // ================= PRINT USER INFO =================
@@ -351,6 +322,26 @@ public class LibraryManagement {
                 default:
                     System.out.println("Lựa chọn không hợp lệ!");
             }
+        }
+    }
+
+    // ================= HANDLE TEXT UPDATE =================
+    private boolean handleTextUpdate(int choice) {
+        while (true) {
+            System.out.print("Thông tin cập nhật mới: ");
+            String newInfo = sc.nextLine();
+
+            // Valid input
+            boolean isValid = UserValidator.isValidateInput(choice, newInfo);
+            if (!isValid) {
+                System.out.println("Vui lòng nhập lại thông tin.");
+                continue;
+            }
+
+            // Update user info
+            User updatedUser = userService.updateUserInfo(choice, userId, newInfo);
+
+            return updatedUser != null;
         }
     }
 
