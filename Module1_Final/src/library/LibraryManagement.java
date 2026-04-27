@@ -248,6 +248,7 @@ public class LibraryManagement {
                 break;
         }
 
+        // Update fail
         if (!isSuccess) {
             System.out.println("Cập nhật thông tin thất bại. Vui lòng thử lại.");
             return;
@@ -329,7 +330,7 @@ public class LibraryManagement {
     private boolean handleTextUpdate(int choice) {
         while (true) {
             System.out.print("Thông tin cập nhật mới: ");
-            String newInfo = sc.nextLine();
+            String newInfo = sc.nextLine().trim();
 
             // Valid input
             boolean isValid = UserValidator.isValidateInput(choice, newInfo);
