@@ -70,8 +70,13 @@ public class UserService {
     }
 
     // Update current user info
-    public User updateUserInfo(int choice, String userId, String newInfo) {
+    public User updateUserInfo(int choice, String userId, String newInfo, Gender gender, Status status) {
         User user = findCurrentUser(userId);
+
+        if (user == null) {
+            System.out.println("Không tìm thấy người dùng!");
+            return null;
+        }
 
         // Update user info
         switch (choice) {
@@ -88,10 +93,10 @@ public class UserService {
                 user.setAddress(newInfo);
                 break;
             case 5:
-                user.setGender(Gender.valueOf(newInfo));
+                user.setGender(gender);
                 break;
             case 6:
-                user.setStatus(Status.valueOf(newInfo));
+                user.setStatus(status);
                 break;
             default:
                 System.out.println("Lựa chọn không hợp lệ!");

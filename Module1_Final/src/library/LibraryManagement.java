@@ -229,6 +229,8 @@ public class LibraryManagement {
     public void updateInfoScreen() {
         while (true) {
             String newInfo = "";
+            Gender gender = null;
+            Status status = null;
             boolean isValid = false;
             boolean isUpdate = false;
 
@@ -246,8 +248,16 @@ public class LibraryManagement {
             if (choice == 0) return;
 
             while (true) {
-                System.out.print("Thông tin cập nhật mới: ");
-                newInfo = sc.nextLine();
+                if (choice == 5) {
+                    gender = inputGender();
+                    break;
+                } else if (choice == 6) {
+                    status = inputStatus();
+                    break;
+                } else {
+                    System.out.print("Thông tin cập nhật mới: ");
+                    newInfo = sc.nextLine();
+                }
 
                 // Validate input
                 switch (choice) {
@@ -276,7 +286,7 @@ public class LibraryManagement {
             }
 
             // Update use info
-            User newUserInfo = userService.updateUserInfo(choice, userId, newInfo);
+            User newUserInfo = userService.updateUserInfo(choice, userId, newInfo, gender, status);
 
             // Update fail
             if (newUserInfo == null) {
@@ -296,6 +306,7 @@ public class LibraryManagement {
         }
     }
 
+    // ================= PRINT USER INFO =================
     public void printUserInfo(User user, boolean isUpdate) {
         if (isUpdate) {
             System.out.println("\n====== THÔNG TIN NGƯỜI DÙNG ĐÃ ĐƯỢC CẬP NHẬP ======");
@@ -308,6 +319,58 @@ public class LibraryManagement {
         System.out.println("4. Địa chỉ: " + user.getAddress());
         System.out.println("5. Giới tính: " + user.getGender().getDisplayName());
         System.out.println("6. Tình trạng: " + user.getStatus().getDisplayName());
+    }
+
+    // ================= MAP GENDER INFO =================
+    public Gender inputGender() {
+        while (true) {
+            System.out.println("Hãy chọn giới tính của bạn: ");
+            System.out.println("1. Nam");
+            System.out.println("2. Nữ");
+            System.out.println("3. Khác");
+            System.out.println("0. Quay lại");
+
+            int choice = readNum("Chọn: ");
+
+            switch (choice) {
+                case 1:
+                    return Gender.MALE;
+                case 2:
+                    return Gender.FEMALE;
+                case 3:
+                    return Gender.OTHER;
+                case 0:
+                    return null; // cancel
+                default:
+                    System.out.println("Lựa chọn không hợp lệ!");
+            }
+        }
+    }
+
+    // ================= MAP STATUS INFO =================
+    public Status inputStatus() {
+        while (true) {
+            System.out.println("Hãy chọn tình trạng tài khoản của bạn: ");
+            System.out.println("1. Hoạt động");
+            System.out.println("2. Khoá");
+            System.out.println("3. Khác");
+            System.out.println("0. Quay lại");
+
+            int choice = readNum("Chọn: ");
+
+            switch (choice) {
+                case 1:
+                    return Status.ACTIVATED;
+                case 2:
+                    return Status.BLOCK;
+                case 3:
+                    return Status.OTHER;
+                case 0:
+                    return null; // cancel
+                default:
+                    System.out.println("Lựa chọn không hợp lệ!");
+            }
+        }
     }
 
     // ================= INPUT HELPER =================
