@@ -35,7 +35,7 @@ public class UserService {
     // Find current user
     public User findCurrentUser(String userId) {
         for (User user : userList) {
-            // Find curent user
+            // Find current user
             if (user.getUserId().equals(userId)) {
                 return user;
             }
@@ -96,24 +96,27 @@ public class UserService {
         // Update user info
         switch (choice) {
             case 1:
-                user.setFullName((String) newInfo);
+                user.setUserName((String) newInfo);
                 break;
             case 2:
-                user.setBirthDate(LocalDate.parse((String) newInfo));
+                user.setFullName((String) newInfo);
                 break;
             case 3:
-                user.setNationalId((String) newInfo);
+                user.setBirthDate(LocalDate.parse((String) newInfo));
                 break;
             case 4:
-                user.setAddress((String) newInfo);
+                user.setNationalId((String) newInfo);
                 break;
             case 5:
-                user.setGender((Gender) newInfo);
+                user.setAddress((String) newInfo);
                 break;
             case 6:
-                user.setStatus((Status) newInfo);
+                user.setGender((Gender) newInfo);
                 break;
             case 7:
+                user.setStatus((Status) newInfo);
+                break;
+            case 8:
                 user.setUserType((UserType) newInfo);
                 break;
             default:

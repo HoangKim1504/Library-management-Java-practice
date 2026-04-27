@@ -237,19 +237,19 @@ public class LibraryManagement {
         if (choice == 0) return;
 
         switch (choice) {
-            case 5: // Gender (use Menu)
+            case 6: // Gender (use Menu)
                 Gender gender = inputGender();
                 if (gender == null) return;
 
                 isSuccess = userService.updateUserInfo(choice, userId, gender) != null;
                 break;
-            case 6: // Status (use Menu)
+            case 7: // Status (use Menu)
                 Status status = inputStatus();
                 if (status == null) return;
 
                 isSuccess = userService.updateUserInfo(choice, userId, status) != null;
                 break;
-            case 7: // UserType (use Menu)
+            case 8: // UserType (use Menu)
                 UserType userType = inputUserType();
                 if (userType == null) return;
 
@@ -278,23 +278,23 @@ public class LibraryManagement {
             System.out.println("\n====== TẠO NGƯỜI DÙNG MỚI ======");
 
             // Full name
-            System.out.print("1. Họ Tên: ");
+            System.out.print("Họ Tên: ");
             String fullName = sc.nextLine();
             if (!UserValidator.isValidName(fullName)) continue;
 
             // Birthdate
-            System.out.print("2. Ngày sinh: ");
+            System.out.print("Ngày sinh: ");
             String inputBirthDate = sc.nextLine();
             if (!UserValidator.isValidDate(inputBirthDate)) continue;
             LocalDate birthDate = userService.convertToLocalDate(inputBirthDate, "yyyy-MM-dd");
 
             // NationalId
-            System.out.print("3. CMND: ");
+            System.out.print("CMND: ");
             String nationalId = sc.nextLine();
             if (!UserValidator.isValidId(nationalId)) continue;
 
             // Address
-            System.out.print("4. Địa chỉ: ");
+            System.out.print("Địa chỉ: ");
             String address = sc.nextLine();
             if (!UserValidator.isValidAddress(address)) continue;
 
@@ -353,13 +353,14 @@ public class LibraryManagement {
         } else {
             System.out.println("\n====== THÔNG TIN NGƯỜI DÙNG ======");
         }
-        System.out.println("1. Họ Tên: " + user.getFullName());
-        System.out.println("2. Ngày sinh: " + user.getBirthDate());
-        System.out.println("3. CMND: " + user.getNationalId());
-        System.out.println("4. Địa chỉ: " + user.getAddress());
-        System.out.println("5. Giới tính: " + user.getGender().getDisplayName());
-        System.out.println("6. Tình trạng: " + user.getStatus().getDisplayName());
-        System.out.println("7. Loại người dùng: " + user.getUserType().getDisplayName());
+        System.out.println("1. Tên đăng nhập: " + user.getUserName());
+        System.out.println("2. Họ Tên: " + user.getFullName());
+        System.out.println("3. Ngày sinh: " + user.getBirthDate());
+        System.out.println("4. CMND: " + user.getNationalId());
+        System.out.println("5. Địa chỉ: " + user.getAddress());
+        System.out.println("6. Giới tính: " + user.getGender().getDisplayName());
+        System.out.println("7. Tình trạng: " + user.getStatus().getDisplayName());
+        System.out.println("8. Loại người dùng: " + user.getUserType().getDisplayName());
     }
 
     // ================= MAP GENDER INFO =================

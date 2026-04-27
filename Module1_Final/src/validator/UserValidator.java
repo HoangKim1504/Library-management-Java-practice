@@ -59,15 +59,18 @@ public class UserValidator {
     public static boolean isValidateInput(int choice, String newInfo) {
         switch (choice) {
             case 1:
-                if (isValidName(newInfo)) return true;
+                if (isValidUserName(newInfo)) return true;
                 break;
             case 2:
-                if (isValidDate(newInfo)) return true;
+                if (isValidName(newInfo)) return true;
                 break;
             case 3:
-                if (isValidId(newInfo)) return true;
+                if (isValidDate(newInfo)) return true;
                 break;
             case 4:
+                if (isValidId(newInfo)) return true;
+                break;
+            case 5:
                 if (isValidAddress(newInfo)) return true;
                 break;
             default:
@@ -78,7 +81,33 @@ public class UserValidator {
         return false;
     }
 
-    // ================= VALID NEW NAME =================
+    // ================= VALID NEW USER NAME =================
+    public static boolean isValidUserName(String name) {
+        // Check null
+        if (name == null || name.trim().isEmpty()) {
+            System.out.println("Tên không được bỏ trống!");
+            return false;
+        }
+
+        // Remove spaces on the beginning and the end
+        name = name.trim();
+
+        // Check length
+        if (name.length() < 2) {
+            System.out.println("Tên phải có ít nhất 2 ký tự!");
+            return false;
+        }
+
+        // No multiple spaces
+        if (name.contains("  ")) {
+            System.out.println("Tên không chứa nhiều khoảng cách!");
+            return false;
+        }
+
+        return true;
+    }
+
+    // ================= VALID NEW FULL NAME =================
     public static boolean isValidName(String name) {
         // Check null
         if (name == null || name.trim().isEmpty()) {
