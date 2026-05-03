@@ -21,6 +21,9 @@ public class LibraryManagement {
 
     private static final String DEFAULT_USERNAME = "default";
     private static final String DEFAULT_PASSWORD = "default";
+    private static final String ADMIN = "ADMIN";
+    private static final String MANAGER = "MANAGER";
+    private static final String USER = "USER";
 
     public static void main(String[] args) {
         LibraryManagement app = new LibraryManagement();
@@ -143,12 +146,14 @@ public class LibraryManagement {
             System.out.println("2. Thay đổi mật khẩu");
             System.out.println("3. Cập nhật thông tin cá nhân");
             System.out.println("4. Tạo người dùng");
-            System.out.println("5. Phân quyền người dùng");
 
             int choice = readNum("Chọn: ");
 
             switch (choice) {
                 case 1:
+                    // User auth
+                    if (!userService.userAuth(userId, ADMIN, MANAGER, USER)) continue;
+
                     // Logout current user
                     userService.logout(userId);
 
@@ -158,6 +163,9 @@ public class LibraryManagement {
                     System.out.println("Đăng xuất thành công!");
                     return;
                 case 2:
+                    // User auth
+                    if (!userService.userAuth(userId, ADMIN, MANAGER, USER)) continue;
+
                     // Navigate to change password screen
                     changePassScreen();
 
@@ -168,10 +176,16 @@ public class LibraryManagement {
                     }
                     break;
                 case 3:
+                    // User auth
+                    if (!userService.userAuth(userId, ADMIN, MANAGER, USER)) continue;
+
                     // Navigate to update user info screen
                     updateInfoScreen();
                     break;
                 case 4:
+                    // User auth
+                    if (!userService.userAuth(userId, ADMIN)) continue;
+
                     // Navigate to create user screen
                     createUserScreen();
                     break;

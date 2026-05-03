@@ -1,5 +1,6 @@
 package user;
 
+import org.jetbrains.annotations.NotNull;
 import util.Gender;
 import util.Status;
 import util.UserType;
@@ -158,5 +159,19 @@ public class UserService {
             System.out.println("UserId không phải số!");
             return null;
         }
+    }
+
+    // ================= USER AUTHORIZATION =================
+    public boolean userAuth(String userId, String @NotNull ... userTypeList) {
+        User user = findCurrentUser(userId);
+        String role = user.getUserType().toString();
+        for (String userType : userTypeList) {
+            if (role.equals(userType)) {
+                return true;
+            }
+        }
+
+        System.out.println("Không có quyền truy cập. Vui lòng liên hệ quản trị viên.");
+        return false;
     }
 }
