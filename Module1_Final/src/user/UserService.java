@@ -142,7 +142,7 @@ public class UserService {
     public String generateNewUserId() {
         // Check empty list
         if (userList.isEmpty()) {
-            return "01";
+            return "0001";
         }
 
         // Get last user
@@ -154,7 +154,7 @@ public class UserService {
         // Create new userId
         try {
             int id = Integer.parseInt(lastUserId);
-            return String.format("%02d", id + 1); // keep format: 01, 02, ...
+            return String.format("%04d", id + 1); // keep format: 0001, 0002, ...
         } catch (NumberFormatException e) {
             System.out.println("UserId không phải số!");
             return null;

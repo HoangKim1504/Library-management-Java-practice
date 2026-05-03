@@ -35,19 +35,19 @@ public class LibraryManagement {
     public void createInitData() {
         User admin = new User(
                 "admin", "admin", "Admin system", LocalDate.of(1990, 1, 1),
-                "123456789875", "TP.HCM", Gender.MALE, Status.ACTIVATED, UserType.ADMIN, "01");
+                "123456789875", "TP.HCM", Gender.MALE, Status.ACTIVATED, UserType.ADMIN, "0001");
         User manager = new User(
                 "manager", "manager", "Manager", LocalDate.of(1995, 12, 1),
-                "987654321954", "TP.HCM", Gender.FEMALE, Status.ACTIVATED, UserType.MANAGER, "02");
+                "987654321954", "TP.HCM", Gender.FEMALE, Status.ACTIVATED, UserType.MANAGER, "0002");
         User user1 = new User(
                 "user1", "user1", "User1", LocalDate.of(1994, 8, 17),
-                "159753852851", "TP.Ha Noi", Gender.MALE, Status.ACTIVATED, UserType.USER, "03");
+                "159753852851", "TP.Ha Noi", Gender.MALE, Status.ACTIVATED, UserType.USER, "0003");
         User user2 = new User(
                 "user2", "user2", "User2", LocalDate.of(1999, 5, 20),
-                "456789158487", "TP.Can Tho", Gender.FEMALE, Status.ACTIVATED, UserType.USER, "04");
+                "456789158487", "TP.Can Tho", Gender.FEMALE, Status.ACTIVATED, UserType.USER, "0004");
         User user3 = new User(
                 "user3", "user3", "User3", LocalDate.of(2000, 1, 15),
-                "789541259851", "TP.HCM", Gender.MALE, Status.BLOCK, UserType.USER, "05");
+                "789541259851", "TP.HCM", Gender.MALE, Status.BLOCK, UserType.USER, "0005");
 
         userService.createUser(admin);
         userService.createUser(manager);
