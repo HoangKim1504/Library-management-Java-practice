@@ -162,15 +162,27 @@ public class UserService {
     }
 
     // ================= USER AUTHORIZATION =================
-    public boolean userAuth(String userId, String @NotNull ... userTypeList) {
+    public boolean hasAccess(String userId, UserType @NotNull ... allowedRoles) {
+        // Find current user
         User user = findCurrentUser(userId);
-        String role = user.getUserType().toString();
-        for (String userType : userTypeList) {
-            if (role.equals(userType)) {
-                return true;
+
+        // Check user existence
+        if (user == null) {
+            System.out.println("Không tìm thấy người dùng!");
+            return false;
+        }
+
+        // Get user's role
+        UserType currentRole = user.getUserType();
+
+        // Check if user's role is in allowed roles
+        for (UserType role : allowedRoles) {
+            if (currentRole == role) {
+                return true; // authorized
             }
         }
 
+        // If no matching role -> deny access
         System.out.println("Không có quyền truy cập. Vui lòng liên hệ quản trị viên.");
         return false;
     }

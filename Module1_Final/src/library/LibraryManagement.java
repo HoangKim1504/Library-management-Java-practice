@@ -21,9 +21,9 @@ public class LibraryManagement {
 
     private static final String DEFAULT_USERNAME = "default";
     private static final String DEFAULT_PASSWORD = "default";
-    private static final String ADMIN = "ADMIN";
-    private static final String MANAGER = "MANAGER";
-    private static final String USER = "USER";
+    private static final UserType ADMIN = UserType.ADMIN;
+    private static final UserType MANAGER = UserType.MANAGER;
+    private static final UserType USER = UserType.USER;
 
     public static void main(String[] args) {
         LibraryManagement app = new LibraryManagement();
@@ -151,8 +151,8 @@ public class LibraryManagement {
 
             switch (choice) {
                 case 1:
-                    // User auth
-                    if (!userService.userAuth(userId, ADMIN, MANAGER, USER)) continue;
+                    // Allow all roles
+                    if (requireRole(ADMIN, MANAGER, USER)) continue;
 
                     // Logout current user
                     userService.logout(userId);
@@ -163,8 +163,8 @@ public class LibraryManagement {
                     System.out.println("Đăng xuất thành công!");
                     return;
                 case 2:
-                    // User auth
-                    if (!userService.userAuth(userId, ADMIN, MANAGER, USER)) continue;
+                    // Allow all roles
+                    if (requireRole(ADMIN, MANAGER, USER)) continue;
 
                     // Navigate to change password screen
                     changePassScreen();
@@ -176,15 +176,15 @@ public class LibraryManagement {
                     }
                     break;
                 case 3:
-                    // User auth
-                    if (!userService.userAuth(userId, ADMIN, MANAGER, USER)) continue;
+                    // Allow all roles
+                    if (requireRole(ADMIN, MANAGER, USER)) continue;
 
                     // Navigate to update user info screen
                     updateInfoScreen();
                     break;
                 case 4:
-                    // User auth
-                    if (!userService.userAuth(userId, ADMIN)) continue;
+                    // Only ADMIN can create user
+                    if (requireRole(ADMIN)) continue;
 
                     // Navigate to create user screen
                     createUserScreen();
@@ -506,5 +506,10 @@ public class LibraryManagement {
                 System.out.println("Vui lòng nhập số hợp lệ!");
             }
         }
+    }
+
+    // ================= REQUIRE ROLE HELPER =================
+    private boolean requireRole(UserType... roles) {
+        return !userService.hasAccess(userId, roles);
     }
 }
