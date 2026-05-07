@@ -1,12 +1,11 @@
 package user;
 
+import enums.Gender;
+import enums.Status;
+import enums.UserType;
 import org.jetbrains.annotations.NotNull;
-import util.Gender;
-import util.Status;
-import util.UserType;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -125,17 +124,6 @@ public class UserService {
         }
 
         return user;
-    }
-
-    // ================= CONVERT DATE FRON STRING TO LOCAL DATE =================
-    public LocalDate convertToLocalDate(String date, String dateFormat) {
-        // Date format
-        DateTimeFormatter df = DateTimeFormatter.ofPattern(dateFormat);
-
-        // Remove spaces on the beginning and the end
-        date = date.trim();
-
-        return LocalDate.parse(date, df);
     }
 
     // ================= GENERATE NEW USERID =================

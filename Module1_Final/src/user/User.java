@@ -1,8 +1,8 @@
 package user;
 
-import util.Gender;
-import util.Status;
-import util.UserType;
+import enums.Gender;
+import enums.Status;
+import enums.UserType;
 
 import java.time.LocalDate;
 
@@ -11,7 +11,7 @@ public class User {
     private String userName;
     private String password;
     private String fullName;
-    LocalDate birthDate;
+    private LocalDate birthDate;
     private String nationalId;
     private String address;
     private Gender gender;

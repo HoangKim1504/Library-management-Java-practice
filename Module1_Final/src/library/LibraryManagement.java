@@ -1,13 +1,17 @@
 package library;
 
+import enums.Gender;
+import enums.Status;
+import enums.UserType;
+import reader.Reader;
+import reader.ReaderService;
 import user.User;
 import user.UserService;
-import util.Gender;
-import util.Status;
-import util.UserType;
+import util.DateUtil;
 import validator.UserValidator;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Scanner;
 import java.util.function.Function;
 
@@ -15,6 +19,7 @@ public class LibraryManagement {
 
     private final Scanner sc = new Scanner(System.in);
     private final UserService userService = new UserService();
+    private final ReaderService readerService = new ReaderService();
 
     private static final String NOT_LOGIN = "0";
     private String userId = NOT_LOGIN;
@@ -31,8 +36,9 @@ public class LibraryManagement {
         app.run();
     }
 
-    // ================= INIT DATA =================
+    // ================= INIT USER DATA =================
     public void createInitData() {
+        // User data
         User admin = new User(
                 "admin", "admin", "Admin system", LocalDate.of(1990, 1, 1),
                 "123456789875", "TP.HCM", Gender.MALE, Status.ACTIVATED, UserType.ADMIN, "0001");
@@ -49,11 +55,43 @@ public class LibraryManagement {
                 "user3", "user3", "User3", LocalDate.of(2000, 1, 15),
                 "789541259851", "TP.HCM", Gender.MALE, Status.BLOCK, UserType.USER, "0005");
 
+        // Reader data
+        Reader reader1 = new Reader(
+                "0001", "Nguyen Van An", "123654789852", LocalDate.of(2006, 8, 17),
+                Gender.MALE, "an@gmail.com", "Ho Chi Minh City", LocalDate.of(2026, 5, 6)
+        );
+        Reader reader2 = new Reader(
+                "0002", "Tran Thi Bich", "456987123654", LocalDate.of(2004, 3, 12),
+                Gender.FEMALE, "bich@gmail.com", "Da Nang", LocalDate.of(2026, 5, 6)
+        );
+        Reader reader3 = new Reader(
+                "0003", "Le Minh Khang", "789456123852", LocalDate.of(2002, 11, 25),
+                Gender.MALE, "khang@gmail.com", "Can Tho", LocalDate.of(2026, 5, 6)
+        );
+
+        Reader reader4 = new Reader(
+                "0004", "Pham Ngoc Ha", "321654987456", LocalDate.of(2005, 1, 5),
+                Gender.FEMALE, "ha@gmail.com", "Binh Duong", LocalDate.of(2026, 5, 6)
+        );
+
+        Reader reader5 = new Reader(
+                "0005", "Vo Thanh Tung", "852741963258", LocalDate.of(2001, 9, 30),
+                Gender.MALE, "tung@gmail.com", "Ha Noi", LocalDate.of(2026, 5, 6)
+        );
+
+        // Create users
         userService.createUser(admin);
         userService.createUser(manager);
         userService.createUser(user1);
         userService.createUser(user2);
         userService.createUser(user3);
+
+        // Create readers
+        readerService.createReader(reader1);
+        readerService.createReader(reader2);
+        readerService.createReader(reader3);
+        readerService.createReader(reader4);
+        readerService.createReader(reader5);
     }
 
     // ================= MAIN PROGRAM FLOW =================
@@ -69,6 +107,9 @@ public class LibraryManagement {
             switch (choice) {
                 case 1:
                     userScreen();
+                    break;
+                case 2:
+                    readerScreen();
                     break;
                 case 0:
                     return;
@@ -297,7 +338,7 @@ public class LibraryManagement {
 
             // Birthdate
             String inputBirthDate = inputValidString("Ngày sinh: ", UserValidator::isValidDate);
-            LocalDate birthDate = userService.convertToLocalDate(inputBirthDate, "yyyy-MM-dd");
+            LocalDate birthDate = DateUtil.parseLocalDate(inputBirthDate, "yyyy-MM-dd");
 
             // NationalId
             String nationalId = inputValidString("CMND: ", UserValidator::isValidId);
@@ -363,6 +404,119 @@ public class LibraryManagement {
         }
     }
 
+    // ================= READER MENU =================
+    public void readerScreen() {
+        while (true) {
+            System.out.println("\n====== MENU ĐỘC GIẢ ======");
+            System.out.println("1. Xem danh sách độc giả trong thư viện");
+            System.out.println("2. Thêm độc giả");
+            System.out.println("3. Chỉnh sửa thông tin một độc giả");
+            System.out.println("4. Xóa thông tin một độc giả");
+            System.out.println("5. Tìm kiếm độc giả theo CMND");
+            System.out.println("6. Tìm kiếm sách theo họ tên");
+
+            int choice = readNum("Chọn: ");
+
+            switch (choice) {
+                case 1:
+                    // Allow all roles
+                    if (requireRole(ADMIN, MANAGER, USER)) continue;
+
+                    // Get the reader list
+                    List<Reader> readerList = readerService.getAllReaders();
+
+                    // Show reader list
+                    readerService.showReaderList(readerList);
+
+                    break;
+                case 2:
+                    // Allow all roles
+                    if (requireRole(ADMIN, MANAGER, USER)) continue;
+
+                    // Navigate to create reader screen
+                    createReaderScreen();
+
+                    // If password changed successfully, userId will be reset
+                    // → exit this screen to trigger re-login
+                    if (userId.equals(NOT_LOGIN)) {
+                        return;
+                    }
+                    break;
+                case 0:
+                    return;
+                default:
+                    System.out.println("Lựa chọn không hợp lệ!");
+            }
+        }
+    }
+
+    // ================= CREATE READER FUNCTION =================
+    public void createReaderScreen() {
+        while (true) {
+            System.out.println("\n====== TẠO ĐỘC GIẢ MỚI ======");
+
+            // Generate readerId
+            String readerId = readerService.generateNewReaderId();
+            if (readerId == null) {
+                System.out.println("Không thể tạo readerId!");
+                continue;
+            }
+
+            // Full name
+            String fullName = inputValidString("Họ Tên: ", UserValidator::isValidName);
+
+            // NationalId
+            String nationalId = inputValidString("CMND: ", UserValidator::isValidId);
+
+            // Birthdate
+            String inputBirthDate = inputValidString("Ngày tháng năm sinh: ", UserValidator::isValidDate);
+            LocalDate birthDate = DateUtil.parseLocalDate(inputBirthDate, "yyyy-MM-dd");
+
+            // Gender
+            Gender gender = inputGender();
+            if (gender == null) {
+                System.out.println("Thông tin giới tính bị lỗi!");
+                continue;
+            }
+
+            // Email
+            String email = inputValidString("Email: ", UserValidator::isValidEmail);
+
+            // Address
+            String address = inputValidString("Địa chỉ: ", UserValidator::isValidAddress);
+
+            // CreatedDate
+            String inputCreatedDate = inputValidString("Ngày lập thẻ: ", UserValidator::isValidDate);
+            LocalDate createdDate = DateUtil.parseLocalDate(inputCreatedDate, "yyyy-MM-dd");
+
+            // Create reader object
+            Reader reader = new Reader(
+                    readerId,
+                    fullName,
+                    nationalId,
+                    birthDate,
+                    gender,
+                    email,
+                    address,
+                    createdDate
+            );
+
+            // Create new reader
+            boolean isSuccess = readerService.createReader(reader);
+
+            // Create reader fail
+            if (!isSuccess) {
+                System.out.println("Tạo độc giả thất bại!");
+                continue;
+            }
+
+            // Create reader successfully
+            System.out.println("Tạo độc giả thành công!");
+            printReaderInfo(reader, false);
+            return;
+        }
+    }
+
     // ================= PRINT USER INFO =================
     public void printUserInfo(User user, boolean isUpdate) {
         if (isUpdate) {
@@ -380,6 +534,22 @@ public class LibraryManagement {
         System.out.println("8. Loại người dùng: " + user.getUserType().getDisplayName());
     }
 
+    // ================= PRINT USER INFO =================
+    public void printReaderInfo(Reader reader, boolean isUpdate) {
+        if (isUpdate) {
+            System.out.println("\n====== THÔNG TIN ĐỘC GIẢ ĐÃ ĐƯỢC CẬP NHẬP ======");
+        } else {
+            System.out.println("\n====== THÔNG TIN ĐỘC GIẢ ======");
+        }
+        System.out.println("1. Họ Tên: " + reader.getFullName());
+        System.out.println("2. CMND: " + reader.getNationalId());
+        System.out.println("3. Ngày sinh: " + reader.getBirthDate());
+        System.out.println("4. Giới tính: " + reader.getGender().getDisplayName());
+        System.out.println("5. Email: " + reader.getEmail());
+        System.out.println("6. Ngày lập thẻ: " + reader.getCreatedDate());
+        System.out.println("7. Ngày hết hạn của thẻ (48 tháng kể từ ngày lập thẻ): " + reader.getExpiredDate());
+    }
+
     // ================= MAP GENDER INFO =================
     public Gender inputGender() {
         while (true) {
@@ -387,7 +557,6 @@ public class LibraryManagement {
             System.out.println("1. Nam");
             System.out.println("2. Nữ");
             System.out.println("3. Khác");
-            System.out.println("0. Quay lại");
 
             int choice = readNum("Chọn: ");
 
@@ -398,8 +567,6 @@ public class LibraryManagement {
                     return Gender.FEMALE;
                 case 3:
                     return Gender.OTHER;
-                case 0:
-                    return null; // cancel
                 default:
                     System.out.println("Lựa chọn không hợp lệ!");
             }
@@ -413,7 +580,6 @@ public class LibraryManagement {
             System.out.println("1. Hoạt động");
             System.out.println("2. Khoá");
             System.out.println("3. Khác");
-            System.out.println("0. Quay lại");
 
             int choice = readNum("Chọn: ");
 
@@ -424,8 +590,6 @@ public class LibraryManagement {
                     return Status.BLOCK;
                 case 3:
                     return Status.OTHER;
-                case 0:
-                    return null; // cancel
                 default:
                     System.out.println("Lựa chọn không hợp lệ!");
             }
@@ -439,7 +603,6 @@ public class LibraryManagement {
             System.out.println("1. Quản trị viên");
             System.out.println("2. Quản lý");
             System.out.println("3. Người dùng");
-            System.out.println("0. Quay lại");
 
             int choice = readNum("Chọn: ");
 
@@ -452,8 +615,6 @@ public class LibraryManagement {
                     return UserType.USER;
                 case 4:
                     return UserType.OTHER;
-                case 0:
-                    return null; // cancel
                 default:
                     System.out.println("Lựa chọn không hợp lệ!");
             }

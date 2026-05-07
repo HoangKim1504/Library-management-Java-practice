@@ -2,6 +2,7 @@ package validator;
 
 import org.jetbrains.annotations.NotNull;
 import user.UserService;
+import util.DateUtil;
 
 import java.time.format.DateTimeParseException;
 
@@ -145,7 +146,7 @@ public class UserValidator {
         if (date == null || date.trim().isEmpty()) return false;
 
         try {
-            userService.convertToLocalDate(date, "yyyy-MM-dd");
+            DateUtil.parseLocalDate(date, "yyyy-MM-dd");
             return true; // valid date
         } catch (DateTimeParseException e) {
             System.out.println("Thông tin thời gian không hợp lệ! (yyyy-MM-dd)");
@@ -193,6 +194,27 @@ public class UserValidator {
         // No multiple spaces
         if (address.contains("  ")) {
             System.out.println("Địa chỉ không chứa nhiều khoảng cách!");
+            return false;
+        }
+
+        return true;
+    }
+
+    // ================= VALID NEW EMAIL =================
+    public static boolean isValidEmail(String email) {
+        // Check null
+        if (email == null || email.trim().isEmpty()) return false;
+
+        // Remove spaces on the beginning and the end
+        email = email.trim();
+
+        // Email format
+        String format = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
+
+        // Check validate
+        boolean validate = email.matches(format);
+        if (!validate) {
+            System.out.println("Email không hợp lệ!");
             return false;
         }
 
