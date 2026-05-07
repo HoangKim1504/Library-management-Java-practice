@@ -1,7 +1,7 @@
 package library;
 
+import enums.AccountStatus;
 import enums.Gender;
-import enums.Status;
 import enums.UserType;
 import reader.Reader;
 import reader.ReaderService;
@@ -41,19 +41,19 @@ public class LibraryManagement {
         // User data
         User admin = new User(
                 "admin", "admin", "Admin system", LocalDate.of(1990, 1, 1),
-                "123456789875", "TP.HCM", Gender.MALE, Status.ACTIVATED, UserType.ADMIN, "0001");
+                "123456789875", "TP.HCM", Gender.MALE, AccountStatus.ACTIVATED, UserType.ADMIN, "0001");
         User manager = new User(
                 "manager", "manager", "Manager", LocalDate.of(1995, 12, 1),
-                "987654321954", "TP.HCM", Gender.FEMALE, Status.ACTIVATED, UserType.MANAGER, "0002");
+                "987654321954", "TP.HCM", Gender.FEMALE, AccountStatus.ACTIVATED, UserType.MANAGER, "0002");
         User user1 = new User(
                 "user1", "user1", "User1", LocalDate.of(1994, 8, 17),
-                "159753852851", "TP.Ha Noi", Gender.MALE, Status.ACTIVATED, UserType.USER, "0003");
+                "159753852851", "TP.Ha Noi", Gender.MALE, AccountStatus.ACTIVATED, UserType.USER, "0003");
         User user2 = new User(
                 "user2", "user2", "User2", LocalDate.of(1999, 5, 20),
-                "456789158487", "TP.Can Tho", Gender.FEMALE, Status.ACTIVATED, UserType.USER, "0004");
+                "456789158487", "TP.Can Tho", Gender.FEMALE, AccountStatus.ACTIVATED, UserType.USER, "0004");
         User user3 = new User(
                 "user3", "user3", "User3", LocalDate.of(2000, 1, 15),
-                "789541259851", "TP.HCM", Gender.MALE, Status.BLOCK, UserType.USER, "0005");
+                "789541259851", "TP.HCM", Gender.MALE, AccountStatus.BLOCK, UserType.USER, "0005");
 
         // Reader data
         Reader reader1 = new Reader(
@@ -299,11 +299,11 @@ public class LibraryManagement {
 
                 isSuccess = userService.updateUserInfo(choice, userId, gender) != null;
                 break;
-            case 7: // Status (use Menu)
-                Status status = inputStatus();
-                if (status == null) return;
+            case 7: // AccountStatus (use Menu)
+                AccountStatus accountStatus = inputStatus();
+                if (accountStatus == null) return;
 
-                isSuccess = userService.updateUserInfo(choice, userId, status) != null;
+                isSuccess = userService.updateUserInfo(choice, userId, accountStatus) != null;
                 break;
             case 8: // UserType (use Menu)
                 UserType userType = inputUserType();
@@ -353,9 +353,9 @@ public class LibraryManagement {
                 continue;
             }
 
-            // Status
-            Status status = inputStatus();
-            if (status == null) {
+            // AccountStatus
+            AccountStatus accountStatus = inputStatus();
+            if (accountStatus == null) {
                 System.out.println("Thông tin tình trạng tài khoản bị lỗi!");
                 continue;
             }
@@ -383,7 +383,7 @@ public class LibraryManagement {
                     nationalId,
                     address,
                     gender,
-                    status,
+                    accountStatus,
                     userType,
                     userId
             );
@@ -574,7 +574,7 @@ public class LibraryManagement {
     }
 
     // ================= MAP STATUS INFO =================
-    public Status inputStatus() {
+    public AccountStatus inputStatus() {
         while (true) {
             System.out.println("\nChọn tình trạng tài khoản: ");
             System.out.println("1. Hoạt động");
@@ -585,11 +585,11 @@ public class LibraryManagement {
 
             switch (choice) {
                 case 1:
-                    return Status.ACTIVATED;
+                    return AccountStatus.ACTIVATED;
                 case 2:
-                    return Status.BLOCK;
+                    return AccountStatus.BLOCK;
                 case 3:
-                    return Status.OTHER;
+                    return AccountStatus.OTHER;
                 default:
                     System.out.println("Lựa chọn không hợp lệ!");
             }

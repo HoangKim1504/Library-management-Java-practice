@@ -1,7 +1,7 @@
 package user;
 
+import enums.AccountStatus;
 import enums.Gender;
-import enums.Status;
 import enums.UserType;
 import org.jetbrains.annotations.NotNull;
 
@@ -50,7 +50,7 @@ public class UserService {
             if (user.getUserName().equals(userName)
                     && user.getPassword().equals(password)) {
                 // Check account status
-                if (user.getStatus() != Status.ACTIVATED) {
+                if (user.getStatus() != AccountStatus.ACTIVATED) {
                     System.out.println("Tài khoản đã bị khoá. Vui lòng liên hệ admin.");
                     return null; // account islocked
                 }
@@ -114,7 +114,7 @@ public class UserService {
                 user.setGender((Gender) newInfo);
                 break;
             case 7:
-                user.setStatus((Status) newInfo);
+                user.setStatus((AccountStatus) newInfo);
                 break;
             case 8:
                 user.setUserType((UserType) newInfo);

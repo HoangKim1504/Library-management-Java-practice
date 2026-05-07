@@ -1,7 +1,7 @@
 package user;
 
+import enums.AccountStatus;
 import enums.Gender;
-import enums.Status;
 import enums.UserType;
 
 import java.time.LocalDate;
@@ -15,14 +15,14 @@ public class User {
     private String nationalId;
     private String address;
     private Gender gender;
-    private Status status;
+    private AccountStatus accountStatus;
     private UserType userType;
     private String userId;
 
     public User() {
     }
 
-    public User(String userName, String password, String fullName, LocalDate birthDate, String nationalId, String address, Gender gender, Status status, UserType userType, String userId) {
+    public User(String userName, String password, String fullName, LocalDate birthDate, String nationalId, String address, Gender gender, AccountStatus accountStatus, UserType userType, String userId) {
         this.userName = userName;
         this.password = password;
         this.fullName = fullName;
@@ -30,7 +30,7 @@ public class User {
         this.nationalId = nationalId;
         this.address = address;
         this.gender = gender;
-        this.status = status;
+        this.accountStatus = accountStatus;
         this.userType = userType;
         this.userId = userId;
     }
@@ -91,12 +91,12 @@ public class User {
         this.gender = gender;
     }
 
-    public Status getStatus() {
-        return status;
+    public AccountStatus getStatus() {
+        return accountStatus;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setStatus(AccountStatus accountStatus) {
+        this.accountStatus = accountStatus;
     }
 
     public UserType getUserType() {

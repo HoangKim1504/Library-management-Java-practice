@@ -1,6 +1,6 @@
 package enums;
 
-public enum Status {
+public enum AccountStatus {
     ACTIVATED("Hoạt động"),
     BLOCK("Khoá"),
     OTHER("Khác"),
@@ -8,7 +8,7 @@ public enum Status {
 
     private final String displayName;
 
-    Status(String displayName) {
+    AccountStatus(String displayName) {
         this.displayName = displayName;
     }
 
