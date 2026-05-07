@@ -4,6 +4,9 @@ import enums.AccountStatus;
 import enums.Gender;
 import enums.UserType;
 import org.jetbrains.annotations.NotNull;
+import util.DateUtil;
+import util.InputUtil;
+import validator.InputValidator;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -52,7 +55,7 @@ public class UserService {
                 // Check account status
                 if (user.getStatus() != AccountStatus.ACTIVATED) {
                     System.out.println("Tài khoản đã bị khoá. Vui lòng liên hệ admin.");
-                    return null; // account islocked
+                    return null; // account is locked
                 }
 
                 return user; // login success
@@ -82,6 +85,63 @@ public class UserService {
         // Update new password
         user.setPassword(newPass);
         return true;
+    }
+
+    public User inputUserInfo(String defaultUserName, String defaultPassword) {
+        // Full name
+        String fullName = InputValidator.inputValidString("Họ Tên: ", InputValidator::isValidName);
+
+        // Birthdate
+        String inputBirthDate = InputValidator.inputValidString("Ngày sinh: ", InputValidator::isValidDate);
+        LocalDate birthDate = DateUtil.parseLocalDate(inputBirthDate, "yyyy-MM-dd");
+
+        // NationalId
+        String nationalId = InputValidator.inputValidString("CMND: ", InputValidator::isValidId);
+
+        // Address
+        String address = InputValidator.inputValidString("Địa chỉ: ", InputValidator::isValidAddress);
+
+        // Gender
+        Gender gender = InputUtil.inputGender();
+        if (gender == null) {
+            System.out.println("Thông tin giới tính bị lỗi!");
+            return null;
+        }
+
+        // AccountStatus
+        AccountStatus accountStatus = InputUtil.inputStatus();
+        if (accountStatus == null) {
+            System.out.println("Thông tin tình trạng tài khoản bị lỗi!");
+            return null;
+        }
+
+        // User type
+        UserType userType = InputUtil.inputUserType();
+        if (userType == null) {
+            System.out.println("Thông tin loại người dùng bị lỗi!");
+            return null;
+        }
+
+        // Generate userId
+        String userId = generateNewUserId();
+        if (userId == null) {
+            System.out.println("Không thể tạo userId!");
+            return null;
+        }
+
+        // Create user object
+        return new User(
+                defaultUserName,
+                defaultPassword,
+                fullName,
+                birthDate,
+                nationalId,
+                address,
+                gender,
+                accountStatus,
+                userType,
+                userId
+        );
     }
 
     // ================= UPDATE CURRENT USER INFO =================
@@ -173,5 +233,10 @@ public class UserService {
         // If no matching role -> deny access
         System.out.println("Không có quyền truy cập. Vui lòng liên hệ quản trị viên.");
         return false;
+    }
+
+    // ================= REQUIRE ROLE HELPER =================
+    public boolean requireRole(String userId, UserType... roles) {
+        return !hasAccess(userId, roles);
     }
 }

@@ -1,13 +1,28 @@
 package validator;
 
 import org.jetbrains.annotations.NotNull;
-import user.UserService;
 import util.DateUtil;
 
 import java.time.format.DateTimeParseException;
+import java.util.Scanner;
+import java.util.function.Function;
 
 public class InputValidator {
-    private static final UserService userService = new UserService();
+    private static final Scanner sc = new Scanner(System.in);
+
+    // ================= INPUT + VALIDATE STRING =================
+    public static String inputValidString(String prompt, Function<String, Boolean> validator) {
+        while (true) {
+            System.out.print(prompt);
+            String input = sc.nextLine().trim();
+
+            if (validator.apply(input)) {
+                return input;
+            }
+
+            System.out.println("Vui lòng nhập lại!");
+        }
+    }
 
     // ================= VALID PASSWORDS =================
     public static boolean isValidPasswords(String oldPw, String newPw, String confirmPw) {

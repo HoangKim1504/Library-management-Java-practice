@@ -1,7 +1,12 @@
 package reader;
 
+import enums.Gender;
 import org.jetbrains.annotations.NotNull;
+import util.DateUtil;
+import util.InputUtil;
+import validator.InputValidator;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,5 +82,53 @@ public class ReaderService {
             System.out.println("ReaderId không phải số!");
             return null;
         }
+    }
+
+    public Reader inputReaderInfo() {
+        // Generate readerId
+        String readerId = generateNewReaderId();
+        if (readerId == null) {
+            System.out.println("Không thể tạo readerId!");
+            return null;
+        }
+
+        // Full name
+        String fullName = InputValidator.inputValidString("Họ Tên: ", InputValidator::isValidName);
+
+        // NationalId
+        String nationalId = InputValidator.inputValidString("CMND: ", InputValidator::isValidId);
+
+        // Birthdate
+        String inputBirthDate = InputValidator.inputValidString("Ngày tháng năm sinh: ", InputValidator::isValidDate);
+        LocalDate birthDate = DateUtil.parseLocalDate(inputBirthDate, "yyyy-MM-dd");
+
+        // Gender
+        Gender gender = InputUtil.inputGender();
+        if (gender == null) {
+            System.out.println("Thông tin giới tính bị lỗi!");
+            return null;
+        }
+
+        // Email
+        String email = InputValidator.inputValidString("Email: ", InputValidator::isValidEmail);
+
+        // Address
+        String address = InputValidator.inputValidString("Địa chỉ: ", InputValidator::isValidAddress);
+
+        // CreatedDate
+        String inputCreatedDate = InputValidator.inputValidString("Ngày lập thẻ: ", InputValidator::isValidDate);
+        LocalDate createdDate = DateUtil.parseLocalDate(inputCreatedDate, "yyyy-MM-dd");
+
+        // Create reader object
+        return new Reader(
+                readerId,
+                fullName,
+                nationalId,
+                birthDate,
+                gender,
+                email,
+                address,
+                createdDate
+        );
     }
 }

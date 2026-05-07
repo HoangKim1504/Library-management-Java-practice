@@ -7,13 +7,14 @@ import reader.Reader;
 import reader.ReaderService;
 import user.User;
 import user.UserService;
-import util.DateUtil;
+import util.InputUtil;
+import util.PrintUtil;
+import util.TextUtil;
 import validator.InputValidator;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
-import java.util.function.Function;
 
 public class LibraryManagement {
 
@@ -101,8 +102,8 @@ public class LibraryManagement {
             requireLogin();
 
             // Main menu
-            printMainMenu();
-            int choice = readNum("Chọn: ");
+            PrintUtil.printMainMenu();
+            int choice = InputUtil.readNum("Chọn: ");
 
             switch (choice) {
                 case 1:
@@ -130,17 +131,6 @@ public class LibraryManagement {
         }
     }
 
-    // ================= MAIN MENU =================
-    public void printMainMenu() {
-        System.out.println("\n======= MENU CHÍNH ======");
-        System.out.println("1. Chức năng người dùng (đăng xuất, đổi MK, cập nhật TT, ...)");
-        System.out.println("2. Quản lý độc giả");
-        System.out.println("3. Quản lý sách");
-        System.out.println("4. Lập phiếu mượn sách");
-        System.out.println("5. Lập phiếu trả sách");
-        System.out.println("6. Thống kê");
-    }
-
     // ================= LOGIN FUNCTION =================
     public boolean loginScreen () {
         while (true) {
@@ -148,7 +138,7 @@ public class LibraryManagement {
             System.out.println("1. Đăng nhập");
             System.out.println("0. Thoát chương trình");
 
-            int choice = readNum("Chọn: ");
+            int choice = InputUtil.readNum("Chọn: ");
 
             if (choice == 0) return false;
 
@@ -183,13 +173,13 @@ public class LibraryManagement {
     public void userScreen() {
         while (true) {
             // User menu
-            printUserMenu();
-            int choice = readNum("Chọn: ");
+            PrintUtil.printUserMenu();
+            int choice = InputUtil.readNum("Chọn: ");
 
             switch (choice) {
                 case 1:
                     // Allow all roles
-                    if (requireRole(ADMIN, MANAGER, USER)) continue;
+                    if (userService.requireRole(userId, ADMIN, MANAGER, USER)) continue;
 
                     // Logout current user
                     userService.logout(userId);
@@ -201,7 +191,7 @@ public class LibraryManagement {
                     return;
                 case 2:
                     // Allow all roles
-                    if (requireRole(ADMIN, MANAGER, USER)) continue;
+                    if (userService.requireRole(userId, ADMIN, MANAGER, USER)) continue;
 
                     // Navigate to change password screen
                     changePassScreen();
@@ -214,14 +204,14 @@ public class LibraryManagement {
                     break;
                 case 3:
                     // Allow all roles
-                    if (requireRole(ADMIN, MANAGER, USER)) continue;
+                    if (userService.requireRole(userId, ADMIN, MANAGER, USER)) continue;
 
                     // Navigate to update user info screen
-                    updateInfoScreen();
+                    updateUserInfoScreen();
                     break;
                 case 4:
                     // Only ADMIN can create user
-                    if (requireRole(ADMIN)) continue;
+                    if (userService.requireRole(userId, ADMIN)) continue;
 
                     // Navigate to create user screen
                     createUserScreen();
@@ -232,15 +222,6 @@ public class LibraryManagement {
                     System.out.println("Lựa chọn không hợp lệ!");
             }
         }
-    }
-
-    // ================= USER MENU =================
-    public void printUserMenu() {
-        System.out.println("\n====== MENU NGƯỜI DÙNG ======");
-        System.out.println("1. Đăng xuất");
-        System.out.println("2. Thay đổi mật khẩu");
-        System.out.println("3. Cập nhật thông tin cá nhân");
-        System.out.println("4. Tạo người dùng");
     }
 
     // ================= CHANGE PASSWORD FUNCTION =================
@@ -280,7 +261,7 @@ public class LibraryManagement {
     }
 
     // ================= UPDATE USER INFO FUNCTION =================
-    public void updateInfoScreen() {
+    public void updateUserInfoScreen() {
         boolean isSuccess = false;
 
         // Find current user
@@ -292,33 +273,33 @@ public class LibraryManagement {
         }
 
         // Print user info
-        printUserInfo(user, isSuccess);
-        int choice = readNum("Chọn thông tin muốn cập nhật (1-7) hoặc chọn 0 để quay lại menu người dùng: ");
+        PrintUtil.printUserInfo(user, isSuccess);
+        int choice = InputUtil.readNum("Chọn thông tin muốn cập nhật (1-7) hoặc chọn 0 để quay lại menu người dùng: ");
 
         if (choice == 0) return;
 
         switch (choice) {
             case 6: // Gender (use Menu)
-                Gender gender = inputGender();
+                Gender gender = InputUtil.inputGender();
                 if (gender == null) return;
 
                 isSuccess = userService.updateUserInfo(choice, userId, gender) != null;
                 break;
             case 7: // AccountStatus (use Menu)
-                AccountStatus accountStatus = inputStatus();
+                AccountStatus accountStatus = InputUtil.inputStatus();
                 if (accountStatus == null) return;
 
                 isSuccess = userService.updateUserInfo(choice, userId, accountStatus) != null;
                 break;
             case 8: // UserType (use Menu)
-                UserType userType = inputUserType();
+                UserType userType = InputUtil.inputUserType();
                 if (userType == null) return;
 
                 isSuccess = userService.updateUserInfo(choice, userId, userType) != null;
                 break;
             default:
                 // Handle normal string input
-                isSuccess = handleTextUpdate(choice);
+                isSuccess = TextUtil.handleTextUpdate(choice, userId);
                 break;
         }
 
@@ -330,7 +311,7 @@ public class LibraryManagement {
 
         // Update successfully
         System.out.println("Cập nhật thông tin thành công!");
-        printUserInfo(user, isSuccess);
+        PrintUtil.printUserInfo(user, isSuccess);
     }
 
     // ================= CREATE USER FUNCTION =================
@@ -339,7 +320,7 @@ public class LibraryManagement {
             System.out.println("\n====== TẠO NGƯỜI DÙNG MỚI ======");
 
             // Input user info
-            User user = inputUserInfo();
+            User user = userService.inputUserInfo(DEFAULT_USERNAME, DEFAULT_PASSWORD);
             if (user == null) continue;
 
             // Create new user
@@ -353,80 +334,22 @@ public class LibraryManagement {
 
             // Create user successfully
             System.out.println("Tạo người dùng thành công!");
-            printUserInfo(user, false);
+            PrintUtil.printUserInfo(user, false);
             return;
         }
-    }
-
-    // ================= INPUT USER INFO FUNCTION =================
-    public User inputUserInfo() {
-        // Full name
-        String fullName = inputValidString("Họ Tên: ", InputValidator::isValidName);
-
-        // Birthdate
-        String inputBirthDate = inputValidString("Ngày sinh: ", InputValidator::isValidDate);
-        LocalDate birthDate = DateUtil.parseLocalDate(inputBirthDate, "yyyy-MM-dd");
-
-        // NationalId
-        String nationalId = inputValidString("CMND: ", InputValidator::isValidId);
-
-        // Address
-        String address = inputValidString("Địa chỉ: ", InputValidator::isValidAddress);
-
-        // Gender
-        Gender gender = inputGender();
-        if (gender == null) {
-            System.out.println("Thông tin giới tính bị lỗi!");
-            return null;
-        }
-
-        // AccountStatus
-        AccountStatus accountStatus = inputStatus();
-        if (accountStatus == null) {
-            System.out.println("Thông tin tình trạng tài khoản bị lỗi!");
-            return null;
-        }
-
-        // User type
-        UserType userType = inputUserType();
-        if (userType == null) {
-            System.out.println("Thông tin loại người dùng bị lỗi!");
-            return null;
-        }
-
-        // Generate userId
-        String userId = userService.generateNewUserId();
-        if (userId == null) {
-            System.out.println("Không thể tạo userId!");
-            return null;
-        }
-
-        // Create user object
-        return new User(
-                DEFAULT_USERNAME,
-                DEFAULT_PASSWORD,
-                fullName,
-                birthDate,
-                nationalId,
-                address,
-                gender,
-                accountStatus,
-                userType,
-                userId
-        );
     }
 
     // ================= READER MENU =================
     public void readerScreen() {
         while (true) {
             // Reader menu
-            printReaderMenu();
-            int choice = readNum("Chọn: ");
+            PrintUtil.printReaderMenu();
+            int choice = InputUtil.readNum("Chọn: ");
 
             switch (choice) {
                 case 1:
                     // Allow all roles
-                    if (requireRole(ADMIN, MANAGER, USER)) continue;
+                    if (userService.requireRole(userId, ADMIN, MANAGER, USER)) continue;
 
                     // Get the reader list
                     List<Reader> readerList = readerService.getAllReaders();
@@ -437,7 +360,7 @@ public class LibraryManagement {
                     break;
                 case 2:
                     // Allow all roles
-                    if (requireRole(ADMIN, MANAGER, USER)) continue;
+                    if (userService.requireRole(userId, ADMIN, MANAGER, USER)) continue;
 
                     // Navigate to create reader screen
                     createReaderScreen();
@@ -456,24 +379,13 @@ public class LibraryManagement {
         }
     }
 
-    // ================= READER MENU =================
-    public void printReaderMenu() {
-        System.out.println("\n====== MENU ĐỘC GIẢ ======");
-        System.out.println("1. Xem danh sách độc giả trong thư viện");
-        System.out.println("2. Thêm độc giả");
-        System.out.println("3. Chỉnh sửa thông tin một độc giả");
-        System.out.println("4. Xóa thông tin một độc giả");
-        System.out.println("5. Tìm kiếm độc giả theo CMND");
-        System.out.println("6. Tìm kiếm sách theo họ tên");
-    }
-
     // ================= CREATE READER FUNCTION =================
     public void createReaderScreen() {
         while (true) {
             System.out.println("\n====== TẠO ĐỘC GIẢ MỚI ======");
 
             // Input reader info
-            Reader reader = inputReaderInfo();
+            Reader reader = readerService.inputReaderInfo();
             if (reader == null) continue;
 
             // Create new reader
@@ -487,214 +399,8 @@ public class LibraryManagement {
 
             // Create reader successfully
             System.out.println("Tạo độc giả thành công!");
-            printReaderInfo(reader, false);
+            PrintUtil.printReaderInfo(reader, false);
             return;
         }
-    }
-
-    // ================= INPUT READER INFO FUNCTION =================
-    public Reader inputReaderInfo() {
-        // Generate readerId
-        String readerId = readerService.generateNewReaderId();
-        if (readerId == null) {
-            System.out.println("Không thể tạo readerId!");
-            return null;
-        }
-
-        // Full name
-        String fullName = inputValidString("Họ Tên: ", InputValidator::isValidName);
-
-        // NationalId
-        String nationalId = inputValidString("CMND: ", InputValidator::isValidId);
-
-        // Birthdate
-        String inputBirthDate = inputValidString("Ngày tháng năm sinh: ", InputValidator::isValidDate);
-        LocalDate birthDate = DateUtil.parseLocalDate(inputBirthDate, "yyyy-MM-dd");
-
-        // Gender
-        Gender gender = inputGender();
-        if (gender == null) {
-            System.out.println("Thông tin giới tính bị lỗi!");
-            return null;
-        }
-
-        // Email
-        String email = inputValidString("Email: ", InputValidator::isValidEmail);
-
-        // Address
-        String address = inputValidString("Địa chỉ: ", InputValidator::isValidAddress);
-
-        // CreatedDate
-        String inputCreatedDate = inputValidString("Ngày lập thẻ: ", InputValidator::isValidDate);
-        LocalDate createdDate = DateUtil.parseLocalDate(inputCreatedDate, "yyyy-MM-dd");
-
-        // Create reader object
-        return new Reader(
-                readerId,
-                fullName,
-                nationalId,
-                birthDate,
-                gender,
-                email,
-                address,
-                createdDate
-        );
-    }
-
-    // ================= PRINT USER INFO =================
-    public void printUserInfo(User user, boolean isUpdate) {
-        if (isUpdate) {
-            System.out.println("\n====== THÔNG TIN NGƯỜI DÙNG ĐÃ ĐƯỢC CẬP NHẬP ======");
-        } else {
-            System.out.println("\n====== THÔNG TIN NGƯỜI DÙNG ======");
-        }
-        System.out.println("1. Tên đăng nhập: " + user.getUserName());
-        System.out.println("2. Họ Tên: " + user.getFullName());
-        System.out.println("3. Ngày sinh: " + user.getBirthDate());
-        System.out.println("4. CMND: " + user.getNationalId());
-        System.out.println("5. Địa chỉ: " + user.getAddress());
-        System.out.println("6. Giới tính: " + user.getGender().getDisplayName());
-        System.out.println("7. Tình trạng: " + user.getStatus().getDisplayName());
-        System.out.println("8. Loại người dùng: " + user.getUserType().getDisplayName());
-    }
-
-    // ================= PRINT USER INFO =================
-    public void printReaderInfo(Reader reader, boolean isUpdate) {
-        if (isUpdate) {
-            System.out.println("\n====== THÔNG TIN ĐỘC GIẢ ĐÃ ĐƯỢC CẬP NHẬP ======");
-        } else {
-            System.out.println("\n====== THÔNG TIN ĐỘC GIẢ ======");
-        }
-        System.out.println("1. Họ Tên: " + reader.getFullName());
-        System.out.println("2. CMND: " + reader.getNationalId());
-        System.out.println("3. Ngày sinh: " + reader.getBirthDate());
-        System.out.println("4. Giới tính: " + reader.getGender().getDisplayName());
-        System.out.println("5. Email: " + reader.getEmail());
-        System.out.println("6. Ngày lập thẻ: " + reader.getCreatedDate());
-        System.out.println("7. Ngày hết hạn của thẻ (48 tháng kể từ ngày lập thẻ): " + reader.getExpiredDate());
-    }
-
-    // ================= MAP GENDER INFO =================
-    public Gender inputGender() {
-        while (true) {
-            System.out.println("\nChọn giới tính: ");
-            System.out.println("1. Nam");
-            System.out.println("2. Nữ");
-            System.out.println("3. Khác");
-
-            int choice = readNum("Chọn: ");
-
-            switch (choice) {
-                case 1:
-                    return Gender.MALE;
-                case 2:
-                    return Gender.FEMALE;
-                case 3:
-                    return Gender.OTHER;
-                default:
-                    System.out.println("Lựa chọn không hợp lệ!");
-            }
-        }
-    }
-
-    // ================= MAP STATUS INFO =================
-    public AccountStatus inputStatus() {
-        while (true) {
-            System.out.println("\nChọn tình trạng tài khoản: ");
-            System.out.println("1. Hoạt động");
-            System.out.println("2. Khoá");
-            System.out.println("3. Khác");
-
-            int choice = readNum("Chọn: ");
-
-            switch (choice) {
-                case 1:
-                    return AccountStatus.ACTIVATED;
-                case 2:
-                    return AccountStatus.BLOCK;
-                case 3:
-                    return AccountStatus.OTHER;
-                default:
-                    System.out.println("Lựa chọn không hợp lệ!");
-            }
-        }
-    }
-
-    // ================= MAP USER TYPE INFO =================
-    public UserType inputUserType() {
-        while (true) {
-            System.out.println("\nChọn loại người dùng: ");
-            System.out.println("1. Quản trị viên");
-            System.out.println("2. Quản lý");
-            System.out.println("3. Người dùng");
-
-            int choice = readNum("Chọn: ");
-
-            switch (choice) {
-                case 1:
-                    return UserType.ADMIN;
-                case 2:
-                    return UserType.MANAGER;
-                case 3:
-                    return UserType.USER;
-                case 4:
-                    return UserType.OTHER;
-                default:
-                    System.out.println("Lựa chọn không hợp lệ!");
-            }
-        }
-    }
-
-    // ================= HANDLE TEXT UPDATE =================
-    private boolean handleTextUpdate(int choice) {
-        while (true) {
-            System.out.print("Thông tin cập nhật mới: ");
-            String newInfo = sc.nextLine().trim();
-
-            // Valid input
-            boolean isValid = InputValidator.isValidateInput(choice, newInfo);
-            if (!isValid) {
-                System.out.println("Vui lòng nhập lại thông tin.");
-                continue;
-            }
-
-            // Update user info
-            User updatedUser = userService.updateUserInfo(choice, userId, newInfo);
-
-            return updatedUser != null;
-        }
-    }
-
-    // ================= INPUT + VALIDATE STRING =================
-    private String inputValidString(String prompt, Function<String, Boolean> validator) {
-        while (true) {
-            System.out.print(prompt);
-            String input = sc.nextLine().trim();
-
-            if (validator.apply(input)) {
-                return input;
-            }
-
-            System.out.println("Vui lòng nhập lại!");
-        }
-    }
-
-    // ================= INPUT HELPER =================
-    public int readNum(String prompt) {
-        while (true) {
-            System.out.print(prompt);
-            String input = sc.nextLine().trim();
-
-            try {
-                return Integer.parseInt(input);
-            } catch (NumberFormatException e) {
-                System.out.println("Vui lòng nhập số hợp lệ!");
-            }
-        }
-    }
-
-    // ================= REQUIRE ROLE HELPER =================
-    private boolean requireRole(UserType... roles) {
-        return !userService.hasAccess(userId, roles);
     }
 }
