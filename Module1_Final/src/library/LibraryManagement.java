@@ -100,7 +100,7 @@ public class LibraryManagement {
             // Force user to login before using system
             requireLogin();
 
-            // Main menu loop
+            // Main menu
             printMainMenu();
             int choice = readNum("Chọn: ");
 
@@ -182,12 +182,8 @@ public class LibraryManagement {
     // ================= USER MENU =================
     public void userScreen() {
         while (true) {
-            System.out.println("\n====== MENU NGƯỜI DÙNG ======");
-            System.out.println("1. Đăng xuất");
-            System.out.println("2. Thay đổi mật khẩu");
-            System.out.println("3. Cập nhật thông tin cá nhân");
-            System.out.println("4. Tạo người dùng");
-
+            // User menu
+            printUserMenu();
             int choice = readNum("Chọn: ");
 
             switch (choice) {
@@ -236,6 +232,15 @@ public class LibraryManagement {
                     System.out.println("Lựa chọn không hợp lệ!");
             }
         }
+    }
+
+    // ================= USER MENU =================
+    public void printUserMenu() {
+        System.out.println("\n====== MENU NGƯỜI DÙNG ======");
+        System.out.println("1. Đăng xuất");
+        System.out.println("2. Thay đổi mật khẩu");
+        System.out.println("3. Cập nhật thông tin cá nhân");
+        System.out.println("4. Tạo người dùng");
     }
 
     // ================= CHANGE PASSWORD FUNCTION =================
@@ -333,60 +338,9 @@ public class LibraryManagement {
         while (true) {
             System.out.println("\n====== TẠO NGƯỜI DÙNG MỚI ======");
 
-            // Full name
-            String fullName = inputValidString("Họ Tên: ", InputValidator::isValidName);
-
-            // Birthdate
-            String inputBirthDate = inputValidString("Ngày sinh: ", InputValidator::isValidDate);
-            LocalDate birthDate = DateUtil.parseLocalDate(inputBirthDate, "yyyy-MM-dd");
-
-            // NationalId
-            String nationalId = inputValidString("CMND: ", InputValidator::isValidId);
-
-            // Address
-            String address = inputValidString("Địa chỉ: ", InputValidator::isValidAddress);
-
-            // Gender
-            Gender gender = inputGender();
-            if (gender == null) {
-                System.out.println("Thông tin giới tính bị lỗi!");
-                continue;
-            }
-
-            // AccountStatus
-            AccountStatus accountStatus = inputStatus();
-            if (accountStatus == null) {
-                System.out.println("Thông tin tình trạng tài khoản bị lỗi!");
-                continue;
-            }
-
-            // User type
-            UserType userType = inputUserType();
-            if (userType == null) {
-                System.out.println("Thông tin loại người dùng bị lỗi!");
-                continue;
-            }
-
-            // Generate userId
-            String userId = userService.generateNewUserId();
-            if (userId == null) {
-                System.out.println("Không thể tạo userId!");
-                continue;
-            }
-
-            // Create user object
-            User user = new User(
-                    DEFAULT_USERNAME,
-                    DEFAULT_PASSWORD,
-                    fullName,
-                    birthDate,
-                    nationalId,
-                    address,
-                    gender,
-                    accountStatus,
-                    userType,
-                    userId
-            );
+            // Input user info
+            User user = inputUserInfo();
+            if (user == null) continue;
 
             // Create new user
             boolean isSuccess = userService.createUser(user);
@@ -404,17 +358,69 @@ public class LibraryManagement {
         }
     }
 
+    // ================= INPUT USER INFO FUNCTION =================
+    public User inputUserInfo() {
+        // Full name
+        String fullName = inputValidString("Họ Tên: ", InputValidator::isValidName);
+
+        // Birthdate
+        String inputBirthDate = inputValidString("Ngày sinh: ", InputValidator::isValidDate);
+        LocalDate birthDate = DateUtil.parseLocalDate(inputBirthDate, "yyyy-MM-dd");
+
+        // NationalId
+        String nationalId = inputValidString("CMND: ", InputValidator::isValidId);
+
+        // Address
+        String address = inputValidString("Địa chỉ: ", InputValidator::isValidAddress);
+
+        // Gender
+        Gender gender = inputGender();
+        if (gender == null) {
+            System.out.println("Thông tin giới tính bị lỗi!");
+            return null;
+        }
+
+        // AccountStatus
+        AccountStatus accountStatus = inputStatus();
+        if (accountStatus == null) {
+            System.out.println("Thông tin tình trạng tài khoản bị lỗi!");
+            return null;
+        }
+
+        // User type
+        UserType userType = inputUserType();
+        if (userType == null) {
+            System.out.println("Thông tin loại người dùng bị lỗi!");
+            return null;
+        }
+
+        // Generate userId
+        String userId = userService.generateNewUserId();
+        if (userId == null) {
+            System.out.println("Không thể tạo userId!");
+            return null;
+        }
+
+        // Create user object
+        return new User(
+                DEFAULT_USERNAME,
+                DEFAULT_PASSWORD,
+                fullName,
+                birthDate,
+                nationalId,
+                address,
+                gender,
+                accountStatus,
+                userType,
+                userId
+        );
+    }
+
     // ================= READER MENU =================
     public void readerScreen() {
         while (true) {
-            System.out.println("\n====== MENU ĐỘC GIẢ ======");
-            System.out.println("1. Xem danh sách độc giả trong thư viện");
-            System.out.println("2. Thêm độc giả");
-            System.out.println("3. Chỉnh sửa thông tin một độc giả");
-            System.out.println("4. Xóa thông tin một độc giả");
-            System.out.println("5. Tìm kiếm độc giả theo CMND");
-            System.out.println("6. Tìm kiếm sách theo họ tên");
-
+            // Reader menu
+            printReaderMenu();
             int choice = readNum("Chọn: ");
 
             switch (choice) {
@@ -450,56 +456,25 @@ public class LibraryManagement {
         }
     }
 
+    // ================= READER MENU =================
+    public void printReaderMenu() {
+        System.out.println("\n====== MENU ĐỘC GIẢ ======");
+        System.out.println("1. Xem danh sách độc giả trong thư viện");
+        System.out.println("2. Thêm độc giả");
+        System.out.println("3. Chỉnh sửa thông tin một độc giả");
+        System.out.println("4. Xóa thông tin một độc giả");
+        System.out.println("5. Tìm kiếm độc giả theo CMND");
+        System.out.println("6. Tìm kiếm sách theo họ tên");
+    }
+
     // ================= CREATE READER FUNCTION =================
     public void createReaderScreen() {
         while (true) {
             System.out.println("\n====== TẠO ĐỘC GIẢ MỚI ======");
 
-            // Generate readerId
-            String readerId = readerService.generateNewReaderId();
-            if (readerId == null) {
-                System.out.println("Không thể tạo readerId!");
-                continue;
-            }
-
-            // Full name
-            String fullName = inputValidString("Họ Tên: ", InputValidator::isValidName);
-
-            // NationalId
-            String nationalId = inputValidString("CMND: ", InputValidator::isValidId);
-
-            // Birthdate
-            String inputBirthDate = inputValidString("Ngày tháng năm sinh: ", InputValidator::isValidDate);
-            LocalDate birthDate = DateUtil.parseLocalDate(inputBirthDate, "yyyy-MM-dd");
-
-            // Gender
-            Gender gender = inputGender();
-            if (gender == null) {
-                System.out.println("Thông tin giới tính bị lỗi!");
-                continue;
-            }
-
-            // Email
-            String email = inputValidString("Email: ", InputValidator::isValidEmail);
-
-            // Address
-            String address = inputValidString("Địa chỉ: ", InputValidator::isValidAddress);
-
-            // CreatedDate
-            String inputCreatedDate = inputValidString("Ngày lập thẻ: ", InputValidator::isValidDate);
-            LocalDate createdDate = DateUtil.parseLocalDate(inputCreatedDate, "yyyy-MM-dd");
-
-            // Create reader object
-            Reader reader = new Reader(
-                    readerId,
-                    fullName,
-                    nationalId,
-                    birthDate,
-                    gender,
-                    email,
-                    address,
-                    createdDate
-            );
+            // Input reader info
+            Reader reader = inputReaderInfo();
+            if (reader == null) continue;
 
             // Create new reader
             boolean isSuccess = readerService.createReader(reader);
@@ -515,6 +490,55 @@ public class LibraryManagement {
             printReaderInfo(reader, false);
             return;
         }
+    }
+
+    // ================= INPUT READER INFO FUNCTION =================
+    public Reader inputReaderInfo() {
+        // Generate readerId
+        String readerId = readerService.generateNewReaderId();
+        if (readerId == null) {
+            System.out.println("Không thể tạo readerId!");
+            return null;
+        }
+
+        // Full name
+        String fullName = inputValidString("Họ Tên: ", InputValidator::isValidName);
+
+        // NationalId
+        String nationalId = inputValidString("CMND: ", InputValidator::isValidId);
+
+        // Birthdate
+        String inputBirthDate = inputValidString("Ngày tháng năm sinh: ", InputValidator::isValidDate);
+        LocalDate birthDate = DateUtil.parseLocalDate(inputBirthDate, "yyyy-MM-dd");
+
+        // Gender
+        Gender gender = inputGender();
+        if (gender == null) {
+            System.out.println("Thông tin giới tính bị lỗi!");
+            return null;
+        }
+
+        // Email
+        String email = inputValidString("Email: ", InputValidator::isValidEmail);
+
+        // Address
+        String address = inputValidString("Địa chỉ: ", InputValidator::isValidAddress);
+
+        // CreatedDate
+        String inputCreatedDate = inputValidString("Ngày lập thẻ: ", InputValidator::isValidDate);
+        LocalDate createdDate = DateUtil.parseLocalDate(inputCreatedDate, "yyyy-MM-dd");
+
+        // Create reader object
+        return new Reader(
+                readerId,
+                fullName,
+                nationalId,
+                birthDate,
+                gender,
+                email,
+                address,
+                createdDate
+        );
     }
 
     // ================= PRINT USER INFO =================
