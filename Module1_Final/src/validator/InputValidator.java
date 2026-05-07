@@ -6,7 +6,7 @@ import util.DateUtil;
 
 import java.time.format.DateTimeParseException;
 
-public class UserValidator {
+public class InputValidator {
     private static final UserService userService = new UserService();
 
     // ================= VALID PASSWORDS =================

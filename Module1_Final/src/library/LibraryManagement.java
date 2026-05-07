@@ -8,7 +8,7 @@ import reader.ReaderService;
 import user.User;
 import user.UserService;
 import util.DateUtil;
-import validator.UserValidator;
+import validator.InputValidator;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -259,7 +259,7 @@ public class LibraryManagement {
             String confirmPass = sc.nextLine();
 
             // Validate passwords
-            if (!UserValidator.isValidPasswords(oldPass, newPass, confirmPass)) continue;
+            if (!InputValidator.isValidPasswords(oldPass, newPass, confirmPass)) continue;
 
             // Call service to update password
             boolean isChanged = userService.changePassword(userId, oldPass, newPass);
@@ -334,17 +334,17 @@ public class LibraryManagement {
             System.out.println("\n====== TẠO NGƯỜI DÙNG MỚI ======");
 
             // Full name
-            String fullName = inputValidString("Họ Tên: ", UserValidator::isValidName);
+            String fullName = inputValidString("Họ Tên: ", InputValidator::isValidName);
 
             // Birthdate
-            String inputBirthDate = inputValidString("Ngày sinh: ", UserValidator::isValidDate);
+            String inputBirthDate = inputValidString("Ngày sinh: ", InputValidator::isValidDate);
             LocalDate birthDate = DateUtil.parseLocalDate(inputBirthDate, "yyyy-MM-dd");
 
             // NationalId
-            String nationalId = inputValidString("CMND: ", UserValidator::isValidId);
+            String nationalId = inputValidString("CMND: ", InputValidator::isValidId);
 
             // Address
-            String address = inputValidString("Địa chỉ: ", UserValidator::isValidAddress);
+            String address = inputValidString("Địa chỉ: ", InputValidator::isValidAddress);
 
             // Gender
             Gender gender = inputGender();
@@ -463,13 +463,13 @@ public class LibraryManagement {
             }
 
             // Full name
-            String fullName = inputValidString("Họ Tên: ", UserValidator::isValidName);
+            String fullName = inputValidString("Họ Tên: ", InputValidator::isValidName);
 
             // NationalId
-            String nationalId = inputValidString("CMND: ", UserValidator::isValidId);
+            String nationalId = inputValidString("CMND: ", InputValidator::isValidId);
 
             // Birthdate
-            String inputBirthDate = inputValidString("Ngày tháng năm sinh: ", UserValidator::isValidDate);
+            String inputBirthDate = inputValidString("Ngày tháng năm sinh: ", InputValidator::isValidDate);
             LocalDate birthDate = DateUtil.parseLocalDate(inputBirthDate, "yyyy-MM-dd");
 
             // Gender
@@ -480,13 +480,13 @@ public class LibraryManagement {
             }
 
             // Email
-            String email = inputValidString("Email: ", UserValidator::isValidEmail);
+            String email = inputValidString("Email: ", InputValidator::isValidEmail);
 
             // Address
-            String address = inputValidString("Địa chỉ: ", UserValidator::isValidAddress);
+            String address = inputValidString("Địa chỉ: ", InputValidator::isValidAddress);
 
             // CreatedDate
-            String inputCreatedDate = inputValidString("Ngày lập thẻ: ", UserValidator::isValidDate);
+            String inputCreatedDate = inputValidString("Ngày lập thẻ: ", InputValidator::isValidDate);
             LocalDate createdDate = DateUtil.parseLocalDate(inputCreatedDate, "yyyy-MM-dd");
 
             // Create reader object
@@ -628,7 +628,7 @@ public class LibraryManagement {
             String newInfo = sc.nextLine().trim();
 
             // Valid input
-            boolean isValid = UserValidator.isValidateInput(choice, newInfo);
+            boolean isValid = InputValidator.isValidateInput(choice, newInfo);
             if (!isValid) {
                 System.out.println("Vui lòng nhập lại thông tin.");
                 continue;
