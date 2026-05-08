@@ -1,7 +1,6 @@
 package reader;
 
 import enums.Gender;
-import org.jetbrains.annotations.NotNull;
 import util.DateUtil;
 import util.InputUtil;
 import validator.InputValidator;
@@ -43,27 +42,27 @@ public class ReaderService {
         return null; // not found
     }
 
-    // ================= GET ALL READERS =================
-    public List<Reader> getAllReaders() {
-        // Check null
+    // ================= DISPLAY READER LIST =================
+    public void showReaderList() {
+        // Check empty reader list
         if (readerList.isEmpty()) {
             System.out.println("Danh sách độc giả trống!");
-            return null;
+            return;
         }
-        return readerList;
-    }
 
-    // ================= SHOW READER LIST =================
-    public void showReaderList(@NotNull List<Reader> readerList) {
         System.out.println("Danh sách độc giả trong thư viện: ");
+
+        int index = 1;
+
         for (Reader reader : readerList) {
-            System.out.println(reader.toString());
+            System.out.println(index + ". " + reader.toString());
+            index++;
         }
     }
 
-    // ================= GENERATE NEW READERID =================
+    // ================= GENERATE NEW READER ID =================
     public String generateNewReaderId() {
-        // Check empty list
+        // First reader
         if (readerList.isEmpty()) {
             return "0001";
         }
@@ -84,6 +83,7 @@ public class ReaderService {
         }
     }
 
+    // ================= INPUT READER INFO =================
     public Reader inputReaderInfo() {
         // Generate readerId
         String readerId = generateNewReaderId();

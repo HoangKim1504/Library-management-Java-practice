@@ -28,7 +28,8 @@ public class Reader {
         this.email = email;
         this.address = address;
         this.createdDate = createdDate;
-        this.expiredDate = createdDate.plusMonths(48); // 48 months from createdDate
+        // Reader card expires after 48 months
+        this.expiredDate = createdDate.plusMonths(48);
     }
 
     public String getReaderId() {

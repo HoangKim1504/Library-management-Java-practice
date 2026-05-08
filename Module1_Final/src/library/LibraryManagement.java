@@ -13,7 +13,6 @@ import util.TextUtil;
 import validator.InputValidator;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Scanner;
 
 public class LibraryManagement {
@@ -351,11 +350,8 @@ public class LibraryManagement {
                     // Allow all roles
                     if (userService.requireRole(userId, ADMIN, MANAGER, USER)) continue;
 
-                    // Get the reader list
-                    List<Reader> readerList = readerService.getAllReaders();
-
-                    // Show reader list
-                    readerService.showReaderList(readerList);
+                    // Show all readers
+                    readerService.showReaderList();
 
                     break;
                 case 2:
@@ -365,11 +361,6 @@ public class LibraryManagement {
                     // Navigate to create reader screen
                     createReaderScreen();
 
-                    // If password changed successfully, userId will be reset
-                    // → exit this screen to trigger re-login
-                    if (userId.equals(NOT_LOGIN)) {
-                        return;
-                    }
                     break;
                 case 0:
                     return;
@@ -386,7 +377,11 @@ public class LibraryManagement {
 
             // Input reader info
             Reader reader = readerService.inputReaderInfo();
-            if (reader == null) continue;
+
+            // Invalid reader information
+            if (reader == null) {
+                continue;
+            }
 
             // Create new reader
             boolean isSuccess = readerService.createReader(reader);
@@ -399,7 +394,9 @@ public class LibraryManagement {
 
             // Create reader successfully
             System.out.println("Tạo độc giả thành công!");
+
             PrintUtil.printReaderInfo(reader, false);
+
             return;
         }
     }

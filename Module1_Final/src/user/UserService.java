@@ -87,6 +87,7 @@ public class UserService {
         return true;
     }
 
+    // ================= INPUT USER INFO =================
     public User inputUserInfo(String defaultUserName, String defaultPassword) {
         // Full name
         String fullName = InputValidator.inputValidString("Họ Tên: ", InputValidator::isValidName);
@@ -188,7 +189,7 @@ public class UserService {
 
     // ================= GENERATE NEW USERID =================
     public String generateNewUserId() {
-        // Check empty list
+        // First user
         if (userList.isEmpty()) {
             return "0001";
         }
