@@ -131,4 +131,39 @@ public class ReaderService {
                 createdDate
         );
     }
+
+    // ================= FIND READER ID=================
+    public String findReaderId(int choice) {
+        int index = 1;
+        for (Reader reader : readerList) {
+            if (index != choice) {
+                index++;
+                continue;
+            }
+            return reader.getReaderId();
+        }
+
+        return null;
+    }
+
+    // ================= DELETE READER =================
+    public void deleteReader(String readerId) {
+        // Check reader exist
+        if (findCurrentReader(readerId) == null) {
+            System.out.println("Độc giả không tồn tại!");
+            return;
+        }
+
+        // Delete reader successfully
+        for (Reader reader : readerList) {
+            if (reader.getReaderId().equals(readerId)) {
+                readerList.remove(reader);
+                System.out.println("Đã xoá thông tin độc giả thành công!");
+                return;
+            }
+        }
+
+        // Delete reader fail
+        System.out.println("Xoá thông tin độc giả thất bại!");
+    }
 }

@@ -362,6 +362,24 @@ public class LibraryManagement {
                     createReaderScreen();
 
                     break;
+                case 4:
+                    // Allow ADMIN, MANAGER to delete reader
+                    if (userService.requireRole(userId, ADMIN, MANAGER)) continue;
+
+                    // Show all readers
+                    readerService.showReaderList();
+                    int readerNum = InputUtil.readNum("Chọn số thứ tự của độc giả để xoá thông tin: ");
+
+                    // Find readerId for deleting
+                    String readerIdDelete = readerService.findReaderId(readerNum);
+
+                    // Delete reader
+                    readerService.deleteReader(readerIdDelete);
+
+                    // Show all readers after delete
+                    readerService.showReaderList();
+
+                    break;
                 case 0:
                     return;
                 default:
