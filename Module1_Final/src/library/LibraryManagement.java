@@ -366,18 +366,26 @@ public class LibraryManagement {
                     // Allow ADMIN, MANAGER to delete reader
                     if (userService.requireRole(userId, ADMIN, MANAGER)) continue;
 
-                    // Show all readers
+                    // Display all readers
                     readerService.showReaderList();
-                    int readerNum = InputUtil.readNum("Chọn số thứ tự của độc giả để xoá thông tin: ");
+                    int readerIndex = InputUtil.readNum("Chọn số thứ tự của độc giả để xoá thông tin: ");
 
-                    // Find readerId for deleting
-                    String readerIdDelete = readerService.findReaderId(readerNum);
+                    // Find readerId based on selected index
+                    String readerId = readerService.findReaderIdByIndex(readerIndex);
+
+                    // Invalid reader index
+                    if (readerId == null) {
+                        System.out.println("Không tìm thấy độc giả!");
+                        break;
+                    }
 
                     // Delete reader
-                    readerService.deleteReader(readerIdDelete);
+                    boolean isDeleted = readerService.deleteReader(readerId);
 
-                    // Show all readers after delete
-                    readerService.showReaderList();
+                    // Display updated reader list
+                    if (isDeleted) {
+                        readerService.showReaderList();
+                    }
 
                     break;
                 case 0:

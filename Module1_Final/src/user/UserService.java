@@ -19,7 +19,7 @@ public class UserService {
 
     // ================= CREATE NEW USER =================
     public boolean createUser(User user) {
-        // Check null
+        // Validate input user
         if (user == null) {
             System.out.println("Người dùng không hợp lệ!");
             return false;

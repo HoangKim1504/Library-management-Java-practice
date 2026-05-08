@@ -99,7 +99,7 @@ public class InputValidator {
 
     // ================= VALID NEW USER NAME =================
     public static boolean isValidUserName(String name) {
-        // Check null
+        // Validate input
         if (name == null || name.trim().isEmpty()) {
             System.out.println("Tên không được bỏ trống!");
             return false;
@@ -125,7 +125,7 @@ public class InputValidator {
 
     // ================= VALID NEW FULL NAME =================
     public static boolean isValidName(String name) {
-        // Check null
+        // Validate input
         if (name == null || name.trim().isEmpty()) {
             System.out.println("Tên không được bỏ trống!");
             return false;
@@ -157,7 +157,7 @@ public class InputValidator {
 
     // ================= VALID NEW DATE =================
     public static boolean isValidDate(String date) {
-        // Check null
+        // Validate input
         if (date == null || date.trim().isEmpty()) return false;
 
         try {
@@ -171,7 +171,7 @@ public class InputValidator {
 
     // ================= VALID NEW USER ID =================
     public static boolean isValidId(String id) {
-        // Check null
+        // Validate input
         if (id == null || id.trim().isEmpty()) return false;
 
         // Remove spaces on the beginning and the end
@@ -188,7 +188,7 @@ public class InputValidator {
 
     // ================= VALID NEW ADDRESS =================
     public static boolean isValidAddress(String address) {
-        // Check null
+        // Validate input
         if (address == null || address.trim().isEmpty()) return false;
 
         // Remove spaces on the beginning and the end
@@ -217,7 +217,7 @@ public class InputValidator {
 
     // ================= VALID NEW EMAIL =================
     public static boolean isValidEmail(String email) {
-        // Check null
+        // Validate input
         if (email == null || email.trim().isEmpty()) return false;
 
         // Remove spaces on the beginning and the end
