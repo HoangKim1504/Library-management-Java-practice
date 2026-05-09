@@ -1,5 +1,7 @@
 package util;
 
+import reader.Reader;
+import reader.ReaderService;
 import user.User;
 import user.UserService;
 import validator.InputValidator;
@@ -8,10 +10,9 @@ import java.util.Scanner;
 
 public class TextUtil {
     private static final Scanner sc = new Scanner(System.in);
-    private static final UserService userService = new UserService();
 
-    // ================= HANDLE TEXT UPDATE =================
-    public static boolean handleTextUpdate(int choice, String userId) {
+    // ================= HANDLE TEXT UPDATE USER DATA =================
+    public static boolean handleTextUpdateUser(int choice, String userId, UserService userService) {
         while (true) {
             System.out.print("Thông tin cập nhật mới: ");
             String newInfo = sc.nextLine().trim();
@@ -27,6 +28,26 @@ public class TextUtil {
             User updatedUser = userService.updateUserInfo(choice, userId, newInfo);
 
             return updatedUser != null;
+        }
+    }
+
+    // ================= HANDLE TEXT UPDATE READER DATA =================
+    public static boolean handleTextUpdateReader(int choice, String readerId, ReaderService readerService) {
+        while (true) {
+            System.out.print("Thông tin cập nhật mới: ");
+            String newInfo = sc.nextLine().trim();
+
+            // Valid input
+            boolean isValid = InputValidator.isValidateInput(choice, newInfo);
+            if (!isValid) {
+                System.out.println("Vui lòng nhập lại thông tin.");
+                continue;
+            }
+
+            // Update reader info
+            Reader updatedReader = readerService.updateReaderInfo(choice, readerId, newInfo);
+
+            return updatedReader != null;
         }
     }
 
