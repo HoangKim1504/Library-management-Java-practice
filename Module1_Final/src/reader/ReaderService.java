@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReaderService {
-    // ================= STORE ALL USERS =================
+    // ================= STORE ALL READERS =================
     private final List<Reader> readerList = new ArrayList<>(); // Prevents accidental reassignment to the list
 
     // ================= CREATE NEW READER =================
@@ -43,7 +43,7 @@ public class ReaderService {
         readerId = readerId.trim();
 
         for (Reader reader : readerList) {
-            //  Match reader reader ID
+            //  Match reader ID
             if (reader.getReaderId().equals(readerId)) {
                 return reader;
             }
@@ -75,21 +75,21 @@ public class ReaderService {
     public String generateNewReaderId() {
         // First reader
         if (readerList.isEmpty()) {
-            return "0001";
+            return "R0001";
         }
 
         // Get last reader
         Reader lastReader = readerList.getLast();
 
-        // Get last readerId
-        String lastReaderId = lastReader.getReaderId();
+        // Get last readerId (Remove prefix R)
+        String lastReaderId = lastReader.getReaderId().replace("R", "");
 
         // Create new readerId
         try {
             int id = Integer.parseInt(lastReaderId);
-            return String.format("%04d", id + 1); // keep format: 0001, 0002, ...
+            return String.format("R%04d", id + 1); // keep format: R0001, R0002, ...
         } catch (NumberFormatException e) {
-            System.out.println("ReaderId không phải số!");
+            System.out.println("ReaderId không hợp lệ!");
             return null;
         }
     }

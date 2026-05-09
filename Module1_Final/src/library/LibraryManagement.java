@@ -58,25 +58,25 @@ public class LibraryManagement {
 
         // Reader data
         Reader reader1 = new Reader(
-                "0001", "Nguyen Van An", "123654789852", LocalDate.of(2006, 8, 17),
+                "R0001", "Nguyen Van An", "123654789852", LocalDate.of(2006, 8, 17),
                 Gender.MALE, "an@gmail.com", "Ho Chi Minh City", LocalDate.of(2026, 5, 6)
         );
         Reader reader2 = new Reader(
-                "0002", "Tran Thi Bich", "456987123654", LocalDate.of(2004, 3, 12),
+                "R0002", "Tran Thi Bich", "456987123654", LocalDate.of(2004, 3, 12),
                 Gender.FEMALE, "bich@gmail.com", "Da Nang", LocalDate.of(2026, 5, 6)
         );
         Reader reader3 = new Reader(
-                "0003", "Le Minh Khang", "789456123852", LocalDate.of(2002, 11, 25),
+                "R0003", "Le Minh Khang", "789456123852", LocalDate.of(2002, 11, 25),
                 Gender.MALE, "khang@gmail.com", "Can Tho", LocalDate.of(2026, 5, 6)
         );
 
         Reader reader4 = new Reader(
-                "0004", "Pham Ngoc Ha", "321654987456", LocalDate.of(2005, 1, 5),
+                "R0004", "Pham Ngoc Ha", "321654987456", LocalDate.of(2005, 1, 5),
                 Gender.FEMALE, "ha@gmail.com", "Binh Duong", LocalDate.of(2026, 5, 6)
         );
 
         Reader reader5 = new Reader(
-                "0005", "Vo Thanh Khang", "852741963258", LocalDate.of(2001, 9, 30),
+                "R0005", "Vo Thanh Khang", "852741963258", LocalDate.of(2001, 9, 30),
                 Gender.MALE, "khang123@gmail.com", "Ha Noi", LocalDate.of(2026, 5, 6)
         );
 
