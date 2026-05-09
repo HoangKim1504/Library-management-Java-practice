@@ -28,12 +28,12 @@ public class PrintUtil {
     // ================= READER MENU =================
     public static void printReaderMenu() {
         System.out.println("\n====== MENU ĐỘC GIẢ ======");
-        System.out.println("1. Xem danh sách độc giả trong thư viện");
+        System.out.println("1. Xem danh độc giả trong thư viện");
         System.out.println("2. Thêm độc giả");
         System.out.println("3. Chỉnh sửa thông tin một độc giả");
         System.out.println("4. Xóa thông tin một độc giả");
         System.out.println("5. Tìm kiếm độc giả theo CMND");
-        System.out.println("6. Tìm kiếm sách theo họ tên");
+        System.out.println("6. Tìm kiếm độc giả theo họ tên");
         System.out.println("0. Quay lại");
     }
 
