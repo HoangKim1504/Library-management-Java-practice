@@ -37,6 +37,18 @@ public class PrintUtil {
         System.out.println("0. Quay lại");
     }
 
+    // ================= BOOK MENU =================
+    public static void printBookMenu() {
+        System.out.println("\n====== MENU SÁCH ======");
+        System.out.println("1. Xem danh sách các sách trong thư viện");
+        System.out.println("2. Thêm sách");
+        System.out.println("3. Chỉnh sửa thông tin một quyển sách");
+        System.out.println("4. Xóa thông tin sách");
+        System.out.println("5. Tìm kiếm sách theo ISBN");
+        System.out.println("6. Tìm kiếm sách theo tên sách");
+        System.out.println("0. Quay lại");
+    }
+
     // ================= PRINT USER INFO =================
     public static void printUserInfo(User user, boolean isUpdate) {
         if (isUpdate) {

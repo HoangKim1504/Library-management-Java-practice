@@ -1,6 +1,9 @@
 package library;
 
+import book.Book;
+import book.BookService;
 import enums.AccountStatus;
+import enums.BookCategory;
 import enums.Gender;
 import enums.UserType;
 import reader.Reader;
@@ -21,6 +24,7 @@ public class LibraryManagement {
     private final Scanner sc = new Scanner(System.in);
     private final UserService userService = new UserService();
     private final ReaderService readerService = new ReaderService();
+    private final BookService bookService = new BookService();
 
     private static final String NOT_LOGIN = "0";
     private String userId = NOT_LOGIN;
@@ -80,6 +84,27 @@ public class LibraryManagement {
                 Gender.MALE, "khang123@gmail.com", "Ha Noi", LocalDate.of(2026, 5, 6)
         );
 
+        // Book data
+        Book book1 = new Book("BK00001", "Lập Trình Java Cơ Bản", "Nguyễn Văn A", "NXB Giáo Dục",
+                2020, BookCategory.PROGRAMMING, 180000, 12
+        );
+
+        Book book2 = new Book("BK00002", "Dế Mèn Phiêu Lưu Ký", "Tô Hoài", "NXB Kim Đồng",
+                2019, BookCategory.NOVEL, 75000, 15
+        );
+
+        Book book3 = new Book("BK00003", "Lược Sử Việt Nam", "Trần Trọng Kim", "NXB Văn Học",
+                2021, BookCategory.HISTORY, 120000, 10
+        );
+
+        Book book4 = new Book("BK00004", "Vũ Trụ Trong Vỏ Hạt Dẻ", "Stephen Hawking", "NXB Trẻ",
+                2018, BookCategory.SCIENCE, 210000, 8
+        );
+
+        Book book5 = new Book("BK00005", "Nghệ Thuật Sống", "Nhiều tác giả", "NXB Tổng Hợp",
+                2022, BookCategory.OTHER, 95000, 20
+        );
+
         // Create users
         userService.createUser(admin);
         userService.createUser(manager);
@@ -93,6 +118,13 @@ public class LibraryManagement {
         readerService.createReader(reader3);
         readerService.createReader(reader4);
         readerService.createReader(reader5);
+
+        // Create books
+        bookService.createBook(book1);
+        bookService.createBook(book2);
+        bookService.createBook(book3);
+        bookService.createBook(book4);
+        bookService.createBook(book5);
     }
 
     // ================= MAIN PROGRAM FLOW =================
@@ -111,6 +143,9 @@ public class LibraryManagement {
                     break;
                 case 2:
                     readerScreen();
+                    break;
+                case 3:
+                    bookScreen();
                     break;
                 case 0:
                     return;
@@ -531,6 +566,30 @@ public class LibraryManagement {
         // Update successfully
         System.out.println("Cập nhật thông tin thành công!");
         PrintUtil.printReaderInfo(reader, isSuccess);
+    }
+
+    // ================= BOOK MENU =================
+    public void bookScreen() {
+        while (true) {
+            // Book menu
+            PrintUtil.printBookMenu();
+            int choice = InputUtil.readNum("Chọn: ");
+
+            switch (choice) {
+                case 1:
+                    // Allow ADMIN, MANAGER to see book list
+                    if (userService.requireRole(userId, ADMIN, MANAGER)) continue;
+
+                    // Show all books
+                    bookService.showBookList();
+
+                    break;
+                case 0:
+                    return;
+                default:
+                    System.out.println("Lựa chọn không hợp lệ!");
+            }
+        }
     }
 
 }
