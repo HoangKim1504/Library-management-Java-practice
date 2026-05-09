@@ -22,6 +22,7 @@ public class PrintUtil {
         System.out.println("2. Thay đổi mật khẩu");
         System.out.println("3. Cập nhật thông tin cá nhân");
         System.out.println("4. Tạo người dùng");
+        System.out.println("0. Quay lại");
     }
 
     // ================= READER MENU =================
@@ -33,6 +34,7 @@ public class PrintUtil {
         System.out.println("4. Xóa thông tin một độc giả");
         System.out.println("5. Tìm kiếm độc giả theo CMND");
         System.out.println("6. Tìm kiếm sách theo họ tên");
+        System.out.println("0. Quay lại");
     }
 
     // ================= PRINT USER INFO =================
