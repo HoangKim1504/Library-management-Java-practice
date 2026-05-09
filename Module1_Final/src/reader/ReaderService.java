@@ -33,13 +33,23 @@ public class ReaderService {
 
     // ================= FIND CURRENT READER =================
     public Reader findCurrentReader(String readerId) {
+        // Validate input
+        if (readerId == null || readerId.isEmpty()) {
+            return null;
+        }
+
+        // Remove spaces at beginning and end
+        readerId = readerId.trim();
+
         for (Reader reader : readerList) {
-            // Find current reader
+            //  Match reader reader ID
             if (reader.getReaderId().equals(readerId)) {
                 return reader;
             }
         }
-        return null; // not found
+
+        // Reader not found
+        return null;
     }
 
     // ================= DISPLAY READER LIST =================
@@ -208,12 +218,22 @@ public class ReaderService {
 
     // ================= FIND READER BY NATIONAL ID =================
     public Reader findReaderByNationalId(String nationalId) {
+        // Validate input
+        if (nationalId == null || nationalId.isEmpty()) {
+            return null;
+        }
+
+        // Remove spaces at beginning and end
+        nationalId = nationalId.trim();
+
         for (Reader reader : readerList) {
-            // Find current reader
+            // Match reader national ID
             if (reader.getNationalId().equals(nationalId)) {
                 return reader;
             }
         }
-        return null; // not found
+
+        // Reader not found
+        return null;
     }
 }

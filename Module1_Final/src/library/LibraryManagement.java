@@ -411,22 +411,21 @@ public class LibraryManagement {
                     // Allow all roles
                     if (userService.requireRole(userId, ADMIN, MANAGER, USER)) continue;
 
-                    // NationalId input
-                    System.out.print("Nhập số CMND: ");
-                    String nationalId = sc.nextLine();
+                    // Input reader national ID
+                    String nationalId = InputValidator.inputValidString("Nhập số CMND: ", InputValidator::isValidId);
 
-                    // Find reader based on nationalId
-                    Reader reader = readerService.findReaderByNationalId(nationalId);
+                    // Search reader by national ID
+                    Reader foundReader = readerService.findReaderByNationalId(nationalId);
 
-                    // Check null
-                    if (reader == null) {
+                    // Reader not found
+                    if (foundReader == null) {
                         System.out.println("Không tìm thấy độc giả!");
                         continue;
                     }
 
-                    // Search result
-                    System.out.println("Kết quả tìm kiếm:");
-                    System.out.println(reader);
+                    // Display search result
+                    System.out.println("\"===== KẾT QUẢ TÌM KIẾM =====");
+                    System.out.println(foundReader);
 
                     break;
                 case 0:
