@@ -407,6 +407,28 @@ public class LibraryManagement {
                     }
 
                     break;
+                case 5:
+                    // Allow all roles
+                    if (userService.requireRole(userId, ADMIN, MANAGER, USER)) continue;
+
+                    // NationalId input
+                    System.out.print("Nhập số CMND: ");
+                    String nationalId = sc.nextLine();
+
+                    // Find reader based on nationalId
+                    Reader reader = readerService.findReaderByNationalId(nationalId);
+
+                    // Check null
+                    if (reader == null) {
+                        System.out.println("Không tìm thấy độc giả!");
+                        continue;
+                    }
+
+                    // Search result
+                    System.out.println("Kết quả tìm kiếm:");
+                    System.out.println(reader);
+
+                    break;
                 case 0:
                     return;
                 default:

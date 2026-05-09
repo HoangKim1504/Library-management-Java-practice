@@ -132,7 +132,7 @@ public class ReaderService {
         );
     }
 
-    // ================= FIND READER ID =================
+    // ================= FIND READER ID BY INDEX =================
     public String findReaderIdByIndex(int userChoice) {
         int currentIndex = 1;
 
@@ -204,5 +204,16 @@ public class ReaderService {
         System.out.println("Xoá thông tin độc giả thất bại!");
 
         return false;
+    }
+
+    // ================= FIND READER BY NATIONAL ID =================
+    public Reader findReaderByNationalId(String nationalId) {
+        for (Reader reader : readerList) {
+            // Find current reader
+            if (reader.getNationalId().equals(nationalId)) {
+                return reader;
+            }
+        }
+        return null; // not found
     }
 }
