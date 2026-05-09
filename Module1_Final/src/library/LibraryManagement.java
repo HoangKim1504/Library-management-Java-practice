@@ -433,14 +433,14 @@ public class LibraryManagement {
                     // Allow all roles
                     if (userService.requireRole(userId, ADMIN, MANAGER, USER)) continue;
 
-                    // Input reader full name
-                    String fullName = InputValidator.inputValidString("Nhập họ tên: ", InputValidator::isValidName);
+                    // Input reader full name keyword
+                    String keyword = InputValidator.inputValidString("Nhập họ tên: ", InputValidator::isValidName);
 
-                    // Search reader by full name
-                    List<Reader> foundReaders = readerService.findReaderByFullName(fullName);
+                    // Search readers by full name
+                    List<Reader> foundReaders = readerService.findReaderByFullName(keyword);
 
                     // Reader not found
-                    if (foundReaders == null) {
+                    if (foundReaders.isEmpty()) {
                         System.out.println("Không tìm thấy độc giả!");
                         continue;
                     }
@@ -449,7 +449,7 @@ public class LibraryManagement {
                     System.out.println("\"===== KẾT QUẢ TÌM KIẾM =====");
                     int index = 1;
                     for (Reader reader : foundReaders) {
-                        System.out.println(index + ". " + reader.toString());
+                        System.out.println(index + ". " + reader);
                         index++;
                     }
 

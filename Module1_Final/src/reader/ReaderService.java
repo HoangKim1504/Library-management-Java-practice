@@ -3,6 +3,7 @@ package reader;
 import enums.Gender;
 import util.DateUtil;
 import util.InputUtil;
+import util.TextUtil;
 import validator.InputValidator;
 
 import java.time.LocalDate;
@@ -65,7 +66,7 @@ public class ReaderService {
         int index = 1;
 
         for (Reader reader : readerList) {
-            System.out.println(index + ". " + reader.toString());
+            System.out.println(index + ". " + reader);
             index++;
         }
     }
@@ -238,30 +239,24 @@ public class ReaderService {
     }
 
     // ================= FIND READER BY FULL NAME =================
-    public List<Reader> findReaderByFullName(String fullName) {
+    public List<Reader> findReaderByFullName(String keyword) {
+        List<Reader> searchReaderList = new ArrayList<>();
+
         // Validate input
-        if (fullName == null || fullName.isEmpty()) {
+        if (keyword == null || keyword.trim().isEmpty()) {
             return null;
         }
 
-        // Format name
-        fullName = fullName.trim().toLowerCase();
-
-        List<Reader> searchReaderList = new ArrayList<>();
+        // Remove spaces at beginning and end
+        keyword = keyword.trim();
 
         for (Reader reader : readerList) {
-            // Match reader full name
-            if (reader.getFullName().toLowerCase().contains(fullName)) {
+            // Partial match and ignore case
+            if (TextUtil.containsIgnoreCase(reader.getFullName(), keyword)) {
                 searchReaderList.add(reader);
             }
         }
 
-        // Reader found
-        if (!searchReaderList.isEmpty()) {
-            return searchReaderList;
-        }
-
-        // Reader not found
-        return null;
+        return searchReaderList;
     }
 }

@@ -51,4 +51,9 @@ public class TextUtil {
         }
     }
 
+    // ================= CHECK TEXT CONTAINS IGNORE CASE =================
+    public static boolean containsIgnoreCase(String text, String keyword) {
+        return text.toLowerCase().contains(keyword.trim().toLowerCase());
+    }
+
 }
