@@ -147,6 +147,45 @@ public class ReaderService {
         return null;
     }
 
+    // ================= UPDATE CURRENT READER INFO =================
+    public Reader updateReaderInfo(int choice, String readerId, Object newInfo) {
+        Reader reader = findCurrentReader(readerId);
+
+        if (reader == null) {
+            System.out.println("Không tìm thấy độc giả!");
+            return null;
+        }
+
+        // Update reader info
+        switch (choice) {
+            case 1:
+                reader.setFullName((String) newInfo);
+                break;
+            case 2:
+                reader.setNationalId((String) newInfo);
+                break;
+            case 3:
+                reader.setBirthDate(LocalDate.parse((String) newInfo));
+                break;
+            case 4:
+                reader.setGender((Gender) newInfo);
+                break;
+            case 5:
+                reader.setEmail((String) newInfo);
+                break;
+            case 6:
+                reader.setAddress((String) newInfo);
+                break;
+            case 7:
+                reader.setCreatedDate(LocalDate.parse((String) newInfo));
+                break;
+            default:
+                System.out.println("Lựa chọn không hợp lệ!");
+        }
+
+        return reader;
+    }
+
     // ================= DELETE READER =================
     public boolean deleteReader(String readerId) {
         // Find reader by readerId

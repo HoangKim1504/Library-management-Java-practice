@@ -187,6 +187,7 @@ public class LibraryManagement {
                     userId = NOT_LOGIN;
 
                     System.out.println("Đăng xuất thành công!");
+
                     return;
                 case 2:
                     // Allow all roles
@@ -200,6 +201,7 @@ public class LibraryManagement {
                     if (userId.equals(NOT_LOGIN)) {
                         return;
                     }
+
                     break;
                 case 3:
                     // Allow all roles
@@ -207,6 +209,7 @@ public class LibraryManagement {
 
                     // Navigate to update user info screen
                     updateUserInfoScreen();
+
                     break;
                 case 4:
                     // Only ADMIN can create user
@@ -214,6 +217,7 @@ public class LibraryManagement {
 
                     // Navigate to create user screen
                     createUserScreen();
+
                     break;
                 case 0:
                     return;
@@ -298,7 +302,7 @@ public class LibraryManagement {
                 break;
             default:
                 // Handle normal string input
-                isSuccess = TextUtil.handleTextUpdate(choice, userId);
+                isSuccess = TextUtil.handleTextUpdateUser(choice, userId, userService);
                 break;
         }
 
@@ -362,25 +366,40 @@ public class LibraryManagement {
                     createReaderScreen();
 
                     break;
+                case 3:
+                    // Allow all roles
+                    if (userService.requireRole(userId, ADMIN, MANAGER, USER)) continue;
+
+                    // Display all readers
+                    readerService.showReaderList();
+                    int readerIndexUp = InputUtil.readNum("Chọn số thứ tự của độc giả để chỉnh sửa thông tin: ");
+
+                    // Find readerId based on selected index
+                    String readerIdUp = readerService.findReaderIdByIndex(readerIndexUp);
+
+                    // Navigate to update reader info screen
+                    updateReaderInfoScreen(readerIdUp);
+
+                    break;
                 case 4:
                     // Allow ADMIN, MANAGER to delete reader
                     if (userService.requireRole(userId, ADMIN, MANAGER)) continue;
 
                     // Display all readers
                     readerService.showReaderList();
-                    int readerIndex = InputUtil.readNum("Chọn số thứ tự của độc giả để xoá thông tin: ");
+                    int readerIndexDel = InputUtil.readNum("Chọn số thứ tự của độc giả để xoá thông tin: ");
 
                     // Find readerId based on selected index
-                    String readerId = readerService.findReaderIdByIndex(readerIndex);
+                    String readerIdDel = readerService.findReaderIdByIndex(readerIndexDel);
 
                     // Invalid reader index
-                    if (readerId == null) {
+                    if (readerIdDel == null) {
                         System.out.println("Không tìm thấy độc giả!");
                         break;
                     }
 
                     // Delete reader
-                    boolean isDeleted = readerService.deleteReader(readerId);
+                    boolean isDeleted = readerService.deleteReader(readerIdDel);
 
                     // Display updated reader list
                     if (isDeleted) {
@@ -426,4 +445,45 @@ public class LibraryManagement {
             return;
         }
     }
+
+    // ================= UPDATE READER INFO FUNCTION =================
+    public void updateReaderInfoScreen(String readerId) {
+        boolean isSuccess = false;
+
+        // Find current reader
+        Reader reader = readerService.findCurrentReader(readerId);
+
+        if (reader == null) {
+            System.out.println("Không tìm thấy độc giả!");
+            return;
+        }
+
+        // Print reader info
+        PrintUtil.printReaderInfo(reader, isSuccess);
+        int choice = InputUtil.readNum("Chọn thông tin muốn cập nhật (1-7) hoặc chọn 0 để quay lại menu độc giả: ");
+
+        if (choice == 0) return;
+
+        if (choice == 4) {
+            // Gender (use Menu)
+            Gender gender = InputUtil.inputGender();
+            if (gender == null) return;
+
+            isSuccess = readerService.updateReaderInfo(choice, readerId, gender) != null;
+        } else {
+            // Handle normal string input
+            isSuccess = TextUtil.handleTextUpdateReader(choice, readerId, readerService);
+        }
+
+        // Update fail
+        if (!isSuccess) {
+            System.out.println("Cập nhật thông tin thất bại. Vui lòng thử lại.");
+            return;
+        }
+
+        // Update successfully
+        System.out.println("Cập nhật thông tin thành công!");
+        PrintUtil.printReaderInfo(reader, isSuccess);
+    }
+
 }
