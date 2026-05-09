@@ -236,4 +236,32 @@ public class ReaderService {
         // Reader not found
         return null;
     }
+
+    // ================= FIND READER BY FULL NAME =================
+    public List<Reader> findReaderByFullName(String fullName) {
+        // Validate input
+        if (fullName == null || fullName.isEmpty()) {
+            return null;
+        }
+
+        // Format name
+        fullName = fullName.trim().toLowerCase();
+
+        List<Reader> searchReaderList = new ArrayList<>();
+
+        for (Reader reader : readerList) {
+            // Match reader full name
+            if (reader.getFullName().toLowerCase().contains(fullName)) {
+                searchReaderList.add(reader);
+            }
+        }
+
+        // Reader found
+        if (!searchReaderList.isEmpty()) {
+            return searchReaderList;
+        }
+
+        // Reader not found
+        return null;
+    }
 }

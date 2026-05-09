@@ -13,6 +13,7 @@ import util.TextUtil;
 import validator.InputValidator;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Scanner;
 
 public class LibraryManagement {
@@ -75,8 +76,8 @@ public class LibraryManagement {
         );
 
         Reader reader5 = new Reader(
-                "0005", "Vo Thanh Tung", "852741963258", LocalDate.of(2001, 9, 30),
-                Gender.MALE, "tung@gmail.com", "Ha Noi", LocalDate.of(2026, 5, 6)
+                "0005", "Vo Thanh Khang", "852741963258", LocalDate.of(2001, 9, 30),
+                Gender.MALE, "khang123@gmail.com", "Ha Noi", LocalDate.of(2026, 5, 6)
         );
 
         // Create users
@@ -426,6 +427,31 @@ public class LibraryManagement {
                     // Display search result
                     System.out.println("\"===== KẾT QUẢ TÌM KIẾM =====");
                     System.out.println(foundReader);
+
+                    break;
+                case 6:
+                    // Allow all roles
+                    if (userService.requireRole(userId, ADMIN, MANAGER, USER)) continue;
+
+                    // Input reader full name
+                    String fullName = InputValidator.inputValidString("Nhập họ tên: ", InputValidator::isValidName);
+
+                    // Search reader by full name
+                    List<Reader> foundReaders = readerService.findReaderByFullName(fullName);
+
+                    // Reader not found
+                    if (foundReaders == null) {
+                        System.out.println("Không tìm thấy độc giả!");
+                        continue;
+                    }
+
+                    // Display search result
+                    System.out.println("\"===== KẾT QUẢ TÌM KIẾM =====");
+                    int index = 1;
+                    for (Reader reader : foundReaders) {
+                        System.out.println(index + ". " + reader.toString());
+                        index++;
+                    }
 
                     break;
                 case 0:
