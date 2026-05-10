@@ -1,5 +1,6 @@
 package util;
 
+import book.Book;
 import reader.Reader;
 import user.User;
 
@@ -56,6 +57,7 @@ public class PrintUtil {
         } else {
             System.out.println("\n====== THÔNG TIN NGƯỜI DÙNG ======");
         }
+
         System.out.println("1. Tên đăng nhập: " + user.getUserName());
         System.out.println("2. Họ Tên: " + user.getFullName());
         System.out.println("3. Ngày sinh: " + user.getBirthDate());
@@ -66,13 +68,15 @@ public class PrintUtil {
         System.out.println("8. Loại người dùng: " + user.getUserType().getDisplayName());
     }
 
-    // ================= PRINT USER INFO =================
+    // ================= PRINT READER INFO =================
     public static void printReaderInfo(Reader reader, boolean isUpdate) {
         if (isUpdate) {
             System.out.println("\n====== THÔNG TIN ĐỘC GIẢ ĐÃ ĐƯỢC CẬP NHẬP ======");
         } else {
             System.out.println("\n====== THÔNG TIN ĐỘC GIẢ ======");
+            System.out.println("Mã độc giả: " + reader.getReaderId());
         }
+
         System.out.println("1. Họ Tên: " + reader.getFullName());
         System.out.println("2. CMND: " + reader.getNationalId());
         System.out.println("3. Ngày sinh: " + reader.getBirthDate());
@@ -82,4 +86,21 @@ public class PrintUtil {
         System.out.println("7. Ngày hết hạn của thẻ (48 tháng kể từ ngày lập thẻ): " + reader.getExpiredDate());
     }
 
+    // ================= PRINT BOOK INFO =================
+    public static void printBookInfo(Book book, boolean isUpdate) {
+        if (isUpdate) {
+            System.out.println("\n====== THÔNG TIN SÁCH ĐÃ ĐƯỢC CẬP NHẬP ======");
+        } else {
+            System.out.println("\n====== THÔNG TIN SÁCH ======");
+            System.out.println("Mã ISBN: " + book.getIsbn());
+        }
+
+        System.out.println("1. Tên sách: " + book.getTitle());
+        System.out.println("2. Tác giả: " + book.getAuthor());
+        System.out.println("3. Nhà xuất bản: " + book.getPublisher());
+        System.out.println("4. Năm xuất bản: " + book.getPublishYear());
+        System.out.println("5. Thể loại: " + book.getCategory().getDisplayName());
+        System.out.println("6. Giá sách: " + book.getPrice() + " VNĐ");
+        System.out.println("7. Số lượng: " + book.getQuantity());
+    }
 }

@@ -98,8 +98,8 @@ public class Book {
                 ", Tác giả: '" + author + '\'' +
                 ", Nhà xuất bản: '" + publisher + '\'' +
                 ", Năm xuất bản: '" + publishYear + '\'' +
-                ", Thể loại: '" + category + '\'' +
-                ", Giá sách: '" + price + "VNĐ" + '\'' +
+                ", Thể loại: '" + category.getDisplayName() + '\'' +
+                ", Giá sách: '" + price + " VNĐ" + '\'' +
                 ", Số lượng: '" + quantity + '\'';
     }
 }

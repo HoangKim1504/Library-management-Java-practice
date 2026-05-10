@@ -573,6 +573,14 @@ public class LibraryManagement {
                     bookService.showBookList();
 
                     break;
+                case 2:
+                    // Allow ADMIN, MANAGER to create book
+                    if (userService.requireRole(userId, ADMIN, MANAGER)) continue;
+
+                    // Navigate to create book screen
+                    createBookScreen();
+
+                    break;
                 case 0:
                     return;
                 default:
@@ -580,5 +588,37 @@ public class LibraryManagement {
             }
         }
     }
+
+    // ================= CREATE BOOK FUNCTION =================
+    public void createBookScreen() {
+        while (true) {
+            System.out.println("\n====== TẠO SÁCH MỚI ======");
+
+            // Input book info
+            Book book = bookService.inputBookInfo();
+
+            // Invalid book information
+            if (book == null) {
+                continue;
+            }
+
+            // Create new book
+            boolean isSuccess = bookService.createBook(book);
+
+            // Create book fail
+            if (!isSuccess) {
+                System.out.println("Tạo sách thất bại!");
+                continue;
+            }
+
+            // Create book successfully
+            System.out.println("Tạo sách thành công!");
+
+            PrintUtil.printBookInfo(book, false);
+
+            return;
+        }
+    }
+
 
 }

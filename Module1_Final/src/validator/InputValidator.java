@@ -3,6 +3,7 @@ package validator;
 import org.jetbrains.annotations.NotNull;
 import util.DateUtil;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 import java.util.function.Function;
@@ -16,8 +17,10 @@ public class InputValidator {
     private static final String NATIONAL_ID_REGEX = "\\d{12}";
     private static final String ADDRESS_REGEX = "[\\p{L}\\d ,./-]+";
     private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
+    private static final String BOOK_TITLE_REGEX = "^[A-Za-zÀ-ỹ0-9+\\-#().,:\\s]{2,100}$";
+    private static final String PUBLISHER_REGEX = "^[\\p{L}0-9&'.,\\-\\s]{2,100}$";
 
-    // ================= INPUT + VALIDATE STRING =================
+    // ================= INPUT VALID STRING =================
     public static String inputValidString(String prompt, Function<String, Boolean> validator) {
         while (true) {
             System.out.print(prompt);
@@ -25,6 +28,52 @@ public class InputValidator {
 
             if (validator.apply(input)) {
                 return input;
+            }
+
+            System.out.println("Vui lòng nhập lại!");
+        }
+    }
+
+    // ================= INPUT VALID INTEGER NUMBER =================
+    public static int inputValidInt(String prompt, Function<Integer, Boolean> validator) {
+        while (true) {
+            System.out.print(prompt);
+            String input = sc.nextLine().trim();
+
+            try {
+                // Convert to integer
+                int number = Integer.parseInt(input);
+
+                // Validate number
+                if (validator.apply(number)) {
+                    return number;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Vui lòng nhập số hợp lệ!");
+                continue;
+            }
+
+            System.out.println("Vui lòng nhập lại!");
+        }
+    }
+
+    // ================= INPUT VALID DOUBLE NUMBER =================
+    public static double inputValidDouble(String prompt, Function<Double, Boolean> validator) {
+        while (true) {
+            System.out.print(prompt);
+            String input = sc.nextLine().trim();
+
+            try {
+                // Convert to double
+                double price = Double.parseDouble(input);
+
+                // Validate price
+                if (validator.apply(price)) {
+                    return price;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Vui lòng nhập giá hợp lệ!");
+                continue;
             }
 
             System.out.println("Vui lòng nhập lại!");
@@ -206,12 +255,80 @@ public class InputValidator {
 
         // Check validate
         boolean validate = email.matches(EMAIL_REGEX);
+
         if (!validate) {
             System.out.println("Email không hợp lệ!");
             return false;
         }
 
         return true;
+    }
+
+    // ================= VALID NEW BOOK TITLE =================
+    public static boolean isValidBookTitle(String title) {
+        // Validate input
+        if (title == null || title.trim().isEmpty()) {
+            System.out.println("Tên sách không được bỏ trống!");
+            return false;
+        }
+
+        // Remove spaces on the beginning and the end
+        title = title.trim();
+
+        // Check validate
+        boolean validate = title.matches(BOOK_TITLE_REGEX);
+
+        if (!validate) {
+            System.out.println("Tên sách không hợp lệ!");
+            return false;
+        }
+
+        return true;
+    }
+
+    // ================= VALID NEW PUBLISHER =================
+    public static boolean isValidPublisher(String publisher) {
+        // Validate input
+        if (publisher == null || publisher.trim().isEmpty()) {
+            System.out.println("Nhà xuất bản không được bỏ trống!");
+            return false;
+        }
+
+        // Remove spaces on the beginning and the end
+        publisher = publisher.trim();
+
+        // Check validate
+        boolean validate = publisher.matches(PUBLISHER_REGEX);
+
+        if (!validate) {
+            System.out.println("Nhà xuất bản không hợp lệ!");
+            return false;
+        }
+
+        return true;
+    }
+
+    // ================= VALID NEW YEAR =================
+    public static boolean isValidYear(int year) {
+        int currentYear = LocalDate.now().getYear();
+
+        // Publisher year must be between 1000 and current year
+        if (year < 1000 || year > currentYear) {
+            System.out.println("Năm xuất bản không hợp lệ!");
+            return false;
+        }
+
+        return true;
+    }
+
+    // ================= VALID NEW PRICE =================
+    public static boolean isValidPrice(double price) {
+        return price > 0;
+    }
+
+    // ================= VALID NEW QUANTITY =================
+    public static boolean isValidQuantity(int quantity) {
+        return quantity > 0;
     }
 
 }

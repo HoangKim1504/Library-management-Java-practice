@@ -1,6 +1,7 @@
 package util;
 
 import enums.AccountStatus;
+import enums.BookCategory;
 import enums.Gender;
 import enums.UserType;
 
@@ -76,6 +77,7 @@ public class InputUtil {
             System.out.println("1. Quản trị viên");
             System.out.println("2. Quản lý");
             System.out.println("3. Người dùng");
+            System.out.println("4. Khác");
 
             int choice = readNum("Chọn: ");
 
@@ -88,6 +90,35 @@ public class InputUtil {
                     return UserType.USER;
                 case 4:
                     return UserType.OTHER;
+                default:
+                    System.out.println("Lựa chọn không hợp lệ!");
+            }
+        }
+    }
+
+    // ================= MAP CATEGORY INFO =================
+    public static BookCategory inputCategory() {
+        while (true) {
+            System.out.println("\nChọn loại người dùng: ");
+            System.out.println("1. Khoa học");
+            System.out.println("2. Tiểu thuyết");
+            System.out.println("3. Lịch sử");
+            System.out.println("4. Lập trình");
+            System.out.println("5. Khác");
+
+            int choice = readNum("Chọn: ");
+
+            switch (choice) {
+                case 1:
+                    return BookCategory.SCIENCE;
+                case 2:
+                    return BookCategory.NOVEL;
+                case 3:
+                    return BookCategory.HISTORY;
+                case 4:
+                    return BookCategory.PROGRAMMING;
+                case 5:
+                    return BookCategory.OTHER;
                 default:
                     System.out.println("Lựa chọn không hợp lệ!");
             }
