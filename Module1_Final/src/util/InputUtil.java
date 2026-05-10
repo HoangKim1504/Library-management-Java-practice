@@ -28,9 +28,9 @@ public class InputUtil {
     public static Gender inputGender() {
         while (true) {
             System.out.println("\nChọn giới tính: ");
-            System.out.println("1. Nam");
-            System.out.println("2. Nữ");
-            System.out.println("3. Khác");
+            System.out.println("1. " + Gender.MALE.getDisplayName());
+            System.out.println("2. " + Gender.FEMALE.getDisplayName());
+            System.out.println("3. " + Gender.OTHER.getDisplayName());
 
             int choice = readNum("Chọn: ");
 
@@ -51,9 +51,9 @@ public class InputUtil {
     public static AccountStatus inputStatus() {
         while (true) {
             System.out.println("\nChọn tình trạng tài khoản: ");
-            System.out.println("1. Hoạt động");
-            System.out.println("2. Khoá");
-            System.out.println("3. Khác");
+            System.out.println("1. " + AccountStatus.ACTIVATED.getDisplayName());
+            System.out.println("2. " + AccountStatus.BLOCK.getDisplayName());
+            System.out.println("3. " + AccountStatus.OTHER.getDisplayName());
 
             int choice = readNum("Chọn: ");
 
@@ -74,10 +74,10 @@ public class InputUtil {
     public static UserType inputUserType() {
         while (true) {
             System.out.println("\nChọn loại người dùng: ");
-            System.out.println("1. Quản trị viên");
-            System.out.println("2. Quản lý");
-            System.out.println("3. Người dùng");
-            System.out.println("4. Khác");
+            System.out.println("1. " + UserType.ADMIN.getDisplayName());
+            System.out.println("2. " + UserType.MANAGER.getDisplayName());
+            System.out.println("3. " + UserType.USER.getDisplayName());
+            System.out.println("4. " + UserType.OTHER.getDisplayName());
 
             int choice = readNum("Chọn: ");
 
@@ -100,11 +100,11 @@ public class InputUtil {
     public static BookCategory inputCategory() {
         while (true) {
             System.out.println("\nChọn loại người dùng: ");
-            System.out.println("1. Khoa học");
-            System.out.println("2. Tiểu thuyết");
-            System.out.println("3. Lịch sử");
-            System.out.println("4. Lập trình");
-            System.out.println("5. Khác");
+            System.out.println("1. " + BookCategory.SCIENCE.getDisplayName());
+            System.out.println("2. " + BookCategory.NOVEL.getDisplayName());
+            System.out.println("3. " + BookCategory.HISTORY.getDisplayName());
+            System.out.println("4. " + BookCategory.PROGRAMMING.getDisplayName());
+            System.out.println("5. " + BookCategory.OTHER.getDisplayName());
 
             int choice = readNum("Chọn: ");
 
