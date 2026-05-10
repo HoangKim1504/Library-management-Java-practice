@@ -6,7 +6,7 @@ import util.DateUtil;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
-import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class InputValidator {
     private static final Scanner sc = new Scanner(System.in);
@@ -21,12 +21,12 @@ public class InputValidator {
     private static final String PUBLISHER_REGEX = "^[\\p{L}0-9&'.,\\-\\s]{2,100}$";
 
     // ================= INPUT VALID STRING =================
-    public static String inputValidString(String prompt, Function<String, Boolean> validator) {
+    public static String inputValidString(String prompt, Predicate<String> validator) {
         while (true) {
             System.out.print(prompt);
             String input = sc.nextLine().trim();
 
-            if (validator.apply(input)) {
+            if (validator.test(input)) {
                 return input;
             }
 
@@ -35,18 +35,18 @@ public class InputValidator {
     }
 
     // ================= INPUT VALID INTEGER NUMBER =================
-    public static int inputValidInt(String prompt, Function<Integer, Boolean> validator) {
+    public static int inputValidInt(String prompt, Predicate<Integer> validator) {
         while (true) {
             System.out.print(prompt);
             String input = sc.nextLine().trim();
 
             try {
                 // Convert to integer
-                int number = Integer.parseInt(input);
+                int numberInt = Integer.parseInt(input);
 
                 // Validate number
-                if (validator.apply(number)) {
-                    return number;
+                if (validator.test(numberInt)) {
+                    return numberInt;
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Vui lòng nhập số hợp lệ!");
@@ -58,21 +58,21 @@ public class InputValidator {
     }
 
     // ================= INPUT VALID DOUBLE NUMBER =================
-    public static double inputValidDouble(String prompt, Function<Double, Boolean> validator) {
+    public static double inputValidDouble(String prompt, Predicate<Double> validator) {
         while (true) {
             System.out.print(prompt);
             String input = sc.nextLine().trim();
 
             try {
                 // Convert to double
-                double price = Double.parseDouble(input);
+                double numberDouble = Double.parseDouble(input);
 
                 // Validate price
-                if (validator.apply(price)) {
-                    return price;
+                if (validator.test(numberDouble)) {
+                    return numberDouble;
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Vui lòng nhập giá hợp lệ!");
+                System.out.println("Vui lòng nhập số hợp lệ!");
                 continue;
             }
 
