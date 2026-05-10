@@ -113,7 +113,7 @@ public class BookService {
         int publishYear = InputValidator.inputValidInt("Năm xuất bản: ", InputValidator::isValidYear);
 
         // Category
-        BookCategory category = InputUtil.inputCategory();
+        BookCategory category = InputUtil.inputBookCategory();
         if (category == null) {
             System.out.println("Thể loại sách bị lỗi!");
             return null;
@@ -136,5 +136,59 @@ public class BookService {
                 price,
                 quantity
         );
+    }
+
+    // ================= FIND ISBN CODE BY INDEX =================
+    public String findIsbnByIndex(int userChoice) {
+        int currentIndex = 1;
+
+        for (Book book : bookList) {
+            // Match selected book index
+            if (currentIndex == userChoice) {
+                return book.getIsbn();
+            }
+            currentIndex++;
+        }
+
+        return null;
+    }
+
+    // ================= UPDATE CURRENT BOOK INFO =================
+    public Book updateBookInfo(int choice, String bookId, Object newInfo) {
+        Book book = findCurrentBook(bookId);
+
+        if (book == null) {
+            System.out.println("Không tìm thấy sách!");
+            return null;
+        }
+
+        // Update book info
+        switch (choice) {
+            case 1:
+                book.setTitle((String) newInfo);
+                break;
+            case 2:
+                book.setAuthor((String) newInfo);
+                break;
+            case 3:
+                book.setPublisher((String) newInfo);
+                break;
+            case 4:
+                book.setPublishYear(Integer.parseInt((String) newInfo));
+                break;
+            case 5:
+                book.setCategory((BookCategory) newInfo);
+                break;
+            case 6:
+                book.setPrice(Double.parseDouble((String) newInfo));
+                break;
+            case 7:
+                book.setQuantity(Integer.parseInt((String) newInfo));
+                break;
+            default:
+                System.out.println("Lựa chọn không hợp lệ!");
+        }
+
+        return book;
     }
 }

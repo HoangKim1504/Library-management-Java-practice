@@ -1,9 +1,12 @@
 package util;
 
+import book.Book;
+import book.BookService;
 import reader.Reader;
 import reader.ReaderService;
 import user.User;
 import user.UserService;
+import validator.BookValidator;
 import validator.ReaderValidator;
 import validator.UserValidator;
 
@@ -19,7 +22,7 @@ public class TextUtil {
             String newInfo = sc.nextLine().trim();
 
             // Valid input
-            boolean isValid = UserValidator.isValidateInput(choice, newInfo);
+            boolean isValid = UserValidator.isValidInput(choice, newInfo);
             if (!isValid) {
                 System.out.println("Vui lòng nhập lại thông tin.");
                 continue;
@@ -39,7 +42,7 @@ public class TextUtil {
             String newInfo = sc.nextLine().trim();
 
             // Valid input
-            boolean isValid = ReaderValidator.isValidateInput(choice, newInfo);
+            boolean isValid = ReaderValidator.isValidInput(choice, newInfo);
             if (!isValid) {
                 System.out.println("Vui lòng nhập lại thông tin.");
                 continue;
@@ -49,6 +52,26 @@ public class TextUtil {
             Reader updatedReader = readerService.updateReaderInfo(choice, readerId, newInfo);
 
             return updatedReader != null;
+        }
+    }
+
+    // ================= HANDLE TEXT UPDATE BOOK DATA =================
+    public static boolean handleTextUpdateBook(int choice, String bookId, BookService bookService) {
+        while (true) {
+            System.out.print("Thông tin cập nhật mới: ");
+            String newInfo = sc.nextLine().trim();
+
+            // Valid input
+            boolean isValid = BookValidator.isValidInput(choice, newInfo);
+            if (!isValid) {
+                System.out.println("Vui lòng nhập lại thông tin.");
+                continue;
+            }
+
+            // Update book info
+            Book updatedBook = bookService.updateBookInfo(choice, bookId, newInfo);
+
+            return updatedBook != null;
         }
     }
 

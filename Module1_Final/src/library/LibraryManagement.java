@@ -11,6 +11,7 @@ import reader.ReaderService;
 import user.User;
 import user.UserService;
 import util.InputUtil;
+import util.NumberUtil;
 import util.PrintUtil;
 import util.TextUtil;
 import validator.InputValidator;
@@ -302,7 +303,7 @@ public class LibraryManagement {
 
         // Print user info
         PrintUtil.printUserInfo(user, isSuccess);
-        int choice = InputUtil.readNum("Chọn thông tin muốn cập nhật (1-7) hoặc chọn 0 để quay lại menu người dùng: ");
+        int choice = InputUtil.readNum("Chọn thông tin muốn cập nhật (1-8) hoặc chọn 0 để quay lại menu người dùng: ");
 
         if (choice == 0) return;
 
@@ -325,10 +326,12 @@ public class LibraryManagement {
 
                 isSuccess = userService.updateUserInfo(choice, userId, userType) != null;
                 break;
-            default:
+            case 1, 2, 3, 4, 5:
                 // Handle normal string input
                 isSuccess = TextUtil.handleTextUpdateUser(choice, userId, userService);
                 break;
+            default:
+                System.out.println("Lựa chọn không hợp lệ!");
         }
 
         // Update fail
@@ -581,6 +584,21 @@ public class LibraryManagement {
                     createBookScreen();
 
                     break;
+                case 3:
+                    // Allow ADMIN, MANAGER to edit book info
+                    if (userService.requireRole(userId, ADMIN, MANAGER)) continue;
+
+                    // Display all books
+                    bookService.showBookList();
+                    int bookIndexUp = InputUtil.readNum("Chọn số thứ tự của sách để chỉnh sửa thông tin: ");
+
+                    // Find bookId based on selected index
+                    String bookIdUp = bookService.findIsbnByIndex(bookIndexUp);
+
+                    // Navigate to update reader info screen
+                    updateBookInfoScreen(bookIdUp);
+
+                    break;
                 case 0:
                     return;
                 default:
@@ -620,5 +638,46 @@ public class LibraryManagement {
         }
     }
 
+    // ================= UPDATE BOOK INFO FUNCTION =================
+    public void updateBookInfoScreen(String bookId) {
+        boolean isSuccess = false;
+
+        // Find current book
+        Book book = bookService.findCurrentBook(bookId);
+
+        if (book == null) {
+            System.out.println("Không tìm thấy sách!");
+            return;
+        }
+
+        // Print book info
+        PrintUtil.printBookInfo(book, isSuccess);
+        int choice = InputUtil.readNum("Chọn thông tin muốn cập nhật (1-7) hoặc chọn 0 để quay lại menu sách: ");
+
+        if (choice == 0) return;
+
+        isSuccess = switch (choice) {
+            case 4, 6, 7 ->
+                // Handle normal number input
+                    NumberUtil.handleNumberUpdateBook(choice, bookId, bookService);
+            case 1, 2, 3, 5 ->
+                // Handle normal string input
+                    TextUtil.handleTextUpdateBook(choice, bookId, bookService);
+            default -> {
+                System.out.println("Lựa chọn không hợp lệ!");
+                yield false;
+            }
+        };
+
+        // Update fail
+        if (!isSuccess) {
+            System.out.println("Cập nhật thông tin thất bại. Vui lòng thử lại.");
+            return;
+        }
+
+        // Update successfully
+        System.out.println("Cập nhật thông tin thành công!");
+        PrintUtil.printBookInfo(book, isSuccess);
+    }
 
 }
