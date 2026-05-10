@@ -21,7 +21,7 @@ public class InputValidator {
     private static final String PUBLISHER_REGEX = "^[\\p{L}0-9&'.,\\-\\s]{2,100}$";
 
     // ================= INPUT VALID STRING =================
-    public static String inputValidString(String prompt, Predicate<String> validator) {
+    public static String inputValidString(String prompt, @NotNull Predicate<String> validator) {
         while (true) {
             System.out.print(prompt);
             String input = sc.nextLine().trim();
@@ -35,7 +35,7 @@ public class InputValidator {
     }
 
     // ================= INPUT VALID INTEGER NUMBER =================
-    public static int inputValidInt(String prompt, Predicate<Integer> validator) {
+    public static int inputValidInt(String prompt, @NotNull Predicate<Integer> validator) {
         while (true) {
             System.out.print(prompt);
             String input = sc.nextLine().trim();
@@ -58,7 +58,7 @@ public class InputValidator {
     }
 
     // ================= INPUT VALID DOUBLE NUMBER =================
-    public static double inputValidDouble(String prompt, Predicate<Double> validator) {
+    public static double inputValidDouble(String prompt, @NotNull Predicate<Double> validator) {
         while (true) {
             System.out.print(prompt);
             String input = sc.nextLine().trim();
@@ -80,8 +80,28 @@ public class InputValidator {
         }
     }
 
+    // ================= VALID STRING BY REGEX =================
+    public static boolean validateStringByRegex(String input, String regex, String errorMessage) {
+        // Validate input
+        if (input == null || input.trim().isEmpty()) {
+            System.out.println("Thông tin không được bỏ trống!");
+            return false;
+        }
+
+        // Remove spaces on the beginning and the end
+        input = input.trim();
+
+        // Validate regex format
+        if (!input.matches(regex)) {
+            System.out.println(errorMessage);
+            return false;
+        }
+
+        return true;
+    }
+
     // ================= VALID PASSWORDS =================
-    public static boolean isValidPasswords(String oldPw, String newPw, String confirmPw) {
+    public static boolean isValidPasswords(String oldPw, @NotNull String newPw, String confirmPw) {
         // Validate confirm password
         if (!newPw.equals(confirmPw)) {
             System.out.println("Mật khẩu xác nhận không khớp với mật khẩu mới!");
@@ -95,11 +115,11 @@ public class InputValidator {
         }
 
         // Check validate new password
-        return isValidPass(newPw);
+        return isValidPassword(newPw);
     }
 
     // ================= VALID FORMAT PASSWORD =================
-    public static boolean isValidPass(@NotNull String pw) {
+    public static boolean isValidPassword(@NotNull String pw) {
         // Check length
         if (pw.length() < 8) {
             System.out.println("Mật khẩu phải có ít nhất 8 kí tự.");
@@ -107,10 +127,10 @@ public class InputValidator {
         }
 
         // Check uppercase
-        boolean hasUpper = !pw.equals(pw.toLowerCase());
+        boolean hasUpperCase = !pw.equals(pw.toLowerCase());
 
         // Check lowercase
-        boolean hasLower = !pw.equals(pw.toUpperCase());
+        boolean hasLowerCase = !pw.equals(pw.toUpperCase());
 
         // Check digit
         boolean hasDigit = pw.matches(HAS_DIGIT_REGEX);
@@ -119,7 +139,7 @@ public class InputValidator {
         boolean hasSpecial = pw.matches(HAS_SPECIAL_CHARACTER_REGEX);
 
         // Final validation
-        if (!hasUpper || !hasLower || !hasDigit || !hasSpecial) {
+        if (!hasUpperCase || !hasLowerCase || !hasDigit || !hasSpecial) {
             System.out.println("Mật khẩu phải chứa chữ hoa, chữ thường, số và ký tự đặc biệt!");
             return false;
         }
@@ -199,23 +219,6 @@ public class InputValidator {
         }
     }
 
-    // ================= VALID NEW USER ID =================
-    public static boolean isValidId(String id) {
-        // Validate input
-        if (id == null || id.trim().isEmpty()) return false;
-
-        // Remove spaces on the beginning and the end
-        id = id.trim();
-
-        // Check only number and have 12 numbers
-        if (!id.matches(NATIONAL_ID_REGEX)) {
-            System.out.println("Số CMND phải nhập đủ 12 số!");
-            return false;
-        }
-
-        return true;
-    }
-
     // ================= VALID NEW ADDRESS =================
     public static boolean isValidAddress(String address) {
         // Validate input
@@ -245,67 +248,23 @@ public class InputValidator {
         return true;
     }
 
+    // ================= VALID NEW USER ID =================
+    public static boolean isValidId(String id) {
+        return validateStringByRegex(id, NATIONAL_ID_REGEX, "Số CMND phải nhập đủ 12 số!");
+    }
+
     // ================= VALID NEW EMAIL =================
     public static boolean isValidEmail(String email) {
-        // Validate input
-        if (email == null || email.trim().isEmpty()) return false;
-
-        // Remove spaces on the beginning and the end
-        email = email.trim();
-
-        // Check validate
-        boolean validate = email.matches(EMAIL_REGEX);
-
-        if (!validate) {
-            System.out.println("Email không hợp lệ!");
-            return false;
-        }
-
-        return true;
+        return validateStringByRegex(email, EMAIL_REGEX, "Email không hợp lệ!");
     }
 
     // ================= VALID NEW BOOK TITLE =================
     public static boolean isValidBookTitle(String title) {
-        // Validate input
-        if (title == null || title.trim().isEmpty()) {
-            System.out.println("Tên sách không được bỏ trống!");
-            return false;
-        }
-
-        // Remove spaces on the beginning and the end
-        title = title.trim();
-
-        // Check validate
-        boolean validate = title.matches(BOOK_TITLE_REGEX);
-
-        if (!validate) {
-            System.out.println("Tên sách không hợp lệ!");
-            return false;
-        }
-
-        return true;
+        return validateStringByRegex(title, BOOK_TITLE_REGEX, "Tên sách không hợp lệ!");
     }
 
-    // ================= VALID NEW PUBLISHER =================
     public static boolean isValidPublisher(String publisher) {
-        // Validate input
-        if (publisher == null || publisher.trim().isEmpty()) {
-            System.out.println("Nhà xuất bản không được bỏ trống!");
-            return false;
-        }
-
-        // Remove spaces on the beginning and the end
-        publisher = publisher.trim();
-
-        // Check validate
-        boolean validate = publisher.matches(PUBLISHER_REGEX);
-
-        if (!validate) {
-            System.out.println("Nhà xuất bản không hợp lệ!");
-            return false;
-        }
-
-        return true;
+        return validateStringByRegex(publisher, PUBLISHER_REGEX, "Nhà xuất bản không hợp lệ!");
     }
 
     // ================= VALID NEW YEAR =================
