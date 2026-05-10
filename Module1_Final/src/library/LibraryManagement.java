@@ -63,47 +63,36 @@ public class LibraryManagement {
         // Reader data
         Reader reader1 = new Reader(
                 "R0001", "Nguyen Van An", "123654789852", LocalDate.of(2006, 8, 17),
-                Gender.MALE, "an@gmail.com", "Ho Chi Minh City", LocalDate.of(2026, 5, 6)
-        );
+                Gender.MALE, "an@gmail.com", "Ho Chi Minh City", LocalDate.of(2026, 5, 6));
         Reader reader2 = new Reader(
                 "R0002", "Tran Thi Bich", "456987123654", LocalDate.of(2004, 3, 12),
-                Gender.FEMALE, "bich@gmail.com", "Da Nang", LocalDate.of(2026, 5, 6)
-        );
+                Gender.FEMALE, "bich@gmail.com", "Da Nang", LocalDate.of(2026, 5, 6));
         Reader reader3 = new Reader(
                 "R0003", "Le Minh Khang", "789456123852", LocalDate.of(2002, 11, 25),
-                Gender.MALE, "khang@gmail.com", "Can Tho", LocalDate.of(2026, 5, 6)
-        );
-
+                Gender.MALE, "khang@gmail.com", "Can Tho", LocalDate.of(2026, 5, 6));
         Reader reader4 = new Reader(
                 "R0004", "Pham Ngoc Ha", "321654987456", LocalDate.of(2005, 1, 5),
-                Gender.FEMALE, "ha@gmail.com", "Binh Duong", LocalDate.of(2026, 5, 6)
-        );
-
+                Gender.FEMALE, "ha@gmail.com", "Binh Duong", LocalDate.of(2026, 5, 6));
         Reader reader5 = new Reader(
                 "R0005", "Vo Thanh Khang", "852741963258", LocalDate.of(2001, 9, 30),
-                Gender.MALE, "khang123@gmail.com", "Ha Noi", LocalDate.of(2026, 5, 6)
-        );
+                Gender.MALE, "khang123@gmail.com", "Ha Noi", LocalDate.of(2026, 5, 6));
 
         // Book data
-        Book book1 = new Book("BK00001", "Lập Trình Java Cơ Bản", "Nguyễn Văn A", "NXB Giáo Dục",
-                2020, BookCategory.PROGRAMMING, 180000, 12
-        );
-
-        Book book2 = new Book("BK00002", "Dế Mèn Phiêu Lưu Ký", "Tô Hoài", "NXB Kim Đồng",
-                2019, BookCategory.NOVEL, 75000, 15
-        );
-
-        Book book3 = new Book("BK00003", "Lược Sử Việt Nam", "Trần Trọng Kim", "NXB Văn Học",
-                2021, BookCategory.HISTORY, 120000, 10
-        );
-
-        Book book4 = new Book("BK00004", "Vũ Trụ Trong Vỏ Hạt Dẻ", "Stephen Hawking", "NXB Trẻ",
-                2018, BookCategory.SCIENCE, 210000, 8
-        );
-
-        Book book5 = new Book("BK00005", "Nghệ Thuật Sống", "Nhiều tác giả", "NXB Tổng Hợp",
-                2022, BookCategory.OTHER, 95000, 20
-        );
+        Book book1 = new Book(
+                "BK00001", "Lập Trình Java Cơ Bản", "Nguyễn Văn A", "NXB Giáo Dục", 2020,
+                BookCategory.PROGRAMMING, 180000, 12);
+        Book book2 = new Book(
+                "BK00002", "Dế Mèn Phiêu Lưu Ký", "Tô Hoài", "NXB Kim Đồng", 2019,
+                BookCategory.NOVEL, 75000, 15);
+        Book book3 = new Book(
+                "BK00003", "Lược Sử Việt Nam", "Trần Trọng Kim", "NXB Văn Học", 2021,
+                BookCategory.HISTORY, 120000, 10);
+        Book book4 = new Book(
+                "BK00004", "Vũ Trụ Trong Vỏ Hạt Dẻ", "Stephen Hawking", "NXB Trẻ", 2018,
+                BookCategory.SCIENCE, 210000, 8);
+        Book book5 = new Book(
+                "BK00005", "Nghệ Thuật Sống", "Nhiều tác giả", "NXB Tổng Hợp", 2022,
+                BookCategory.OTHER, 95000, 20);
 
         // Create users
         userService.createUser(admin);
