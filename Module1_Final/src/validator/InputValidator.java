@@ -10,6 +10,13 @@ import java.util.function.Function;
 public class InputValidator {
     private static final Scanner sc = new Scanner(System.in);
 
+    private static final String HAS_DIGIT_REGEX = ".*\\d.*";
+    private static final String HAS_SPECIAL_CHARACTER_REGEX = ".*[!@#$%^&*].*";
+    private static final String ONLY_LETTERS_SPACES_REGEX = "[\\p{L} ]+";
+    private static final String NATIONAL_ID_REGEX = "\\d{12}";
+    private static final String ADDRESS_REGEX = "[\\p{L}\\d ,./-]+";
+    private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
+
     // ================= INPUT + VALIDATE STRING =================
     public static String inputValidString(String prompt, Function<String, Boolean> validator) {
         while (true) {
@@ -57,10 +64,10 @@ public class InputValidator {
         boolean hasLower = !pw.equals(pw.toUpperCase());
 
         // Check digit
-        boolean hasDigit = pw.matches(".*\\d.*");
+        boolean hasDigit = pw.matches(HAS_DIGIT_REGEX);
 
         // Check special character
-        boolean hasSpecial = pw.matches(".*[!@#$%^&*].*");
+        boolean hasSpecial = pw.matches(HAS_SPECIAL_CHARACTER_REGEX);
 
         // Final validation
         if (!hasUpper || !hasLower || !hasDigit || !hasSpecial) {
@@ -115,7 +122,7 @@ public class InputValidator {
         }
 
         // Only letters and spaces
-        if (!name.matches("[\\p{L} ]+")) {
+        if (!name.matches(ONLY_LETTERS_SPACES_REGEX)) {
             System.out.println("Tên chỉ được chứa chữ và khoảng cách!");
             return false;
         }
@@ -152,7 +159,7 @@ public class InputValidator {
         id = id.trim();
 
         // Check only number and have 12 numbers
-        if (!id.matches("\\d{12}")) {
+        if (!id.matches(NATIONAL_ID_REGEX)) {
             System.out.println("Số CMND phải nhập đủ 12 số!");
             return false;
         }
@@ -175,7 +182,7 @@ public class InputValidator {
         }
 
         // Allow letters (Unicode), numbers, space and common symbols
-        if (!address.matches("[\\p{L}\\d ,./-]+")) {
+        if (!address.matches(ADDRESS_REGEX)) {
             System.out.println("Địa chỉ chứa ký tự cho phép.");
             return false;
         }
@@ -197,11 +204,8 @@ public class InputValidator {
         // Remove spaces on the beginning and the end
         email = email.trim();
 
-        // Email format
-        String format = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
-
         // Check validate
-        boolean validate = email.matches(format);
+        boolean validate = email.matches(EMAIL_REGEX);
         if (!validate) {
             System.out.println("Email không hợp lệ!");
             return false;
