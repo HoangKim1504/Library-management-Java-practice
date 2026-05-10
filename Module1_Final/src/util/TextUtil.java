@@ -4,7 +4,8 @@ import reader.Reader;
 import reader.ReaderService;
 import user.User;
 import user.UserService;
-import validator.InputValidator;
+import validator.ReaderValidator;
+import validator.UserValidator;
 
 import java.util.Scanner;
 
@@ -18,7 +19,7 @@ public class TextUtil {
             String newInfo = sc.nextLine().trim();
 
             // Valid input
-            boolean isValid = InputValidator.isValidateInput(choice, newInfo);
+            boolean isValid = UserValidator.isValidateInput(choice, newInfo);
             if (!isValid) {
                 System.out.println("Vui lòng nhập lại thông tin.");
                 continue;
@@ -38,7 +39,7 @@ public class TextUtil {
             String newInfo = sc.nextLine().trim();
 
             // Valid input
-            boolean isValid = InputValidator.isValidateInput(choice, newInfo);
+            boolean isValid = ReaderValidator.isValidateInput(choice, newInfo);
             if (!isValid) {
                 System.out.println("Vui lòng nhập lại thông tin.");
                 continue;

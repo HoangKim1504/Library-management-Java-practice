@@ -71,32 +71,6 @@ public class InputValidator {
         return true;
     }
 
-    // ================= VALID USER NEW INFO =================
-    public static boolean isValidateInput(int choice, String newInfo) {
-        switch (choice) {
-            case 1:
-                if (isValidUserName(newInfo)) return true;
-                break;
-            case 2:
-                if (isValidName(newInfo)) return true;
-                break;
-            case 3:
-                if (isValidDate(newInfo)) return true;
-                break;
-            case 4:
-                if (isValidId(newInfo)) return true;
-                break;
-            case 5:
-                if (isValidAddress(newInfo)) return true;
-                break;
-            default:
-                System.out.println("Lựa chọn không hợp lệ!");
-                break;
-        }
-
-        return false;
-    }
-
     // ================= VALID NEW USER NAME =================
     public static boolean isValidUserName(String name) {
         // Validate input
