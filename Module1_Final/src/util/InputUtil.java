@@ -96,8 +96,8 @@ public class InputUtil {
         }
     }
 
-    // ================= MAP CATEGORY INFO =================
-    public static BookCategory inputCategory() {
+    // ================= MAP BOOK CATEGORY INFO =================
+    public static BookCategory inputBookCategory() {
         while (true) {
             System.out.println("\nChọn loại người dùng: ");
             System.out.println("1. " + BookCategory.SCIENCE.getDisplayName());
@@ -124,5 +124,4 @@ public class InputUtil {
             }
         }
     }
-
 }

@@ -2,7 +2,7 @@ package validator;
 
 public class UserValidator {
     // ================= VALID USER NEW INFO =================
-    public static boolean isValidateInput(int choice, String newInfo) {
+    public static boolean isValidInput(int choice, String newInfo) {
         switch (choice) {
             case 1:
                 if (InputValidator.isValidUserName(newInfo)) return true;
