@@ -147,7 +147,7 @@ public class InputValidator {
         return true;
     }
 
-    // ================= VALID NEW USER NAME =================
+    // ================= VALID USER NAME =================
     public static boolean isValidUserName(String name) {
         // Validate input
         if (name == null || name.trim().isEmpty()) {
@@ -173,7 +173,7 @@ public class InputValidator {
         return true;
     }
 
-    // ================= VALID NEW FULL NAME =================
+    // ================= VALID FULL NAME =================
     public static boolean isValidName(String name) {
         // Validate input
         if (name == null || name.trim().isEmpty()) {
@@ -205,7 +205,7 @@ public class InputValidator {
         return true;
     }
 
-    // ================= VALID NEW DATE =================
+    // ================= VALID DATE =================
     public static boolean isValidDate(String date) {
         // Validate input
         if (date == null || date.trim().isEmpty()) return false;
@@ -219,7 +219,7 @@ public class InputValidator {
         }
     }
 
-    // ================= VALID NEW ADDRESS =================
+    // ================= VALID ADDRESS =================
     public static boolean isValidAddress(String address) {
         // Validate input
         if (address == null || address.trim().isEmpty()) return false;
@@ -248,22 +248,22 @@ public class InputValidator {
         return true;
     }
 
-    // ================= VALID NEW USER ID =================
+    // ================= VALID USER ID =================
     public static boolean isValidId(String id) {
         return isValidStringByRegex(id, NATIONAL_ID_REGEX, "Số CMND phải nhập đủ 12 số!");
     }
 
-    // ================= VALID NEW EMAIL =================
+    // ================= VALID EMAIL =================
     public static boolean isValidEmail(String email) {
         return isValidStringByRegex(email, EMAIL_REGEX, "Email không hợp lệ!");
     }
 
-    // ================= VALID NEW BOOK TITLE =================
+    // ================= VALID BOOK TITLE =================
     public static boolean isValidBookTitle(String title) {
         return isValidStringByRegex(title, BOOK_TITLE_REGEX, "Tên sách không hợp lệ!");
     }
 
-    // ================= VALID NEW PUBLISHER =================
+    // ================= VALID PUBLISHER =================
     public static boolean isValidPublisher(String publisher) {
         return isValidStringByRegex(publisher, PUBLISHER_REGEX, "Nhà xuất bản không hợp lệ!");
     }
