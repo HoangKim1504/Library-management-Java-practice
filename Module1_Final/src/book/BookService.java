@@ -2,6 +2,7 @@ package book;
 
 import enums.BookCategory;
 import util.InputUtil;
+import util.TextUtil;
 import validator.InputValidator;
 
 import java.util.ArrayList;
@@ -210,5 +211,27 @@ public class BookService {
         System.out.println("Xoá thông tin sách thất bại!");
 
         return false;
+    }
+
+    // ================= FIND BOOK BY TITLE =================
+    public List<Book> findBookByTitle(String keyword) {
+        List<Book> searchBookList = new ArrayList<>();
+
+        // Validate input
+        if (keyword == null || keyword.trim().isEmpty()) {
+            return null;
+        }
+
+        // Remove spaces at beginning and end
+        keyword = keyword.trim();
+
+        for (Book book : bookList) {
+            // Partial match and ignore case
+            if (TextUtil.containsIgnoreCase(book.getTitle(), keyword)) {
+                searchBookList.add(book);
+            }
+        }
+
+        return searchBookList;
     }
 }

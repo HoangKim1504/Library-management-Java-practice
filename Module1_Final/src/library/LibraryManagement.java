@@ -461,7 +461,8 @@ public class LibraryManagement {
                     if (userService.requireRole(userId, ADMIN, MANAGER, USER)) continue;
 
                     // Input reader full name keyword
-                    String keyword = InputValidator.inputValidString("Nhập họ tên: ", InputValidator::isValidName);
+                    System.out.print("Nhập họ tên: ");
+                    String keyword = sc.nextLine();
 
                     // Search readers by full name
                     List<Reader> foundReaders = readerService.findReaderByFullName(keyword);
@@ -645,6 +646,32 @@ public class LibraryManagement {
                     // Display search result
                     System.out.println("===== KẾT QUẢ TÌM KIẾM =====");
                     System.out.println(foundBook);
+
+                    break;
+                case 6:
+                    // Allow all roles
+                    if (userService.requireRole(userId, ADMIN, MANAGER, USER)) continue;
+
+                    // Input book title keyword
+                    System.out.print("Nhập tên sách: ");
+                    String keyword = sc.nextLine();
+
+                    // Search books by title
+                    List<Book> foundBooks = bookService.findBookByTitle(keyword);
+
+                    // Book not found
+                    if (foundBooks.isEmpty()) {
+                        System.out.println("Không tìm thấy sách!");
+                        continue;
+                    }
+
+                    // Display search result
+                    System.out.println("===== KẾT QUẢ TÌM KIẾM =====");
+                    int index = 1;
+                    for (Book book : foundBooks) {
+                        System.out.println(index + ". " + book);
+                        index++;
+                    }
 
                     break;
                 case 0:
