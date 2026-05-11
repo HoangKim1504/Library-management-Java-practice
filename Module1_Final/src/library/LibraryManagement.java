@@ -473,7 +473,7 @@ public class LibraryManagement {
                     }
 
                     // Display search result
-                    System.out.println("\"===== KẾT QUẢ TÌM KIẾM =====");
+                    System.out.println("===== KẾT QUẢ TÌM KIẾM =====");
                     int index = 1;
                     for (Reader reader : foundReaders) {
                         System.out.println(index + ". " + reader);
@@ -623,6 +623,28 @@ public class LibraryManagement {
                     if (isDeleted) {
                         bookService.showBookList();
                     }
+
+                    break;
+                case 5:
+                    // Allow all roles
+                    if (userService.requireRole(userId, ADMIN, MANAGER, USER)) continue;
+
+                    // Input book ISBN code
+                    System.out.print("Nhập mã ISBN: ");
+                    String bookId = sc.nextLine();
+
+                    // Search book by ISBN code
+                    Book foundBook = bookService.findCurrentBook(bookId);
+
+                    // Reader not found
+                    if (foundBook == null) {
+                        System.out.println("Không tìm thấy sách!");
+                        continue;
+                    }
+
+                    // Display search result
+                    System.out.println("===== KẾT QUẢ TÌM KIẾM =====");
+                    System.out.println(foundBook);
 
                     break;
                 case 0:
