@@ -191,4 +191,24 @@ public class BookService {
 
         return book;
     }
+
+    // ================= DELETE BOOK =================
+    public boolean deleteBook(String bookId) {
+        // Find book by bookId
+        Book book = findCurrentBook(bookId);
+
+        // Remove book from list
+        boolean isDeleted = bookList.remove(book);
+
+        // Delete successfully
+        if (isDeleted) {
+            System.out.println("Đã xoá thông tin sách thành công!");
+            return true;
+        }
+
+        // Delete failed
+        System.out.println("Xoá thông tin sách thất bại!");
+
+        return false;
+    }
 }

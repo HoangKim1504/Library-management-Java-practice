@@ -595,8 +595,34 @@ public class LibraryManagement {
                     // Find bookId based on selected index
                     String bookIdUp = bookService.findIsbnByIndex(bookIndexUp);
 
-                    // Navigate to update reader info screen
+                    // Navigate to update book info screen
                     updateBookInfoScreen(bookIdUp);
+
+                    break;
+                case 4:
+                    // Allow ADMIN, MANAGER to delete book
+                    if (userService.requireRole(userId, ADMIN, MANAGER)) continue;
+
+                    // Display all books
+                    bookService.showBookList();
+                    int bookIndexDel = InputUtil.readNum("Chọn số thứ tự của sách để xoá thông tin: ");
+
+                    // Find bookId based on selected index
+                    String bookIdDel = bookService.findIsbnByIndex(bookIndexDel);
+
+                    // Invalid book index
+                    if (bookIdDel == null) {
+                        System.out.println("Không tìm thấy sách!");
+                        break;
+                    }
+
+                    // Delete book
+                    boolean isDeleted = bookService.deleteBook(bookIdDel);
+
+                    // Display updated book list
+                    if (isDeleted) {
+                        bookService.showBookList();
+                    }
 
                     break;
                 case 0:
