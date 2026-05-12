@@ -8,6 +8,8 @@ import enums.Gender;
 import enums.UserType;
 import reader.Reader;
 import reader.ReaderService;
+import slip.BorrowReturnSlip;
+import slip.BorrowReturnSlipService;
 import user.User;
 import user.UserService;
 import util.InputUtil;
@@ -26,6 +28,7 @@ public class LibraryManagement {
     private final UserService userService = new UserService();
     private final ReaderService readerService = new ReaderService();
     private final BookService bookService = new BookService();
+    private final BorrowReturnSlipService borrowReturnSlipService = new BorrowReturnSlipService();
 
     private static final String NOT_LOGIN = "0";
     private String userId = NOT_LOGIN;
@@ -136,6 +139,9 @@ public class LibraryManagement {
                     break;
                 case 3:
                     bookScreen();
+                    break;
+                case 4:
+                    borrowBookSlipScreen();
                     break;
                 case 0:
                     return;
@@ -755,4 +761,34 @@ public class LibraryManagement {
         PrintUtil.printBookInfo(book, isSuccess);
     }
 
+    // ================= BORROW BOOK SLIP MENU =================
+    public void borrowBookSlipScreen() {
+        while (true) {
+            System.out.println("\n====== TẠO PHIẾU MƯỢN SÁCH ======");
+
+            // Input borrow book slip info
+            BorrowReturnSlip borrowSlip = borrowReturnSlipService.inputBorrowSlipInfo();
+
+            // Invalid borrow book slip information
+            if (borrowSlip == null) {
+                continue;
+            }
+
+            // Create new borrow book slip
+            boolean isSuccess = borrowReturnSlipService.createBorrowSlip(borrowSlip);
+
+            // Create borrow book slip fail
+            if (!isSuccess) {
+                System.out.println("Tạo phiếu mượn sách thất bại!");
+                continue;
+            }
+
+            // Create borrow book slip successfully
+            System.out.println("Tạo phiếu mượn sách thành công!");
+
+            PrintUtil.printBorrowBookSlipInfo(borrowSlip, false);
+
+            return;
+        }
+    }
 }
