@@ -17,14 +17,12 @@ public class BorrowReturnSlip {
     public BorrowReturnSlip() {
     }
 
-    public BorrowReturnSlip(String borrowId, String readerId, LocalDate borrowDate, LocalDate expectedReturnDate, LocalDate actualReturnDate, List<Book> borrowBookIsbns, List<Book> lostBookIsbns) {
+    public BorrowReturnSlip(String borrowId, String readerId, LocalDate borrowDate, LocalDate expectedReturnDate, LocalDate actualReturnDate) {
         this.borrowId = borrowId;
         this.readerId = readerId;
         this.borrowDate = borrowDate;
         this.expectedReturnDate = expectedReturnDate;
         this.actualReturnDate = actualReturnDate;
-        this.borrowBookIsbns = borrowBookIsbns;
-        this.lostBookIsbns = lostBookIsbns;
     }
 
     public String getBorrowId() {
