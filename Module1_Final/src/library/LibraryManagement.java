@@ -810,7 +810,7 @@ public class LibraryManagement {
             // Create borrow book slip successfully
             System.out.println("Tạo phiếu mượn sách thành công!");
 
-            PrintUtil.printBorrowReturnBookSlipInfo(borrowSlip, false);
+            PrintUtil.printBorrowReturnBookSlipInfo(borrowSlip);
 
             return;
         }

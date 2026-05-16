@@ -106,13 +106,8 @@ public class PrintUtil {
     }
 
     // ================= PRINT BORROW RETURN INFO =================
-    public static void printBorrowReturnBookSlipInfo(BorrowReturnSlip borrowReturnSlip, boolean isUpdate) {
-        if (isUpdate) {
-            System.out.println("\n====== THÔNG TIN PHIẾU SÁCH ĐÃ ĐƯỢC CẬP NHẬP ======");
-        } else {
-            System.out.println("\n====== THÔNG TIN PHIẾU SÁCH ======");
-        }
-
+    public static void printBorrowReturnBookSlipInfo(BorrowReturnSlip borrowReturnSlip) {
+        System.out.println("\n====== THÔNG TIN PHIẾU SÁCH ======");
         System.out.println("1. Mã phiếu mượn: " + borrowReturnSlip.getBorrowId());
         System.out.println("2. Mã độc giả: " + borrowReturnSlip.getReaderId());
         System.out.println("3. Ngày mượn: " + borrowReturnSlip.getBorrowDate());

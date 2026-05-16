@@ -84,12 +84,15 @@ public class BorrowReturnSlipService {
         String bookIsbn = InputValidator.inputValidString(prompt, InputValidator::isValidBorrowId);
 
         // Empty list
-        if (bookIsbnList.isEmpty()) return true;
+        if (bookIsbnList.isEmpty()) {
+            bookIsbnList.add(bookIsbn);
+            return true;
+        }
 
         // Check duplicate ISBN code
         for (String isbn : bookIsbnList) {
             if (bookIsbn.equals(isbn)) {
-                System.out.println("Mã ISBN đã bị trùng!");
+                System.out.println("Mã ISBN (mã sách) đã bị trùng!");
                 return false;
             }
             bookIsbnList.add(bookIsbn);
