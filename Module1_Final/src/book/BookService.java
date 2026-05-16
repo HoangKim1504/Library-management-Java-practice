@@ -73,7 +73,7 @@ public class BookService {
     public String generateNewIsbn() {
         // First book
         if (bookList.isEmpty()) {
-            return "BK0001";
+            return "BK00001";
         }
 
         // Get last book
