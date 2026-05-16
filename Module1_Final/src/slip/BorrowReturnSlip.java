@@ -25,6 +25,7 @@ public class BorrowReturnSlip {
         this.lostBookIsbns = lostBookIsbns;
     }
 
+    // ================= CREATE BORROW SLIP =================
     public BorrowReturnSlip(String borrowId, String readerId, LocalDate borrowDate, LocalDate expectedReturnDate, List<String> borrowBookIsbns) {
         this.borrowId = borrowId;
         this.readerId = readerId;
@@ -91,7 +92,7 @@ public class BorrowReturnSlip {
 
     @Override
     public String toString() {
-        return "Thông tin phiếu mượn/trả:" +
+        return "\n===== THÔNG TIN PHIẾU MƯỢN/TRẢ =====" +
                 " Mã phiếu mượn: " + borrowId + '\'' +
                 ", Mã độc giả: " + readerId + '\'' +
                 ", Ngày mượn: " + borrowDate + '\'' +

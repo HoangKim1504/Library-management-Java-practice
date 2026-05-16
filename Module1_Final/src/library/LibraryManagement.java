@@ -787,21 +787,27 @@ public class LibraryManagement {
 
     // ================= BORROW BOOK SLIP MENU =================
     public void borrowBookSlipScreen() {
-        while (!userService.requireRole(userId, ADMIN, MANAGER, USER)) { // Allow all roles
+        // Allow all roles
+        if (userService.requireRole(userId, ADMIN, MANAGER, USER)) {
+            return;
+        }
+
+        while (true) {
             System.out.println("\n====== TẠO PHIẾU MƯỢN SÁCH ======");
 
-            // Input borrow book slip info
+            // Input borrow slip info
             BorrowReturnSlip borrowSlip = borrowReturnSlipService.inputBorrowSlipInfo(readerService);
 
-            // Invalid borrow book slip information
+            // Invalid borrow slip
             if (borrowSlip == null) {
+                System.out.println("Thông tin phiếu mượn không hợp lệ!");
                 continue;
             }
 
-            // Create new borrow book slip
+            // Create borrow slip
             boolean isSuccess = borrowReturnSlipService.createBorrowReturnSlip(borrowSlip);
 
-            // Create borrow book slip fail
+            // Create fail
             if (!isSuccess) {
                 System.out.println("Tạo phiếu mượn sách thất bại!");
                 continue;
@@ -810,7 +816,7 @@ public class LibraryManagement {
             // Create borrow book slip successfully
             System.out.println("Tạo phiếu mượn sách thành công!");
 
-            PrintUtil.printBorrowReturnBookSlipInfo(borrowSlip);
+            PrintUtil.printBorrowBookSlipInfo(borrowSlip);
 
             return;
         }

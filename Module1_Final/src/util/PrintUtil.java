@@ -105,15 +105,18 @@ public class PrintUtil {
         System.out.println("7. Số lượng: " + book.getQuantity());
     }
 
-    // ================= PRINT BORROW RETURN INFO =================
-    public static void printBorrowReturnBookSlipInfo(BorrowReturnSlip borrowReturnSlip) {
+    // ================= PRINT BORROW SLIP INFO =================
+    public static void printBorrowBookSlipInfo(BorrowReturnSlip borrowReturnSlip) {
+        if (borrowReturnSlip == null) {
+            System.out.println("Không có thông tin phiếu mượn");
+            return;
+        }
+
         System.out.println("\n====== THÔNG TIN PHIẾU SÁCH ======");
         System.out.println("1. Mã phiếu mượn: " + borrowReturnSlip.getBorrowId());
         System.out.println("2. Mã độc giả: " + borrowReturnSlip.getReaderId());
         System.out.println("3. Ngày mượn: " + borrowReturnSlip.getBorrowDate());
         System.out.println("4. Ngày trả dự kiến: " + borrowReturnSlip.getExpectedReturnDate());
-        System.out.println("5. Ngày trả thực tế: " + borrowReturnSlip.getActualReturnDate());
-        System.out.println("6. Danh sách ISBN sách mượn: " + borrowReturnSlip.getBorrowBookIsbns());
-        System.out.println("7. Danh sách ISBN sách mất: " + borrowReturnSlip.getLostBookIsbns());
+        System.out.println("5. Danh sách ISBN sách mượn: " + borrowReturnSlip.getBorrowBookIsbns());
     }
 }
