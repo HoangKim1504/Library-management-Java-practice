@@ -98,6 +98,23 @@ public class LibraryManagement {
                 "BK00005", "Nghệ Thuật Sống", "Nhiều tác giả", "NXB Tổng Hợp", 2022,
                 BookCategory.OTHER, 95000, 20);
 
+        // Borrow slip data
+        BorrowReturnSlip borrowSlip1 = new BorrowReturnSlip(
+                "BR0001", "R0001", LocalDate.of(2026, 5, 1), LocalDate.of(2026, 5, 8),
+                LocalDate.of(2026, 5, 10), List.of("BK0001", "BK0003"), List.of("BK0003"));
+        BorrowReturnSlip borrowSlip2 = new BorrowReturnSlip(
+                "BR0002", "0002", LocalDate.of(2026, 5, 3), LocalDate.of(2026, 5, 10),
+                LocalDate.of(2026, 5, 9), List.of("BK0002", "BK0004"), List.of());
+        BorrowReturnSlip borrowSlip3 = new BorrowReturnSlip(
+                "BR0003", "0003", LocalDate.of(2026, 5, 5), LocalDate.of(2026, 5, 12),
+                LocalDate.of(2026, 5, 15), List.of("BK0001", "BK0005"), List.of("BK0005"));
+        BorrowReturnSlip borrowSlip4 = new BorrowReturnSlip(
+                "BR0004", "0004", LocalDate.of(2026, 5, 7), LocalDate.of(2026, 5, 14),
+                null, List.of("BK0003"), List.of());
+        BorrowReturnSlip borrowSlip5 = new BorrowReturnSlip(
+                "BR0005", "0005", LocalDate.of(2026, 5, 8), LocalDate.of(2026, 5, 15),
+                LocalDate.of(2026, 5, 15), List.of("BK0002", "BK0004", "BK0005"), List.of());
+
         // Create users
         userService.createUser(admin);
         userService.createUser(manager);
@@ -118,6 +135,13 @@ public class LibraryManagement {
         bookService.createBook(book3);
         bookService.createBook(book4);
         bookService.createBook(book5);
+
+        // Create borrow slips
+        borrowReturnSlipService.createBorrowReturnSlip(borrowSlip1);
+        borrowReturnSlipService.createBorrowReturnSlip(borrowSlip2);
+        borrowReturnSlipService.createBorrowReturnSlip(borrowSlip3);
+        borrowReturnSlipService.createBorrowReturnSlip(borrowSlip4);
+        borrowReturnSlipService.createBorrowReturnSlip(borrowSlip5);
     }
 
     // ================= MAIN PROGRAM FLOW =================
@@ -763,11 +787,11 @@ public class LibraryManagement {
 
     // ================= BORROW BOOK SLIP MENU =================
     public void borrowBookSlipScreen() {
-        while (true) {
+        while (!userService.requireRole(userId, ADMIN, MANAGER, USER)) { // Allow all roles
             System.out.println("\n====== TẠO PHIẾU MƯỢN SÁCH ======");
 
             // Input borrow book slip info
-            BorrowReturnSlip borrowSlip = borrowReturnSlipService.inputBorrowSlipInfo();
+            BorrowReturnSlip borrowSlip = borrowReturnSlipService.inputBorrowSlipInfo(readerService);
 
             // Invalid borrow book slip information
             if (borrowSlip == null) {
@@ -775,7 +799,7 @@ public class LibraryManagement {
             }
 
             // Create new borrow book slip
-            boolean isSuccess = borrowReturnSlipService.createBorrowSlip(borrowSlip);
+            boolean isSuccess = borrowReturnSlipService.createBorrowReturnSlip(borrowSlip);
 
             // Create borrow book slip fail
             if (!isSuccess) {
@@ -786,7 +810,7 @@ public class LibraryManagement {
             // Create borrow book slip successfully
             System.out.println("Tạo phiếu mượn sách thành công!");
 
-            PrintUtil.printBorrowBookSlipInfo(borrowSlip, false);
+            PrintUtil.printBorrowReturnBookSlipInfo(borrowSlip, false);
 
             return;
         }

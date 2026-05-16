@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class InputUtil {
     private static final Scanner sc = new Scanner(System.in);
 
-    // ================= INPUT HELPER =================
+    // ================= INPUT NUM HELPER =================
     public static int readNum(String prompt) {
         while (true) {
             System.out.print(prompt);
@@ -21,6 +21,25 @@ public class InputUtil {
             } catch (NumberFormatException e) {
                 System.out.println("Vui lòng nhập số hợp lệ!");
             }
+        }
+    }
+
+    // ================= INPUT CHAR HELPER =================
+    public static char readChar(String prompt) {
+        while (true) {
+            System.out.println(prompt);
+            System.out.println("Nhập 'y' để tiếp tục nhập, nhập 'n' để dừng lại.");
+            System.out.print("Chọn: ");
+            char ans = Character.toLowerCase(sc.next().charAt(0));
+
+            sc.nextLine(); // Clear scanner buffer
+
+            // Validate answer
+            if (ans == 'y' || ans == 'n') {
+                return ans;
+            }
+
+            System.out.println("Vui lòng chỉ nhập 'y' hoặc 'n'!");
         }
     }
 

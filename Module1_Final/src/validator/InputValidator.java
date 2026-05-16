@@ -19,6 +19,8 @@ public class InputValidator {
     private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
     private static final String BOOK_TITLE_REGEX = "^[A-Za-zÀ-ỹ0-9+\\-#().,:\\s]{2,100}$";
     private static final String PUBLISHER_REGEX = "^[\\p{L}0-9&'.,\\-\\s]{2,100}$";
+    private static final String READER_ID_REGEX = "^R\\d{4}$";
+    private static final String BORROW_ID_REGEX = "^BK\\d{5}$";
 
     // ================= INPUT VALID STRING =================
     public static String inputValidString(String prompt, @NotNull Predicate<String> validator) {
@@ -268,6 +270,16 @@ public class InputValidator {
         return isValidStringByRegex(publisher, PUBLISHER_REGEX, "Nhà xuất bản không hợp lệ!");
     }
 
+    // ================= VALID READER ID =================
+    public static boolean isValidReaderId(String id) {
+        return isValidStringByRegex(id, READER_ID_REGEX, "Mã độc giả không hợp lệ!");
+    }
+
+    // ================= VALID BORROW ID =================
+    public static boolean isValidBorrowId(String id) {
+        return isValidStringByRegex(id, BORROW_ID_REGEX, "Mã sách không hợp lệ!");
+    }
+
     // ================= VALID NEW YEAR =================
     public static boolean isValidYear(int year) {
         int currentYear = LocalDate.now().getYear();
@@ -291,4 +303,30 @@ public class InputValidator {
         return quantity > 0;
     }
 
+    // ================= VALID RETURN DATE =================
+    public static boolean isValidReturnDate(@NotNull String borrowDate, @NotNull String returnDate) {
+        // Borrow date info
+        int borrowYear = Integer.parseInt(borrowDate.substring(0, 4));
+        int borrowMonth = Integer.parseInt(borrowDate.substring(5, 7));
+        int borrowDay = Integer.parseInt(borrowDate.substring(8, 10));
+
+        // Return date info
+        int returnYear = Integer.parseInt(returnDate.substring(0, 4));
+        int returnMonth = Integer.parseInt(returnDate.substring(5, 7));
+        int returnDay = Integer.parseInt(returnDate.substring(8, 10));
+
+        if (borrowYear < returnYear) {
+            return true;
+        } else if (borrowYear == returnYear) {
+            if (borrowMonth < returnMonth) {
+                return true;
+            } else if (borrowMonth == returnMonth) {
+                if (borrowDay < returnDay) {
+                    return true;
+                } else return borrowDay == returnDay;
+            }
+        }
+
+        return false;
+    }
 }

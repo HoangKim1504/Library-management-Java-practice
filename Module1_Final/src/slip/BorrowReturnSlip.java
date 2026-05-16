@@ -1,7 +1,5 @@
 package slip;
 
-import book.Book;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -11,18 +9,28 @@ public class BorrowReturnSlip {
     private LocalDate borrowDate;
     private LocalDate expectedReturnDate;
     private LocalDate actualReturnDate;
-    private List<Book> borrowBookIsbns;
-    private List<Book> lostBookIsbns;
+    private List<String> borrowBookIsbns;
+    private List<String> lostBookIsbns;
 
     public BorrowReturnSlip() {
     }
 
-    public BorrowReturnSlip(String borrowId, String readerId, LocalDate borrowDate, LocalDate expectedReturnDate, LocalDate actualReturnDate) {
+    public BorrowReturnSlip(String borrowId, String readerId, LocalDate borrowDate, LocalDate expectedReturnDate, LocalDate actualReturnDate, List<String> borrowBookIsbns, List<String> lostBookIsbns) {
         this.borrowId = borrowId;
         this.readerId = readerId;
         this.borrowDate = borrowDate;
         this.expectedReturnDate = expectedReturnDate;
         this.actualReturnDate = actualReturnDate;
+        this.borrowBookIsbns = borrowBookIsbns;
+        this.lostBookIsbns = lostBookIsbns;
+    }
+
+    public BorrowReturnSlip(String borrowId, String readerId, LocalDate borrowDate, LocalDate expectedReturnDate, List<String> borrowBookIsbns) {
+        this.borrowId = borrowId;
+        this.readerId = readerId;
+        this.borrowDate = borrowDate;
+        this.expectedReturnDate = expectedReturnDate;
+        this.borrowBookIsbns = borrowBookIsbns;
     }
 
     public String getBorrowId() {
@@ -65,19 +73,19 @@ public class BorrowReturnSlip {
         this.actualReturnDate = actualReturnDate;
     }
 
-    public List<Book> getBorrowBookIsbns() {
+    public List<String> getBorrowBookIsbns() {
         return borrowBookIsbns;
     }
 
-    public void setBorrowBookIsbns(List<Book> borrowBookIsbns) {
+    public void setBorrowBookIsbns(List<String> borrowBookIsbns) {
         this.borrowBookIsbns = borrowBookIsbns;
     }
 
-    public List<Book> getLostBookIsbns() {
+    public List<String> getLostBookIsbns() {
         return lostBookIsbns;
     }
 
-    public void setLostBookIsbns(List<Book> lostBookIsbns) {
+    public void setLostBookIsbns(List<String> lostBookIsbns) {
         this.lostBookIsbns = lostBookIsbns;
     }
 

@@ -2,6 +2,7 @@ package util;
 
 import book.Book;
 import reader.Reader;
+import slip.BorrowReturnSlip;
 import user.User;
 
 public class PrintUtil {
@@ -102,5 +103,22 @@ public class PrintUtil {
         System.out.println("5. Thể loại: " + book.getCategory().getDisplayName());
         System.out.println("6. Giá sách: " + book.getPrice() + " VNĐ");
         System.out.println("7. Số lượng: " + book.getQuantity());
+    }
+
+    // ================= PRINT BORROW RETURN INFO =================
+    public static void printBorrowReturnBookSlipInfo(BorrowReturnSlip borrowReturnSlip, boolean isUpdate) {
+        if (isUpdate) {
+            System.out.println("\n====== THÔNG TIN PHIẾU SÁCH ĐÃ ĐƯỢC CẬP NHẬP ======");
+        } else {
+            System.out.println("\n====== THÔNG TIN PHIẾU SÁCH ======");
+        }
+
+        System.out.println("1. Mã phiếu mượn: " + borrowReturnSlip.getBorrowId());
+        System.out.println("2. Mã độc giả: " + borrowReturnSlip.getReaderId());
+        System.out.println("3. Ngày mượn: " + borrowReturnSlip.getBorrowDate());
+        System.out.println("4. Ngày trả dự kiến: " + borrowReturnSlip.getExpectedReturnDate());
+        System.out.println("5. Ngày trả thực tế: " + borrowReturnSlip.getActualReturnDate());
+        System.out.println("6. Danh sách ISBN sách mượn: " + borrowReturnSlip.getBorrowBookIsbns());
+        System.out.println("7. Danh sách ISBN sách mất: " + borrowReturnSlip.getLostBookIsbns());
     }
 }
