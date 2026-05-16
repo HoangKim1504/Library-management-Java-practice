@@ -73,7 +73,7 @@ public class ReaderService {
 
     // ================= GENERATE NEW READER ID =================
     public String generateNewReaderId() {
-        // First reader
+        // Default first reader
         if (readerList.isEmpty()) {
             return "R0001";
         }
@@ -81,15 +81,17 @@ public class ReaderService {
         // Get last reader
         Reader lastReader = readerList.getLast();
 
-        // Get last readerId (Remove prefix R)
+        // Get last reader ID (Remove R prefix)
         String lastReaderId = lastReader.getReaderId().replace("R", "");
 
-        // Create new readerId
+        // Create new reader ID
         try {
+            // Convert reader ID to integer
             int id = Integer.parseInt(lastReaderId);
+            // Generate next reader ID
             return String.format("R%04d", id + 1); // keep format: R0001, R0002, ...
         } catch (NumberFormatException e) {
-            System.out.println("ReaderId không hợp lệ!");
+            System.out.println("Mã độc giả không hợp lệ!");
             return null;
         }
     }
@@ -103,30 +105,30 @@ public class ReaderService {
             return null;
         }
 
-        // Full name
+        // Input full name
         String fullName = InputValidator.inputValidString("Họ Tên: ", InputValidator::isValidName);
 
-        // NationalId
+        // Input national ID
         String nationalId = InputValidator.inputValidString("CMND: ", InputValidator::isValidId);
 
-        // Birthdate
+        // Input birthDate
         String inputBirthDate = InputValidator.inputValidString("Ngày tháng năm sinh: ", InputValidator::isValidDate);
         LocalDate birthDate = DateUtil.parseLocalDate(inputBirthDate, "yyyy-MM-dd");
 
-        // Gender
+        // Input gender
         Gender gender = InputUtil.inputGender();
         if (gender == null) {
             System.out.println("Thông tin giới tính bị lỗi!");
             return null;
         }
 
-        // Email
+        // Input email
         String email = InputValidator.inputValidString("Email: ", InputValidator::isValidEmail);
 
-        // Address
+        // Input address
         String address = InputValidator.inputValidString("Địa chỉ: ", InputValidator::isValidAddress);
 
-        // CreatedDate
+        // Input created date
         String inputCreatedDate = InputValidator.inputValidString("Ngày lập thẻ: ", InputValidator::isValidDate);
         LocalDate createdDate = DateUtil.parseLocalDate(inputCreatedDate, "yyyy-MM-dd");
 
