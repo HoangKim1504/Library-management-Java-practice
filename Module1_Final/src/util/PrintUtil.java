@@ -53,6 +53,11 @@ public class PrintUtil {
 
     // ================= PRINT USER INFO =================
     public static void printUserInfo(User user, boolean isUpdate) {
+        if (user == null) {
+            System.out.println("Không có thông tin người dùng");
+            return;
+        }
+
         if (isUpdate) {
             System.out.println("\n====== THÔNG TIN NGƯỜI DÙNG ĐÃ ĐƯỢC CẬP NHẬP ======");
         } else {
@@ -71,6 +76,11 @@ public class PrintUtil {
 
     // ================= PRINT READER INFO =================
     public static void printReaderInfo(Reader reader, boolean isUpdate) {
+        if (reader == null) {
+            System.out.println("Không có thông tin độc giả");
+            return;
+        }
+
         if (isUpdate) {
             System.out.println("\n====== THÔNG TIN ĐỘC GIẢ ĐÃ ĐƯỢC CẬP NHẬP ======");
         } else {
@@ -89,6 +99,11 @@ public class PrintUtil {
 
     // ================= PRINT BOOK INFO =================
     public static void printBookInfo(Book book, boolean isUpdate) {
+        if (book == null) {
+            System.out.println("Không có thông tin sách");
+            return;
+        }
+
         if (isUpdate) {
             System.out.println("\n====== THÔNG TIN SÁCH ĐÃ ĐƯỢC CẬP NHẬP ======");
         } else {
