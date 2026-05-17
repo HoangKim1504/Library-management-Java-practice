@@ -38,23 +38,26 @@ public class BorrowReturnSlipService {
     }
 
     // ================= CREATE NEW RETURN SLIP =================
-    public boolean createReturnSlip(BorrowReturnSlip returnSlip) {
+    public BorrowReturnSlip updateBorrowSlip(BorrowReturnSlip returnSlip) {
         // Validate return slip object
         if (returnSlip == null) {
             System.out.println("Phiếu trả sách không hợp lệ!");
-            return false;
+            return null;
         }
+
+        BorrowReturnSlip currentSlip = findCurrentBorrowReturnSlip(returnSlip.getBorrowId());
 
         // Check exist of borrow slip
-        if (findCurrentBorrowReturnSlip(returnSlip.getBorrowId()) == null) {
+        if (currentSlip == null) {
             System.out.println("Phiếu mượn sách không tồn tại!");
-            return false;
+            return null;
         }
 
-        // Add new return slip
-        borrowReturnList.add(returnSlip);
+        // Update borrow slip
+        currentSlip.setActualReturnDate(returnSlip.getActualReturnDate());
+        currentSlip.setLostBookIsbns(returnSlip.getLostBookIsbns());
 
-        return true;
+        return currentSlip;
     }
 
     // ================= FIND CURRENT BORROW RETURN SLIP =================

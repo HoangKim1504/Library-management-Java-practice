@@ -845,10 +845,10 @@ public class LibraryManagement {
             }
 
             // Create return slip
-            boolean isSuccess = borrowReturnSlipService.createReturnSlip(returnSlip);
+            BorrowReturnSlip updateBorrowSlip = borrowReturnSlipService.updateBorrowSlip(returnSlip);
 
             // Create fail
-            if (!isSuccess) {
+            if (updateBorrowSlip == null) {
                 System.out.println("Tạo phiếu trả sách thất bại!");
                 continue;
             }
@@ -856,7 +856,7 @@ public class LibraryManagement {
             // Create return book slip successfully
             System.out.println("Tạo phiếu trả sách thành công!");
 
-            PrintUtil.printReturnBookSlipInfo(returnSlip);
+            PrintUtil.printReturnBookSlipInfo(updateBorrowSlip);
 
             return;
         }
