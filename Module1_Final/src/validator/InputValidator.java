@@ -304,29 +304,13 @@ public class InputValidator {
     }
 
     // ================= VALID RETURN DATE =================
-    public static boolean isValidReturnDate(@NotNull String borrowDate, @NotNull String returnDate) {
-        // Borrow date info
-        int borrowYear = Integer.parseInt(borrowDate.substring(0, 4));
-        int borrowMonth = Integer.parseInt(borrowDate.substring(5, 7));
-        int borrowDay = Integer.parseInt(borrowDate.substring(8, 10));
-
-        // Return date info
-        int returnYear = Integer.parseInt(returnDate.substring(0, 4));
-        int returnMonth = Integer.parseInt(returnDate.substring(5, 7));
-        int returnDay = Integer.parseInt(returnDate.substring(8, 10));
-
-        if (borrowYear < returnYear) {
-            return true;
-        } else if (borrowYear == returnYear) {
-            if (borrowMonth < returnMonth) {
-                return true;
-            } else if (borrowMonth == returnMonth) {
-                if (borrowDay < returnDay) {
-                    return true;
-                } else return borrowDay == returnDay;
-            }
+    public static boolean isValidReturnDate(@NotNull LocalDate borrowDate, @NotNull LocalDate returnDate) {
+        try {
+            // Return date must be after or equal borrow date
+            return returnDate.isAfter(borrowDate);
+        } catch (Exception e) {
+            System.out.println("Ngày trả không hợp lệ!");
+            return false;
         }
-
-        return false;
     }
 }

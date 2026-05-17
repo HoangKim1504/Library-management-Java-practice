@@ -132,12 +132,12 @@ public class BorrowReturnSlipService {
         LocalDate expectedReturnDate;
         while (true) {
             String inputExpectedReturnDate = InputValidator.inputValidString("Ngày trả dự kiến: ", InputValidator::isValidDate);
-            boolean isValidReturnDate = InputValidator.isValidReturnDate(inputBorrowDate, inputExpectedReturnDate);
+            expectedReturnDate = DateUtil.parseLocalDate(inputExpectedReturnDate, "yyyy-MM-dd");
+            boolean isValidReturnDate = InputValidator.isValidReturnDate(borrowDate, expectedReturnDate);
             if (!isValidReturnDate) {
                 System.out.println("Ngày dự kiến trả phải sau ngày hoặc bằng ngày mượn sách!");
                 continue;
             }
-            expectedReturnDate = DateUtil.parseLocalDate(inputExpectedReturnDate, "yyyy-MM-dd");
             break;
         }
 
@@ -147,7 +147,7 @@ public class BorrowReturnSlipService {
             boolean isSuccess = addBorrowBookIsbn("Nhập 1 mã sách mượn: ", borrowBookIsbnList);
             if (!isSuccess) continue;
 
-            char ans = InputUtil.readChar("Có tiếp tục nhập mã sách không?");
+            char ans = InputUtil.readYesNo("Có tiếp tục nhập mã sách không?");
             if (ans == 'y') continue;
             if (ans == 'n') break;
         }

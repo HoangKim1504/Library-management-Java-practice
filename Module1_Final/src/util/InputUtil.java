@@ -24,8 +24,8 @@ public class InputUtil {
         }
     }
 
-    // ================= INPUT CHAR HELPER =================
-    public static char readChar(String prompt) {
+    // ================= READ YES/NO INPUT =================
+    public static char readYesNo(String prompt) {
         while (true) {
             System.out.println(prompt);
             System.out.println("Nhập 'y' để tiếp tục nhập, nhập 'n' để dừng lại.");
