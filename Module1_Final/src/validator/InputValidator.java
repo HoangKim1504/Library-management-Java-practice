@@ -222,15 +222,35 @@ public class InputValidator {
         }
     }
 
-    // ================= VALID RETURN DATE =================
-    public static boolean isValidReturnDate(@NotNull LocalDate borrowDate, @NotNull LocalDate returnDate) {
-        try {
-            // Return date must be after or equal borrow date
-            return returnDate.isAfter(borrowDate);
-        } catch (Exception e) {
-            System.out.println("Ngày trả không hợp lệ!");
+    // ================= VALID EXPECTED RETURN DATE =================
+    public static boolean isValidExpectedReturnDate(@NotNull LocalDate borrowDate, @NotNull LocalDate returnDate) {
+        // Return date cannot be before borrow date
+        if (returnDate.isBefore(borrowDate)) {
+            System.out.println("Ngày trả dự kiến không được trước ngày mượn!");
             return false;
         }
+
+        // Maximum borrow duration is 7 days
+        LocalDate maxReturnDate = borrowDate.plusDays(7);
+
+        // Return date exceeds maximum borrow duration
+        if (returnDate.isAfter(maxReturnDate)) {
+            System.out.println("Sách chỉ được mượn tối đa 7 ngày!");
+            return false;
+        }
+
+        return true;
+    }
+
+    // ================= VALID ACTUAL RETURN DATE =================
+    public static boolean isValidActualReturnDate(@NotNull LocalDate borrowDate, @NotNull LocalDate returnDate) {
+        // Return date cannot be before borrow date
+        if (returnDate.isBefore(borrowDate)) {
+            System.out.println("Ngày trả thực tế không được trước ngày mượn!");
+            return false;
+        }
+
+        return true;
     }
 
     // ================= VALID ADDRESS =================

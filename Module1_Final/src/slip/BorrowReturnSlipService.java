@@ -9,11 +9,8 @@ import validator.InputValidator;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class BorrowReturnSlipService {
-    private static final Scanner sc = new Scanner(System.in);
-
     // ================= STORE ALL BORROW RETURN SLIPS =================
     private final List<BorrowReturnSlip> borrowReturnList = new ArrayList<>(); // Prevents accidental reassignment to the list
 
@@ -156,9 +153,8 @@ public class BorrowReturnSlipService {
         while (true) {
             String inputExpectedReturnDate = InputValidator.inputValidString("Ngày trả dự kiến: ", InputValidator::isValidDate);
             expectedReturnDate = DateUtil.parseLocalDate(inputExpectedReturnDate, "yyyy-MM-dd");
-            boolean isValidReturnDate = InputValidator.isValidReturnDate(borrowDate, expectedReturnDate);
-            if (!isValidReturnDate) {
-                System.out.println("Ngày dự kiến trả phải sau ngày hoặc bằng ngày mượn sách!");
+            boolean isValidExpectedReturnDate = InputValidator.isValidExpectedReturnDate(borrowDate, expectedReturnDate);
+            if (!isValidExpectedReturnDate) {
                 continue;
             }
             break;
@@ -236,9 +232,8 @@ public class BorrowReturnSlipService {
         while (true) {
             String inputActualReturnDate = InputValidator.inputValidString("Ngày trả thực tế: ", InputValidator::isValidDate);
             actualReturnDate = DateUtil.parseLocalDate(inputActualReturnDate, "yyyy-MM-dd");
-            boolean isValidReturnDate = InputValidator.isValidReturnDate(findBorrowSlip.getBorrowDate(), actualReturnDate);
-            if (!isValidReturnDate) {
-                System.out.println("Ngày thực tế trả phải sau ngày hoặc bằng ngày mượn sách!");
+            boolean isValidActualReturnDate = InputValidator.isValidActualReturnDate(findBorrowSlip.getBorrowDate(), actualReturnDate);
+            if (!isValidActualReturnDate) {
                 continue;
             }
             break;
