@@ -137,11 +137,11 @@ public class LibraryManagement {
         bookService.createBook(book5);
 
         // Create borrow slips
-        borrowReturnSlipService.createBorrowReturnSlip(borrowSlip1);
-        borrowReturnSlipService.createBorrowReturnSlip(borrowSlip2);
-        borrowReturnSlipService.createBorrowReturnSlip(borrowSlip3);
-        borrowReturnSlipService.createBorrowReturnSlip(borrowSlip4);
-        borrowReturnSlipService.createBorrowReturnSlip(borrowSlip5);
+        borrowReturnSlipService.createBorrowSlip(borrowSlip1);
+        borrowReturnSlipService.createBorrowSlip(borrowSlip2);
+        borrowReturnSlipService.createBorrowSlip(borrowSlip3);
+        borrowReturnSlipService.createBorrowSlip(borrowSlip4);
+        borrowReturnSlipService.createBorrowSlip(borrowSlip5);
     }
 
     // ================= MAIN PROGRAM FLOW =================
@@ -166,6 +166,9 @@ public class LibraryManagement {
                     break;
                 case 4:
                     borrowBookSlipScreen();
+                    break;
+                case 5:
+                    returnBookSlipScreen();
                     break;
                 case 0:
                     return;
@@ -805,7 +808,7 @@ public class LibraryManagement {
             }
 
             // Create borrow slip
-            boolean isSuccess = borrowReturnSlipService.createBorrowReturnSlip(borrowSlip);
+            boolean isSuccess = borrowReturnSlipService.createBorrowSlip(borrowSlip);
 
             // Create fail
             if (!isSuccess) {
@@ -817,6 +820,43 @@ public class LibraryManagement {
             System.out.println("Tạo phiếu mượn sách thành công!");
 
             PrintUtil.printBorrowBookSlipInfo(borrowSlip);
+
+            return;
+        }
+    }
+
+    // ================= BORROW BOOK SLIP MENU =================
+    public void returnBookSlipScreen() {
+        // Allow all roles
+        if (userService.requireRole(userId, ADMIN, MANAGER, USER)) {
+            return;
+        }
+
+        while (true) {
+            System.out.println("\n====== TẠO PHIẾU TRẢ SÁCH ======");
+
+            // Input return slip info
+            BorrowReturnSlip returnSlip = borrowReturnSlipService.inputReturnSlipInfo(readerService);
+
+            // Invalid return slip
+            if (returnSlip == null) {
+                System.out.println("Thông tin phiếu trả không hợp lệ!");
+                continue;
+            }
+
+            // Create return slip
+            boolean isSuccess = borrowReturnSlipService.createReturnSlip(returnSlip);
+
+            // Create fail
+            if (!isSuccess) {
+                System.out.println("Tạo phiếu trả sách thất bại!");
+                continue;
+            }
+
+            // Create return book slip successfully
+            System.out.println("Tạo phiếu trả sách thành công!");
+
+            PrintUtil.printReturnBookSlipInfo(returnSlip);
 
             return;
         }

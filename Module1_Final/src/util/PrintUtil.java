@@ -121,17 +121,34 @@ public class PrintUtil {
     }
 
     // ================= PRINT BORROW SLIP INFO =================
-    public static void printBorrowBookSlipInfo(BorrowReturnSlip borrowReturnSlip) {
-        if (borrowReturnSlip == null) {
+    public static void printBorrowBookSlipInfo(BorrowReturnSlip borrowSlip) {
+        if (borrowSlip == null) {
             System.out.println("Không có thông tin phiếu mượn");
             return;
         }
 
-        System.out.println("\n====== THÔNG TIN PHIẾU SÁCH ======");
-        System.out.println("1. Mã phiếu mượn: " + borrowReturnSlip.getBorrowId());
-        System.out.println("2. Mã độc giả: " + borrowReturnSlip.getReaderId());
-        System.out.println("3. Ngày mượn: " + borrowReturnSlip.getBorrowDate());
-        System.out.println("4. Ngày trả dự kiến: " + borrowReturnSlip.getExpectedReturnDate());
-        System.out.println("5. Danh sách ISBN sách mượn: " + borrowReturnSlip.getBorrowBookIsbns());
+        System.out.println("\n====== THÔNG TIN PHIẾU SÁCH MƯỢN ======");
+        System.out.println("1. Mã phiếu mượn: " + borrowSlip.getBorrowId());
+        System.out.println("2. Mã độc giả: " + borrowSlip.getReaderId());
+        System.out.println("3. Ngày mượn: " + borrowSlip.getBorrowDate());
+        System.out.println("4. Ngày trả dự kiến: " + borrowSlip.getExpectedReturnDate());
+        System.out.println("5. Danh sách ISBN sách mượn: " + borrowSlip.getBorrowBookIsbns());
+    }
+
+    // ================= PRINT RETURN SLIP INFO =================
+    public static void printReturnBookSlipInfo(BorrowReturnSlip returnSlip) {
+        if (returnSlip == null) {
+            System.out.println("Không có thông tin phiếu trả");
+            return;
+        }
+
+        System.out.println("\n====== THÔNG TIN PHIẾU SÁCH TRẢ ======");
+        System.out.println("1. Mã phiếu mượn: " + returnSlip.getBorrowId());
+        System.out.println("2. Mã độc giả: " + returnSlip.getReaderId());
+        System.out.println("3. Ngày mượn: " + returnSlip.getBorrowDate());
+        System.out.println("4. Ngày trả dự kiến: " + returnSlip.getExpectedReturnDate());
+        System.out.println("5. Ngày trả thực tế: " + returnSlip.getActualReturnDate());
+        System.out.println("6. Danh sách ISBN sách mượn: " + returnSlip.getBorrowBookIsbns());
+        System.out.println("7. Danh sách ISBN sách bị mất: " + returnSlip.getLostBookIsbns());
     }
 }

@@ -21,6 +21,7 @@ public class InputValidator {
     private static final String PUBLISHER_REGEX = "^[\\p{L}0-9&'.,\\-\\s]{2,100}$";
     private static final String READER_ID_REGEX = "^R\\d{4}$";
     private static final String BOOK_ID_REGEX = "^BK\\d{5}$";
+    private static final String BORROW_ID_REGEX = "^BR\\d{4}$";
 
     // ================= INPUT VALID STRING =================
     public static String inputValidString(String prompt, @NotNull Predicate<String> validator) {
@@ -221,6 +222,17 @@ public class InputValidator {
         }
     }
 
+    // ================= VALID RETURN DATE =================
+    public static boolean isValidReturnDate(@NotNull LocalDate borrowDate, @NotNull LocalDate returnDate) {
+        try {
+            // Return date must be after or equal borrow date
+            return returnDate.isAfter(borrowDate);
+        } catch (Exception e) {
+            System.out.println("Ngày trả không hợp lệ!");
+            return false;
+        }
+    }
+
     // ================= VALID ADDRESS =================
     public static boolean isValidAddress(String address) {
         // Validate input
@@ -280,6 +292,11 @@ public class InputValidator {
         return isValidStringByRegex(id, BOOK_ID_REGEX, "Mã sách không hợp lệ!");
     }
 
+    // ================= VALID BORROW ID =================
+    public static boolean isValidBorrowId(String id) {
+        return isValidStringByRegex(id, BORROW_ID_REGEX, "Mã phiếu mượn sách không hợp lệ!");
+    }
+
     // ================= VALID NEW YEAR =================
     public static boolean isValidYear(int year) {
         int currentYear = LocalDate.now().getYear();
@@ -303,14 +320,4 @@ public class InputValidator {
         return quantity > 0;
     }
 
-    // ================= VALID RETURN DATE =================
-    public static boolean isValidReturnDate(@NotNull LocalDate borrowDate, @NotNull LocalDate returnDate) {
-        try {
-            // Return date must be after or equal borrow date
-            return returnDate.isAfter(borrowDate);
-        } catch (Exception e) {
-            System.out.println("Ngày trả không hợp lệ!");
-            return false;
-        }
-    }
 }

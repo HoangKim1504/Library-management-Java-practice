@@ -34,6 +34,14 @@ public class BorrowReturnSlip {
         this.borrowBookIsbns = borrowBookIsbns;
     }
 
+    // ================= CREATE RETURN SLIP =================
+    public BorrowReturnSlip(String borrowId, String readerId, LocalDate actualReturnDate, List<String> lostBookIsbns) {
+        this.borrowId = borrowId;
+        this.readerId = readerId;
+        this.actualReturnDate = actualReturnDate;
+        this.lostBookIsbns = lostBookIsbns;
+    }
+
     public String getBorrowId() {
         return borrowId;
     }

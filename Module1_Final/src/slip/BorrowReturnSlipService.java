@@ -17,22 +17,42 @@ public class BorrowReturnSlipService {
     // ================= STORE ALL BORROW RETURN SLIPS =================
     private final List<BorrowReturnSlip> borrowReturnList = new ArrayList<>(); // Prevents accidental reassignment to the list
 
-    // ================= CREATE NEW BORROW RETURN SLIP =================
-    public boolean createBorrowReturnSlip(BorrowReturnSlip borrowReturnSlip) {
+    // ================= CREATE NEW BORROW SLIP =================
+    public boolean createBorrowSlip(BorrowReturnSlip borrowSlip) {
         // Validate borrow slip object
-        if (borrowReturnSlip == null) {
-            System.out.println("Phiếu mượn/ trả sách không hợp lệ!");
+        if (borrowSlip == null) {
+            System.out.println("Phiếu mượn sách không hợp lệ!");
             return false;
         }
 
         // Check duplicate borrow ID
-        if (findCurrentBorrowReturnSlip(borrowReturnSlip.getBorrowId()) != null) {
-            System.out.println("Phiếu mượn/ trả sách đã tồn tại!");
+        if (findCurrentBorrowReturnSlip(borrowSlip.getBorrowId()) != null) {
+            System.out.println("Phiếu mượn sách đã tồn tại!");
             return false;
         }
 
         // Add new borrow slip
-        borrowReturnList.add(borrowReturnSlip);
+        borrowReturnList.add(borrowSlip);
+
+        return true;
+    }
+
+    // ================= CREATE NEW RETURN SLIP =================
+    public boolean createReturnSlip(BorrowReturnSlip returnSlip) {
+        // Validate return slip object
+        if (returnSlip == null) {
+            System.out.println("Phiếu trả sách không hợp lệ!");
+            return false;
+        }
+
+        // Check exist of borrow slip
+        if (findCurrentBorrowReturnSlip(returnSlip.getBorrowId()) == null) {
+            System.out.println("Phiếu mượn sách không tồn tại!");
+            return false;
+        }
+
+        // Add new return slip
+        borrowReturnList.add(returnSlip);
 
         return true;
     }
@@ -161,4 +181,93 @@ public class BorrowReturnSlipService {
                 borrowBookIsbnList
         );
     }
+
+    // ================= ADD LOST BOOK ISBN =================
+    public boolean addLostBookIsbn(String prompt, List<String> lostIsbnList, List<String> borrowIsbnList) {
+        // Input lost book ISBN
+        String lostIsbn = InputValidator.inputValidString(prompt, InputValidator::isValidBookId);
+
+        // Check duplicate ISBN
+        for (String borrowIsbn : borrowIsbnList) {
+            if (!lostIsbn.equals(borrowIsbn)) {
+                System.out.println("Không tìm thấy mã sách trong danh sách mã sách đã mượn!");
+                return false;
+            }
+        }
+
+        // Add new ISBN
+        lostIsbnList.add(lostIsbn);
+
+        return true;
+    }
+
+    // ================= INPUT RETURN SLIP INFO =================
+    public BorrowReturnSlip inputReturnSlipInfo(ReaderService readerService) {
+        // Input borrow ID
+        String borrowId;
+        BorrowReturnSlip findBorrowSlip;
+        while (true) {
+            borrowId = InputValidator.inputValidString("Mã phiếu mượn sách: ", InputValidator::isValidBorrowId);
+            findBorrowSlip = findCurrentBorrowReturnSlip(borrowId);
+            if (findBorrowSlip == null) {
+                System.out.println("Không tìm thấy mã phiếu mượn sách!");
+                continue;
+            }
+            break;
+        }
+
+        // Input reader ID
+        String readerId;
+        while (true) {
+            readerId = InputValidator.inputValidString("Mã độc giả: ", InputValidator::isValidReaderId);
+            Reader findReader = readerService.findCurrentReader(readerId);
+            if (findReader == null) {
+                System.out.println("Không tìm thấy mã độc giả!");
+                continue;
+            }
+            break;
+        }
+
+        // Input actual return date
+        LocalDate actualReturnDate;
+        while (true) {
+            String inputActualReturnDate = InputValidator.inputValidString("Ngày trả thực tế: ", InputValidator::isValidDate);
+            actualReturnDate = DateUtil.parseLocalDate(inputActualReturnDate, "yyyy-MM-dd");
+            boolean isValidReturnDate = InputValidator.isValidReturnDate(findBorrowSlip.getBorrowDate(), actualReturnDate);
+            if (!isValidReturnDate) {
+                System.out.println("Ngày thực tế trả phải sau ngày hoặc bằng ngày mượn sách!");
+                continue;
+            }
+            break;
+        }
+
+        // Display borrowed ISBN list
+        List<String> borrowBookIsbnList = findBorrowSlip.getBorrowBookIsbns();
+        System.out.println("Danh sách mã sách mượn: " + borrowBookIsbnList);
+
+        // Input lost ISBN list
+        List<String> lostBookIsbnList = new ArrayList<>();
+
+        while (true) {
+            char ans = InputUtil.readYesNo("Có sách bị mất không?");
+            if (ans == 'y') continue;
+            if (ans == 'n') break;
+
+            boolean isSuccess = addLostBookIsbn("Nhập 1 mã sách bị mất: ", lostBookIsbnList, borrowBookIsbnList);
+            if (!isSuccess) continue;
+
+            char answer = InputUtil.readYesNo("Có tiếp tục nhập mã sách không?");
+            if (answer == 'y') continue;
+            if (answer == 'n') break;
+        }
+
+        // Create return slip object
+        return new BorrowReturnSlip(
+                borrowId,
+                readerId,
+                actualReturnDate,
+                lostBookIsbnList
+        );
+    }
+
 }
