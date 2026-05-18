@@ -8,46 +8,53 @@ import user.User;
 public class PrintUtil {
     // ================= MAIN MENU =================
     public static void printMainMenu() {
+        int index = 1;
+
         System.out.println("\n======= MENU CHÍNH ======");
-        System.out.println("1. Chức năng người dùng (đăng xuất, đổi MK, cập nhật TT, ...)");
-        System.out.println("2. Quản lý độc giả");
-        System.out.println("3. Quản lý sách");
-        System.out.println("4. Lập phiếu mượn sách");
-        System.out.println("5. Lập phiếu trả sách");
-        System.out.println("6. Thống kê");
+        System.out.println(index++ + ". Chức năng người dùng (đăng xuất, đổi MK, cập nhật TT, ...)");
+        System.out.println(index++ + ". Quản lý độc giả");
+        System.out.println(index++ + ". Quản lý sách");
+        System.out.println(index++ + ". Lập phiếu mượn sách");
+        System.out.println(index++ + ". Lập phiếu trả sách");
+        System.out.println(index++ + ". Thống kê");
     }
 
     // ================= USER MENU =================
     public static void printUserMenu() {
+        int index = 1;
+
         System.out.println("\n====== MENU NGƯỜI DÙNG ======");
-        System.out.println("1. Đăng xuất");
-        System.out.println("2. Thay đổi mật khẩu");
-        System.out.println("3. Cập nhật thông tin cá nhân");
-        System.out.println("4. Tạo người dùng");
+        System.out.println(index++ + ". Đăng xuất");
+        System.out.println(index++ + ". Thay đổi mật khẩu");
+        System.out.println(index++ + ". Cập nhật thông tin cá nhân");
+        System.out.println(index++ + ". Tạo người dùng");
         System.out.println("0. Quay lại");
     }
 
     // ================= READER MENU =================
     public static void printReaderMenu() {
+        int index = 1;
         System.out.println("\n====== MENU ĐỘC GIẢ ======");
-        System.out.println("1. Xem danh độc giả trong thư viện");
-        System.out.println("2. Thêm độc giả");
-        System.out.println("3. Chỉnh sửa thông tin một độc giả");
-        System.out.println("4. Xóa thông tin một độc giả");
-        System.out.println("5. Tìm kiếm độc giả theo CMND");
-        System.out.println("6. Tìm kiếm độc giả theo họ tên");
+        System.out.println(index++ + ". Xem danh độc giả trong thư viện");
+        System.out.println(index++ + ". Thêm độc giả");
+        System.out.println(index++ + ". Chỉnh sửa thông tin một độc giả");
+        System.out.println(index++ + ". Xóa thông tin một độc giả");
+        System.out.println(index++ + ". Tìm kiếm độc giả theo CMND");
+        System.out.println(index++ + ". Tìm kiếm độc giả theo họ tên");
         System.out.println("0. Quay lại");
     }
 
     // ================= BOOK MENU =================
     public static void printBookMenu() {
+        int index = 1;
+
         System.out.println("\n====== MENU SÁCH ======");
-        System.out.println("1. Xem danh sách các sách trong thư viện");
-        System.out.println("2. Thêm sách");
-        System.out.println("3. Chỉnh sửa thông tin một quyển sách");
-        System.out.println("4. Xóa thông tin sách");
-        System.out.println("5. Tìm kiếm sách theo ISBN");
-        System.out.println("6. Tìm kiếm sách theo tên sách");
+        System.out.println(index++ + ". Xem danh sách các sách trong thư viện");
+        System.out.println(index++ + ". Thêm sách");
+        System.out.println(index++ + ". Chỉnh sửa thông tin một quyển sách");
+        System.out.println(index++ + ". Xóa thông tin sách");
+        System.out.println(index++ + ". Tìm kiếm sách theo ISBN");
+        System.out.println(index++ + ". Tìm kiếm sách theo tên sách");
         System.out.println("0. Quay lại");
     }
 
@@ -58,20 +65,22 @@ public class PrintUtil {
             return;
         }
 
+        int index = 1;
+
         if (isUpdate) {
             System.out.println("\n====== THÔNG TIN NGƯỜI DÙNG ĐÃ ĐƯỢC CẬP NHẬP ======");
         } else {
             System.out.println("\n====== THÔNG TIN NGƯỜI DÙNG ======");
         }
 
-        System.out.println("1. Tên đăng nhập: " + user.getUserName());
-        System.out.println("2. Họ Tên: " + user.getFullName());
-        System.out.println("3. Ngày sinh: " + user.getBirthDate());
-        System.out.println("4. CMND: " + user.getNationalId());
-        System.out.println("5. Địa chỉ: " + user.getAddress());
-        System.out.println("6. Giới tính: " + user.getGender().getDisplayName());
-        System.out.println("7. Tình trạng: " + user.getStatus().getDisplayName());
-        System.out.println("8. Loại người dùng: " + user.getUserType().getDisplayName());
+        System.out.println(index++ + ". Tên đăng nhập: " + user.getUserName());
+        System.out.println(index++ + ". Họ Tên: " + user.getFullName());
+        System.out.println(index++ + ". Ngày sinh: " + user.getBirthDate());
+        System.out.println(index++ + ". CMND: " + user.getNationalId());
+        System.out.println(index++ + ". Địa chỉ: " + user.getAddress());
+        System.out.println(index++ + ". Giới tính: " + user.getGender().getDisplayName());
+        System.out.println(index++ + ". Tình trạng: " + user.getStatus().getDisplayName());
+        System.out.println(index++ + ". Loại người dùng: " + user.getUserType().getDisplayName());
     }
 
     // ================= PRINT READER INFO =================
@@ -81,6 +90,8 @@ public class PrintUtil {
             return;
         }
 
+        int index = 1;
+
         if (isUpdate) {
             System.out.println("\n====== THÔNG TIN ĐỘC GIẢ ĐÃ ĐƯỢC CẬP NHẬP ======");
         } else {
@@ -88,13 +99,13 @@ public class PrintUtil {
             System.out.println("Mã độc giả: " + reader.getReaderId());
         }
 
-        System.out.println("1. Họ Tên: " + reader.getFullName());
-        System.out.println("2. CMND: " + reader.getNationalId());
-        System.out.println("3. Ngày sinh: " + reader.getBirthDate());
-        System.out.println("4. Giới tính: " + reader.getGender().getDisplayName());
-        System.out.println("5. Email: " + reader.getEmail());
-        System.out.println("6. Ngày lập thẻ: " + reader.getCreatedDate());
-        System.out.println("7. Ngày hết hạn của thẻ (48 tháng kể từ ngày lập thẻ): " + reader.getExpiredDate());
+        System.out.println(index++ + ". Họ Tên: " + reader.getFullName());
+        System.out.println(index++ + ". CMND: " + reader.getNationalId());
+        System.out.println(index++ + ". Ngày sinh: " + reader.getBirthDate());
+        System.out.println(index++ + ". Giới tính: " + reader.getGender().getDisplayName());
+        System.out.println(index++ + ". Email: " + reader.getEmail());
+        System.out.println(index++ + ". Ngày lập thẻ: " + reader.getCreatedDate());
+        System.out.println(index++ + ". Ngày hết hạn của thẻ (48 tháng kể từ ngày lập thẻ): " + reader.getExpiredDate());
     }
 
     // ================= PRINT BOOK INFO =================
@@ -104,6 +115,8 @@ public class PrintUtil {
             return;
         }
 
+        int index = 1;
+
         if (isUpdate) {
             System.out.println("\n====== THÔNG TIN SÁCH ĐÃ ĐƯỢC CẬP NHẬP ======");
         } else {
@@ -111,13 +124,13 @@ public class PrintUtil {
             System.out.println("Mã ISBN: " + book.getIsbn());
         }
 
-        System.out.println("1. Tên sách: " + book.getTitle());
-        System.out.println("2. Tác giả: " + book.getAuthor());
-        System.out.println("3. Nhà xuất bản: " + book.getPublisher());
-        System.out.println("4. Năm xuất bản: " + book.getPublishYear());
-        System.out.println("5. Thể loại: " + book.getCategory().getDisplayName());
-        System.out.println("6. Giá sách: " + book.getPrice() + " VNĐ");
-        System.out.println("7. Số lượng: " + book.getQuantity());
+        System.out.println(index++ + ". Tên sách: " + book.getTitle());
+        System.out.println(index++ + ". Tác giả: " + book.getAuthor());
+        System.out.println(index++ + ". Nhà xuất bản: " + book.getPublisher());
+        System.out.println(index++ + ". Năm xuất bản: " + book.getPublishYear());
+        System.out.println(index++ + ". Thể loại: " + book.getCategory().getDisplayName());
+        System.out.println(index++ + ". Giá sách: " + book.getPrice() + " VNĐ");
+        System.out.println(index++ + ". Số lượng: " + book.getQuantity());
     }
 
     // ================= PRINT BORROW SLIP INFO =================
@@ -134,21 +147,27 @@ public class PrintUtil {
         } else {
             System.out.println("\n====== THÔNG TIN PHIẾU SÁCH TRẢ ======");
         }
+
         System.out.println(index++ + ". Mã phiếu mượn: " + borrowReturnSlip.getBorrowId());
         System.out.println(index++ + ". Mã độc giả: " + borrowReturnSlip.getReaderId());
         System.out.println(index++ + ". Ngày mượn: " + borrowReturnSlip.getBorrowDate());
         System.out.println(index++ + ". Ngày trả dự kiến: " + borrowReturnSlip.getExpectedReturnDate());
+
         if (borrowReturnSlip.getActualReturnDate() != null) {
             System.out.println(index++ + ". Ngày trả thực tế: " + borrowReturnSlip.getActualReturnDate());
         }
+
         System.out.println(index++ + ". Danh sách ISBN sách mượn: " + borrowReturnSlip.getBorrowBookIsbns());
         System.out.println(index++ + ". Danh sách ISBN sách bị mất: " + borrowReturnSlip.getLostBookIsbns());
+
         if (lateFee != 0) {
             System.out.println(index++ + ". Phí mượn sách quá hạn: " + lateFee + " VNĐ");
         }
+
         if (lostBookFee != 0) {
             System.out.println(index++ + ". Phí làm mất sách: " + lostBookFee + " VNĐ");
         }
+
         double totalFee = lateFee + lostBookFee;
         if (totalFee > 0) {
             System.out.println(index++ + ". Tổng phí phạt: " + totalFee + " VNĐ");
