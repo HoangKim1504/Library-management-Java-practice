@@ -40,7 +40,7 @@ public class LibraryManagement {
     private static final UserType USER = UserType.USER;
 
     private static final double LATE_FEE_PER_DAY = 5000;
-    private static final double LOST_BOOK_FEE_RATIO = 2;
+    private static final double LOST_BOOK_FEE_RATIO = 2.0;
 
     public static void main(String[] args) {
         LibraryManagement app = new LibraryManagement();
@@ -822,7 +822,7 @@ public class LibraryManagement {
             // Create borrow book slip successfully
             System.out.println("Tạo phiếu mượn sách thành công!");
 
-            PrintUtil.printBorrowBookSlipInfo(borrowSlip);
+            PrintUtil.printBorrowBookSlipInfo(borrowSlip, 0, 0);
 
             return;
         }
@@ -868,7 +868,7 @@ public class LibraryManagement {
             // Create return book slip successfully
             System.out.println("Tạo phiếu trả sách thành công!");
 
-            PrintUtil.printReturnBookSlipInfo(updateBorrowSlip, lateFee, lostBookFee);
+            PrintUtil.printBorrowBookSlipInfo(updateBorrowSlip, lateFee, lostBookFee);
 
             return;
         }

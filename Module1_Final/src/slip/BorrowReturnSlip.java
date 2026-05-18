@@ -140,15 +140,23 @@ public class BorrowReturnSlip {
     // ================= CALCULATE LOST BOOK FEE =================
     public static double calculateLostBookFee(BorrowReturnSlip returnSlip,
                                               double lateFeeRatio, BookService bookService) {
-        // Validate input
-        if (returnSlip.getLostBookIsbns().isEmpty()) {
+        // Validate borrow return slip
+        if (returnSlip == null) {
             return 0;
         }
 
-        List<String> lostBookList = returnSlip.getLostBookIsbns();
+        // Get lost book ISBN list
+        List<String> lostBookIsbnList = returnSlip.getLostBookIsbns();
+
+        // No lost books
+        if (lostBookIsbnList == null
+                || lostBookIsbnList.isEmpty()) {
+
+            return 0;
+        }
 
         double lostBookFee = 0;
-        for (String lostBook : lostBookList) {
+        for (String lostBook : lostBookIsbnList) {
             Book currentBook = bookService.findCurrentBook(lostBook);
             if (currentBook == null) {
                 System.out.println("Không tìm thấy sách!");
