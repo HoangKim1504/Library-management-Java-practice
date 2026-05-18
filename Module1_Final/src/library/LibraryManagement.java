@@ -39,6 +39,9 @@ public class LibraryManagement {
     private static final UserType MANAGER = UserType.MANAGER;
     private static final UserType USER = UserType.USER;
 
+    private static final double LATE_FEE_PER_DAY = 5000;
+    private static final double LOST_BOOK_FEE_RATIO = 2;
+
     public static void main(String[] args) {
         LibraryManagement app = new LibraryManagement();
         app.createInitData();
@@ -101,19 +104,19 @@ public class LibraryManagement {
         // Borrow slip data
         BorrowReturnSlip borrowSlip1 = new BorrowReturnSlip(
                 "BR0001", "R0001", LocalDate.of(2026, 5, 1), LocalDate.of(2026, 5, 8),
-                LocalDate.of(2026, 5, 10), List.of("BK0001", "BK0003"), List.of("BK0003"));
+                null, List.of("BK00001", "BK00003"), List.of());
         BorrowReturnSlip borrowSlip2 = new BorrowReturnSlip(
-                "BR0002", "0002", LocalDate.of(2026, 5, 3), LocalDate.of(2026, 5, 10),
-                LocalDate.of(2026, 5, 9), List.of("BK0002", "BK0004"), List.of());
+                "BR0002", "R0002", LocalDate.of(2026, 5, 3), LocalDate.of(2026, 5, 10),
+                LocalDate.of(2026, 5, 9), List.of("BK00002", "BK00004"), List.of());
         BorrowReturnSlip borrowSlip3 = new BorrowReturnSlip(
-                "BR0003", "0003", LocalDate.of(2026, 5, 5), LocalDate.of(2026, 5, 12),
-                LocalDate.of(2026, 5, 15), List.of("BK0001", "BK0005"), List.of("BK0005"));
+                "BR0003", "R0003", LocalDate.of(2026, 5, 5), LocalDate.of(2026, 5, 12),
+                LocalDate.of(2026, 5, 15), List.of("BK00001", "BK00005"), List.of("BK00005"));
         BorrowReturnSlip borrowSlip4 = new BorrowReturnSlip(
-                "BR0004", "0004", LocalDate.of(2026, 5, 7), LocalDate.of(2026, 5, 14),
-                null, List.of("BK0003"), List.of());
+                "BR0004", "R0004", LocalDate.of(2026, 5, 7), LocalDate.of(2026, 5, 14),
+                null, List.of("BK00003"), List.of());
         BorrowReturnSlip borrowSlip5 = new BorrowReturnSlip(
-                "BR0005", "0005", LocalDate.of(2026, 5, 8), LocalDate.of(2026, 5, 15),
-                LocalDate.of(2026, 5, 15), List.of("BK0002", "BK0004", "BK0005"), List.of());
+                "BR0005", "R0005", LocalDate.of(2026, 5, 8), LocalDate.of(2026, 5, 15),
+                LocalDate.of(2026, 5, 15), List.of("BK00002", "BK00004", "BK00005"), List.of());
 
         // Create users
         userService.createUser(admin);
@@ -844,8 +847,17 @@ public class LibraryManagement {
                 continue;
             }
 
-            // Create return slip
+            // Update borrow slip
             BorrowReturnSlip updateBorrowSlip = borrowReturnSlipService.updateBorrowSlip(returnSlip);
+
+            // Current slip
+            BorrowReturnSlip currentSlip = borrowReturnSlipService.findCurrentBorrowReturnSlip(returnSlip.getBorrowId());
+
+            // Calculate late fee
+            double lateFee = BorrowReturnSlip.calculateLateFee(returnSlip, currentSlip, LATE_FEE_PER_DAY);
+
+            // Calculate lost book fee
+            double lostBookFee = BorrowReturnSlip.calculateLostBookFee(returnSlip, LOST_BOOK_FEE_RATIO, bookService);
 
             // Create fail
             if (updateBorrowSlip == null) {
@@ -856,7 +868,7 @@ public class LibraryManagement {
             // Create return book slip successfully
             System.out.println("Tạo phiếu trả sách thành công!");
 
-            PrintUtil.printReturnBookSlipInfo(updateBorrowSlip);
+            PrintUtil.printReturnBookSlipInfo(updateBorrowSlip, lateFee, lostBookFee);
 
             return;
         }

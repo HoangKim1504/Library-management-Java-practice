@@ -1,6 +1,10 @@
 package slip;
 
+import book.Book;
+import book.BookService;
+
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 public class BorrowReturnSlip {
@@ -108,5 +112,53 @@ public class BorrowReturnSlip {
                 ", Ngày trả thực tế: " + actualReturnDate + '\'' +
                 ", Danh sách ISBN sách mượn: " + borrowBookIsbns + '\'' +
                 ", Danh sách ISBN sách mất: " + lostBookIsbns + '\'';
+    }
+
+    // ================= CALCULATE LATE FEE =================
+    public static double calculateLateFee(BorrowReturnSlip returnSlip, BorrowReturnSlip currentSlip,
+                                          double lateFeePerDay) {
+        // Validate input
+        if (returnSlip == null || currentSlip == null) {
+            return 0;
+        }
+
+        LocalDate expectedReturnDate = currentSlip.getExpectedReturnDate();
+        LocalDate actualReturnDate = returnSlip.getActualReturnDate();
+
+        // Return on time
+        if (actualReturnDate.isBefore(expectedReturnDate)) {
+            return 0;
+        }
+
+        // Number of late days
+        long lateDays = ChronoUnit.DAYS.between(expectedReturnDate, actualReturnDate);
+
+        // Total late fee
+        return lateDays * lateFeePerDay;
+    }
+
+    // ================= CALCULATE LOST BOOK FEE =================
+    public static double calculateLostBookFee(BorrowReturnSlip returnSlip,
+                                              double lateFeeRatio, BookService bookService) {
+        // Validate input
+        if (returnSlip.getLostBookIsbns().isEmpty()) {
+            return 0;
+        }
+
+        List<String> lostBookList = returnSlip.getLostBookIsbns();
+
+        double lostBookFee = 0;
+        for (String lostBook : lostBookList) {
+            Book currentBook = bookService.findCurrentBook(lostBook);
+            if (currentBook == null) {
+                System.out.println("Không tìm thấy sách!");
+                return 0;
+            }
+
+            double bookPrice = currentBook.getPrice();
+            lostBookFee += bookPrice * lateFeeRatio;
+        }
+
+        return lostBookFee;
     }
 }

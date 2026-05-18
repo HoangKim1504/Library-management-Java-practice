@@ -136,7 +136,7 @@ public class PrintUtil {
     }
 
     // ================= PRINT RETURN SLIP INFO =================
-    public static void printReturnBookSlipInfo(BorrowReturnSlip returnSlip) {
+    public static void printReturnBookSlipInfo(BorrowReturnSlip returnSlip, double lateFee, double lostBookFee) {
         if (returnSlip == null) {
             System.out.println("Không có thông tin phiếu trả");
             return;
@@ -150,5 +150,13 @@ public class PrintUtil {
         System.out.println("5. Ngày trả thực tế: " + returnSlip.getActualReturnDate());
         System.out.println("6. Danh sách ISBN sách mượn: " + returnSlip.getBorrowBookIsbns());
         System.out.println("7. Danh sách ISBN sách bị mất: " + returnSlip.getLostBookIsbns());
+        if (lateFee != 0) {
+            System.out.println("8. Phí mượn sách quá hạn: " + lateFee + " VNĐ");
+        }
+        if (lostBookFee != 0) {
+            System.out.println("9. Phí làm mất sách: " + lostBookFee + " VNĐ");
+        }
+        double totalFee = lateFee + lostBookFee;
+        System.out.println("10. Tổng phí phạt: " + totalFee + " VNĐ");
     }
 }

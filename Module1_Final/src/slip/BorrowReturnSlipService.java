@@ -182,22 +182,20 @@ public class BorrowReturnSlipService {
     }
 
     // ================= ADD LOST BOOK ISBN =================
-    public boolean addLostBookIsbn(String prompt, List<String> lostIsbnList, List<String> borrowIsbnList) {
-        // Input lost book ISBN
-        String lostIsbn = InputValidator.inputValidString(prompt, InputValidator::isValidBookId);
+    public void addLostBookIsbn(String lostIsbn, List<String> lostIsbnList, List<String> borrowIsbnList) {
 
         // Check duplicate ISBN
         for (String borrowIsbn : borrowIsbnList) {
-            if (!lostIsbn.equals(borrowIsbn)) {
-                System.out.println("Không tìm thấy mã sách trong danh sách mã sách đã mượn!");
-                return false;
+            if (lostIsbn.equals(borrowIsbn)) {
+                break;
             }
+            System.out.println("Không tìm thấy mã sách trong danh sách mã sách đã mượn!");
+            return;
         }
 
         // Add new ISBN
         lostIsbnList.add(lostIsbn);
 
-        return true;
     }
 
     // ================= INPUT RETURN SLIP INFO =================
@@ -243,20 +241,31 @@ public class BorrowReturnSlipService {
         List<String> borrowBookIsbnList = findBorrowSlip.getBorrowBookIsbns();
         System.out.println("Danh sách mã sách mượn: " + borrowBookIsbnList);
 
-        // Input lost ISBN list
+        // Store lost book ISBN list
         List<String> lostBookIsbnList = new ArrayList<>();
 
-        while (true) {
-            char ans = InputUtil.readYesNo("Có sách bị mất không?");
-            if (ans == 'y') continue;
-            if (ans == 'n') break;
+        // Ask user whether books are lost
+        char ans = InputUtil.readYesNo("Có sách bị mất không?");
 
-            boolean isSuccess = addLostBookIsbn("Nhập 1 mã sách bị mất: ", lostBookIsbnList, borrowBookIsbnList);
-            if (!isSuccess) continue;
+        // No lost books
+        if (ans == 'n') {
+            lostBookIsbnList = null;
+        }
 
-            char answer = InputUtil.readYesNo("Có tiếp tục nhập mã sách không?");
-            if (answer == 'y') continue;
-            if (answer == 'n') break;
+        // Have lost books
+        if (ans == 'y') {
+            while (true) {
+                // Input lost book ISBN
+                String lostIsbn = InputValidator.inputValidString("Nhập 1 mã sách bị mất: ", InputValidator::isValidBookId);
+
+                // Add lost book ISBN
+                addLostBookIsbn(lostIsbn, lostBookIsbnList, borrowBookIsbnList);
+
+                // Ask continue input
+                char continueAnswer = InputUtil.readYesNo("Có tiếp tục nhập mã sách không?");
+
+                if (continueAnswer == 'n') break;
+            }
         }
 
         // Create return slip object
