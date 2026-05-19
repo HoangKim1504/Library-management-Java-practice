@@ -213,45 +213,57 @@ public class BorrowReturnSlipService {
 
     // ================= INPUT RETURN SLIP INFO =================
     public BorrowReturnSlip inputReturnSlipInfo(ReaderService readerService) {
-        // Input borrow ID
+        // Find current borrow slip
+        BorrowReturnSlip currentBorrowSlip;
         String borrowId;
-        BorrowReturnSlip findBorrowSlip;
+
         while (true) {
             borrowId = InputValidator.inputValidString("Mã phiếu mượn sách: ", InputValidator::isValidBorrowId);
-            findBorrowSlip = findCurrentBorrowReturnSlip(borrowId);
-            if (findBorrowSlip == null) {
+            currentBorrowSlip = findCurrentBorrowReturnSlip(borrowId);
+
+            // Borrow slip not found
+            if (currentBorrowSlip == null) {
                 System.out.println("Không tìm thấy mã phiếu mượn sách!");
                 continue;
             }
+
             break;
         }
 
         // Input reader ID
         String readerId;
+
         while (true) {
             readerId = InputValidator.inputValidString("Mã độc giả: ", InputValidator::isValidReaderId);
-            Reader findReader = readerService.findCurrentReader(readerId);
-            if (findReader == null) {
+
+            Reader foundReader = readerService.findCurrentReader(readerId);
+
+            // Reader not found
+            if (foundReader == null) {
                 System.out.println("Không tìm thấy mã độc giả!");
                 continue;
             }
+
             break;
         }
 
         // Input actual return date
         LocalDate actualReturnDate;
+
         while (true) {
             String inputActualReturnDate = InputValidator.inputValidString("Ngày trả thực tế: ", InputValidator::isValidDate);
             actualReturnDate = DateUtil.parseLocalDate(inputActualReturnDate, "yyyy-MM-dd");
-            boolean isValidActualReturnDate = InputValidator.isValidActualReturnDate(findBorrowSlip.getBorrowDate(), actualReturnDate);
+            boolean isValidActualReturnDate = InputValidator.isValidActualReturnDate(currentBorrowSlip.getBorrowDate(), actualReturnDate);
+
             if (!isValidActualReturnDate) {
                 continue;
             }
+
             break;
         }
 
         // Display borrowed ISBN list
-        List<String> borrowBookIsbnList = findBorrowSlip.getBorrowBookIsbns();
+        List<String> borrowBookIsbnList = currentBorrowSlip.getBorrowBookIsbns();
         System.out.println("Danh sách mã sách mượn: " + borrowBookIsbnList);
 
         // Store lost book ISBN list
@@ -260,13 +272,13 @@ public class BorrowReturnSlipService {
         // Ask user whether books are lost
         char ans = InputUtil.readYesNo("Có sách bị mất không?");
 
-        // Have lost books
+        // Input lost book ISBN list
         if (ans == 'y') {
             while (true) {
                 // Input lost book ISBN
                 String lostIsbn = InputValidator.inputValidString("Nhập 1 mã sách bị mất: ", InputValidator::isValidBookId);
 
-                // Add lost book ISBN
+                // Add lost ISBN
                 boolean isSuccess = addLostBookIsbn(lostIsbn, lostBookIsbnList, borrowBookIsbnList);
 
                 if (!isSuccess) {
@@ -276,7 +288,9 @@ public class BorrowReturnSlipService {
                 // Ask continue input
                 char continueAnswer = InputUtil.readYesNo("Có tiếp tục nhập mã sách không?");
 
-                if (continueAnswer == 'n') break;
+                if (continueAnswer == 'n') {
+                    break;
+                }
             }
         }
 
