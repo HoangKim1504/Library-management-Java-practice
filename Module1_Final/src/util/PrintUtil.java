@@ -5,6 +5,8 @@ import reader.Reader;
 import slip.BorrowReturnSlip;
 import user.User;
 
+import java.time.LocalDate;
+
 public class PrintUtil {
     // ================= MAIN MENU =================
     public static void printMainMenu() {
@@ -142,7 +144,9 @@ public class PrintUtil {
 
         int index = 1;
 
-        if (borrowReturnSlip.getActualReturnDate() == null) {
+        LocalDate actualReturnDate = borrowReturnSlip.getActualReturnDate();
+
+        if (actualReturnDate == null) {
             System.out.println("\n====== THÔNG TIN PHIẾU SÁCH MƯỢN ======");
         } else {
             System.out.println("\n====== THÔNG TIN PHIẾU SÁCH TRẢ ======");
@@ -153,23 +157,18 @@ public class PrintUtil {
         System.out.println(index++ + ". Ngày mượn: " + borrowReturnSlip.getBorrowDate());
         System.out.println(index++ + ". Ngày trả dự kiến: " + borrowReturnSlip.getExpectedReturnDate());
 
-        if (borrowReturnSlip.getActualReturnDate() != null) {
+        if (actualReturnDate != null) {
             System.out.println(index++ + ". Ngày trả thực tế: " + borrowReturnSlip.getActualReturnDate());
         }
 
         System.out.println(index++ + ". Danh sách ISBN sách mượn: " + borrowReturnSlip.getBorrowBookIsbns());
-        System.out.println(index++ + ". Danh sách ISBN sách bị mất: " + borrowReturnSlip.getLostBookIsbns());
 
-        if (lateFee != 0) {
+        if (actualReturnDate != null) {
+            System.out.println(index++ + ". Danh sách ISBN sách bị mất: " + borrowReturnSlip.getLostBookIsbns());
             System.out.println(index++ + ". Phí mượn sách quá hạn: " + lateFee + " VNĐ");
-        }
-
-        if (lostBookFee != 0) {
             System.out.println(index++ + ". Phí làm mất sách: " + lostBookFee + " VNĐ");
-        }
 
-        double totalFee = lateFee + lostBookFee;
-        if (totalFee > 0) {
+            double totalFee = lateFee + lostBookFee;
             System.out.println(index++ + ". Tổng phí phạt: " + totalFee + " VNĐ");
         }
     }
