@@ -847,10 +847,16 @@ public class LibraryManagement {
                 continue;
             }
 
-            // Update borrow slip
-            BorrowReturnSlip updateBorrowSlip = borrowReturnSlipService.updateBorrowSlip(returnSlip);
+            // Update current borrow slip
+            BorrowReturnSlip updatedSlip = borrowReturnSlipService.updateBorrowSlip(returnSlip);
 
-            // Current slip
+            // Update failed
+            if (updatedSlip == null) {
+                System.out.println("Tạo phiếu trả sách thất bại!");
+                continue;
+            }
+
+            // Find current borrow slip
             BorrowReturnSlip currentSlip = borrowReturnSlipService.findCurrentBorrowReturnSlip(returnSlip.getBorrowId());
 
             // Calculate late fee
@@ -859,16 +865,10 @@ public class LibraryManagement {
             // Calculate lost book fee
             double lostBookFee = BorrowReturnSlip.calculateLostBookFee(returnSlip, LOST_BOOK_FEE_RATIO, bookService);
 
-            // Create fail
-            if (updateBorrowSlip == null) {
-                System.out.println("Tạo phiếu trả sách thất bại!");
-                continue;
-            }
-
-            // Create return book slip successfully
+            // Create return slip successfully
             System.out.println("Tạo phiếu trả sách thành công!");
 
-            PrintUtil.printBorrowBookSlipInfo(updateBorrowSlip, lateFee, lostBookFee);
+            PrintUtil.printBorrowBookSlipInfo(updatedSlip, lateFee, lostBookFee);
 
             return;
         }
