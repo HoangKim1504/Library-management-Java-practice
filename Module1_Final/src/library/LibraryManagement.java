@@ -174,7 +174,7 @@ public class LibraryManagement {
                     returnBookSlipScreen();
                     break;
                 case 6:
-                    basicStatisticScreen();
+                    basicStatisticsScreen();
                     break;
                 case 0:
                     return;
@@ -878,7 +878,7 @@ public class LibraryManagement {
     }
 
     // ================= BASIC STATISTIC SCREEN =================
-    public void basicStatisticScreen() {
+    public void basicStatisticsScreen() {
         // Only ADMIN and MANAGER roles
         if (userService.requireRole(userId, ADMIN, MANAGER)) {
             return;
