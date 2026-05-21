@@ -234,4 +234,9 @@ public class BookService {
 
         return searchBookList;
     }
+
+    // ================= COUNT ALL BOOKS =================
+    public int countAllBooks() {
+        return bookList.size();
+    }
 }

@@ -173,6 +173,9 @@ public class LibraryManagement {
                 case 5:
                     returnBookSlipScreen();
                     break;
+                case 6:
+                    basicStatisticScreen();
+                    break;
                 case 0:
                     return;
                 default:
@@ -872,5 +875,21 @@ public class LibraryManagement {
 
             return;
         }
+    }
+
+    // ================= BASIC STATISTIC SCREEN =================
+    public void basicStatisticScreen() {
+        // Only ADMIN and MANAGER roles
+        if (userService.requireRole(userId, ADMIN, MANAGER)) {
+            return;
+        }
+
+        int index = 1;
+
+        // Display number of books
+        int totalBooks = bookService.countAllBooks();
+        System.out.println("\n====== THỐNG KÊ SÁCH ======");
+        System.out.println(index++ + ". Số lượng sách trong thư viện: " + totalBooks);
+
     }
 }
