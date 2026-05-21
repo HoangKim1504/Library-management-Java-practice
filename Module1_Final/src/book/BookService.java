@@ -239,4 +239,36 @@ public class BookService {
     public int countAllBooks() {
         return bookList.size();
     }
+
+    // ================= COUNT BOOK QUANTITY BY CATEGORY =================
+    public List<Integer> countBookQuantityByCategory() {
+        int science = 0;
+        int novel = 0;
+        int history = 0;
+        int programming = 0;
+        int other = 0;
+
+        for (Book book : bookList) {
+            if (book.getCategory().equals(BookCategory.SCIENCE)) {
+                science += book.getQuantity();
+            } else if (book.getCategory().equals(BookCategory.NOVEL)) {
+                novel += book.getQuantity();
+            } else if (book.getCategory().equals(BookCategory.HISTORY)) {
+                history += book.getQuantity();
+            } else if (book.getCategory().equals(BookCategory.PROGRAMMING)) {
+                programming += book.getQuantity();
+            } else if (book.getCategory().equals(BookCategory.OTHER)) {
+                other += book.getQuantity();
+            }
+        }
+
+        List<Integer> bookQuantityByCategoryList = new ArrayList<>();
+        bookQuantityByCategoryList.add(science);
+        bookQuantityByCategoryList.add(novel);
+        bookQuantityByCategoryList.add(history);
+        bookQuantityByCategoryList.add(programming);
+        bookQuantityByCategoryList.add(other);
+
+        return bookQuantityByCategoryList;
+    }
 }

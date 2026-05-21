@@ -100,6 +100,9 @@ public class LibraryManagement {
         Book book5 = new Book(
                 "BK00005", "Nghệ Thuật Sống", "Nhiều tác giả", "NXB Tổng Hợp", 2022,
                 BookCategory.OTHER, 95000, 20);
+        Book book6 = new Book(
+                "BK00006", "Sự im lặng của bầy cừu", "Thomas Harris", "NXB Nhã Nam", 2015,
+                BookCategory.NOVEL, 115000, 30);
 
         // Borrow slip data
         BorrowReturnSlip borrowSlip1 = new BorrowReturnSlip(
@@ -138,6 +141,7 @@ public class LibraryManagement {
         bookService.createBook(book3);
         bookService.createBook(book4);
         bookService.createBook(book5);
+        bookService.createBook(book6);
 
         // Create borrow slips
         borrowReturnSlipService.createBorrowSlip(borrowSlip1);
@@ -877,19 +881,20 @@ public class LibraryManagement {
         }
     }
 
-    // ================= BASIC STATISTIC SCREEN =================
+    // ================= BASIC STATISTICS SCREEN =================
     public void basicStatisticsScreen() {
         // Only ADMIN and MANAGER roles
         if (userService.requireRole(userId, ADMIN, MANAGER)) {
             return;
         }
 
-        int index = 1;
-
         // Display number of books
         int totalBooks = bookService.countAllBooks();
-        System.out.println("\n====== THỐNG KÊ SÁCH ======");
-        System.out.println(index++ + ". Số lượng sách trong thư viện: " + totalBooks);
+
+        // Display total book quantity by category
+        List<Integer> bookQuantityByCategory = bookService.countBookQuantityByCategory();
+
+        PrintUtil.printBasicStaticsInfo(totalBooks, bookQuantityByCategory);
 
     }
 }

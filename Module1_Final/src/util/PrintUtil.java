@@ -1,11 +1,13 @@
 package util;
 
 import book.Book;
+import enums.BookCategory;
 import reader.Reader;
 import slip.BorrowReturnSlip;
 import user.User;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class PrintUtil {
     // ================= MAIN MENU =================
@@ -172,4 +174,22 @@ public class PrintUtil {
             System.out.println(index++ + ". Tổng phí phạt: " + totalFee + " VNĐ");
         }
     }
+
+    public static void printBasicStaticsInfo(int totalBooks, List<Integer> bookQuantityByCategoryList) {
+        int index = 1;
+
+        System.out.println("\n====== THỐNG KÊ SÁCH ======");
+
+        // Display number of books
+        System.out.println(index++ + ". Số lượng sách trong thư viện: " + totalBooks + " quyển");
+
+        // Display total book quantity by category
+        System.out.println(index++ + ". Số lượng sách theo thể loại: ");
+        System.out.println(" - " + BookCategory.SCIENCE.getDisplayName() + ": " + bookQuantityByCategoryList.getFirst() + " quyển");
+        System.out.println(" - " + BookCategory.NOVEL.getDisplayName() + ": " + bookQuantityByCategoryList.get(1) + " quyển");
+        System.out.println(" - " + BookCategory.HISTORY.getDisplayName() + ": " + bookQuantityByCategoryList.get(2) + " quyển");
+        System.out.println(" - " + BookCategory.PROGRAMMING.getDisplayName() + ": " + bookQuantityByCategoryList.get(3) + " quyển");
+        System.out.println(" - " + BookCategory.OTHER.getDisplayName() + ": " + bookQuantityByCategoryList.getLast() + " quyển");
+    }
+
 }
