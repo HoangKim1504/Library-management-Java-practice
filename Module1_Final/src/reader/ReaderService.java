@@ -8,7 +8,9 @@ import validator.InputValidator;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ReaderService {
     // ================= STORE ALL READERS =================
@@ -265,5 +267,37 @@ public class ReaderService {
     // ================= COUNT TOTAL READERS =================
     public int countTotalReaders() {
         return readerList.size();
+    }
+
+
+    public Map<Gender, Integer> countReaderQuantityByGender() {
+        // Store total quantity by gender
+        Map<Gender, Integer> genderQuantityMap = new LinkedHashMap<>();
+
+        // Initialize all genders with 0
+        for (Gender gender : Gender.values()) {
+
+            // Skip NONE gender
+            if (gender == Gender.NONE) {
+                continue;
+            }
+
+            genderQuantityMap.put(gender, 0);
+        }
+
+        // Count quantity for each gender
+        for (Reader reader : readerList) {
+            Gender gender = reader.getGender();
+
+            // Get current gender quantity
+            int currentQuantity = genderQuantityMap.get(gender);
+
+            if (genderQuantityMap.containsKey(gender)) {
+                // Update total quantity
+                genderQuantityMap.put(gender, currentQuantity + 1);
+            }
+        }
+
+        return genderQuantityMap;
     }
 }

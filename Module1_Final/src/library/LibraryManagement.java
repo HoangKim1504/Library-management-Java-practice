@@ -898,8 +898,11 @@ public class LibraryManagement {
         // Count total readers
         int totalReaders = readerService.countTotalReaders();
 
-        // Display statistics information
-        PrintUtil.printBasicStatisticsInfo(totalBooks, bookQuantityByCategoryList, totalReaders);
+        // Count total reader quantity by gender
+        Map<Gender, Integer> readerQuantityByGenderList = readerService.countReaderQuantityByGender();
 
+        // Display statistics information
+        PrintUtil.printBasicStatisticsInfo(totalBooks, bookQuantityByCategoryList, totalReaders,
+                readerQuantityByGenderList);
     }
 }

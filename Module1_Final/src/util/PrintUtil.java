@@ -2,6 +2,7 @@ package util;
 
 import book.Book;
 import enums.BookCategory;
+import enums.Gender;
 import reader.Reader;
 import slip.BorrowReturnSlip;
 import user.User;
@@ -176,10 +177,10 @@ public class PrintUtil {
     }
 
     public static void printBasicStatisticsInfo(int totalBooks, Map<BookCategory, Integer> categoryQuantityMap,
-                                                int totalReaders) {
+                                                int totalReaders, Map<Gender, Integer> genderQuantityMap) {
         int index = 1;
 
-        System.out.println("\n====== THỐNG KÊ SÁCH ======");
+        System.out.println("\n====== THỐNG KÊ CƠ BẢN ======");
 
         // Display number of total books
         System.out.println(index++ + ". Số lượng sách trong thư viện: " + totalBooks + " quyển");
@@ -192,6 +193,12 @@ public class PrintUtil {
 
         // Display number of total readers
         System.out.println(index++ + ". Số lượng độc giả trong thư viện: " + totalReaders + " người");
+
+        // Display quantity by gender
+        System.out.println(index++ + ". Số lượng độc giả theo giới tính: ");
+        for (Map.Entry<Gender, Integer> entry : genderQuantityMap.entrySet()) {
+            System.out.println(" - " + entry.getKey().getDisplayName() + ": " + entry.getValue() + " người");
+        }
     }
 
 }
