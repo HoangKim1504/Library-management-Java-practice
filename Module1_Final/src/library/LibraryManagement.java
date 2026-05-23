@@ -111,7 +111,7 @@ public class LibraryManagement {
                 null, List.of("BK00001", "BK00003"), List.of());
         BorrowReturnSlip borrowSlip2 = new BorrowReturnSlip(
                 "BR0002", "R0002", LocalDate.of(2026, 5, 3), LocalDate.of(2026, 5, 10),
-                LocalDate.of(2026, 5, 9), List.of("BK00002", "BK00004"), List.of());
+                LocalDate.of(2026, 5, 15), List.of("BK00002", "BK00004"), List.of());
         BorrowReturnSlip borrowSlip3 = new BorrowReturnSlip(
                 "BR0003", "R0003", LocalDate.of(2026, 5, 5), LocalDate.of(2026, 5, 12),
                 LocalDate.of(2026, 5, 15), List.of("BK00001", "BK00005"), List.of("BK00005"));
@@ -121,6 +121,9 @@ public class LibraryManagement {
         BorrowReturnSlip borrowSlip5 = new BorrowReturnSlip(
                 "BR0005", "R0005", LocalDate.of(2026, 5, 8), LocalDate.of(2026, 5, 15),
                 LocalDate.of(2026, 5, 15), List.of("BK00002", "BK00004", "BK00005"), List.of());
+        BorrowReturnSlip borrowSlip6 = new BorrowReturnSlip(
+                "BR0006", "R0002", LocalDate.of(2026, 6, 8), LocalDate.of(2026, 6, 10),
+                LocalDate.of(2026, 6, 15), List.of("BK00001", "BK00003", "BK00005"), List.of());
 
         // Create users
         userService.createUser(admin);
@@ -150,6 +153,7 @@ public class LibraryManagement {
         borrowReturnSlipService.createBorrowSlip(borrowSlip3);
         borrowReturnSlipService.createBorrowSlip(borrowSlip4);
         borrowReturnSlipService.createBorrowSlip(borrowSlip5);
+        borrowReturnSlipService.createBorrowSlip(borrowSlip6);
     }
 
     // ================= MAIN PROGRAM FLOW =================
@@ -916,8 +920,11 @@ public class LibraryManagement {
         // Count books currently being borrowed
         int totalBorrowedBooks = borrowReturnSlipService.countBorrowedBookQuantity();
 
+        // Count overdue readers
+        List<String> overdueReaderList = borrowReturnSlipService.countOverdueReaderList();
+
         // Display statistics information
         PrintUtil.printBasicStatisticsInfo(canViewFullStatics, totalBooks, booksByCategory,
-                totalReaders, readersByCategory, totalBorrowedBooks);
+                totalReaders, readersByCategory, totalBorrowedBooks, overdueReaderList);
     }
 }

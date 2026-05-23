@@ -320,4 +320,31 @@ public class BorrowReturnSlipService {
         return totalBorrowingBooks;
     }
 
+    // ================= COUNT OVERDUE READER LIST =================
+    public List<String> countOverdueReaderList() {
+        List<String> overdueReaderList = new ArrayList<>();
+
+        for (BorrowReturnSlip slip : borrowReturnList) {
+            LocalDate actualReturnDate = slip.getActualReturnDate();
+            LocalDate expectedReturnDate = slip.getExpectedReturnDate();
+
+            if (actualReturnDate == null || expectedReturnDate == null) {
+                continue;
+            }
+
+            if (!actualReturnDate.isAfter(expectedReturnDate)) {
+                continue;
+            }
+
+            String readerId = slip.getReaderId();
+
+            if (overdueReaderList.contains(readerId)) {
+                continue;
+            }
+
+            overdueReaderList.add(readerId);
+        }
+
+        return overdueReaderList;
+    }
 }
