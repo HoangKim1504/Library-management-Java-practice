@@ -176,33 +176,36 @@ public class PrintUtil {
         }
     }
 
-    public static void printBasicStatisticsInfo(boolean isDisplay, int totalBooks, Map<BookCategory, Integer> categoryQuantityMap,
-                                                int totalReaders, Map<Gender, Integer> genderQuantityMap, int totalBorrowedBooks) {
+    // ================= DISPLAY BASIC STATISTICS =================
+    public static void printBasicStatisticsInfo(boolean canViewFullStatistics, int totalBooks, Map<BookCategory,
+            Integer> categoryQuantityMap, int totalReaders, Map<Gender, Integer> genderQuantityMap, int totalBorrowedBooks) {
+
         int index = 1;
 
         System.out.println("\n====== THỐNG KÊ CƠ BẢN ======");
 
-        if (isDisplay) {
-            // Display number of total books
+        // ADMIN and MANAGER statistics
+        if (canViewFullStatistics) {
+            // Display total books in library
             System.out.println(index++ + ". Số lượng sách trong thư viện: " + totalBooks + " quyển");
 
-            // Display book quantity by category
+            // Display book quantity grouped by category
             System.out.println(index++ + ". Số lượng sách theo thể loại: ");
             for (Map.Entry<BookCategory, Integer> entry : categoryQuantityMap.entrySet()) {
                 System.out.println(" - " + entry.getKey().getDisplayName() + ": " + entry.getValue() + " quyển");
             }
 
-            // Display number of total readers
+            // Display total readers
             System.out.println(index++ + ". Số lượng độc giả trong thư viện: " + totalReaders + " người");
 
-            // Display reader quantity by gender
+            // Display reader quantity grouped by gender
             System.out.println(index++ + ". Số lượng độc giả theo giới tính: ");
             for (Map.Entry<Gender, Integer> entry : genderQuantityMap.entrySet()) {
                 System.out.println(" - " + entry.getKey().getDisplayName() + ": " + entry.getValue() + " người");
             }
         }
 
-        // Display total borrowed books
+        // Display books currently being borrowed
         System.out.println(index++ + ". Số sách đang được mượn: " + totalBorrowedBooks + " quyển");
     }
 }

@@ -889,33 +889,35 @@ public class LibraryManagement {
             return;
         }
 
-        boolean isCount = false;
+        // Check whether the user can view full statistics
+        boolean canViewFullStatics = userService.hasAccess(userId, ADMIN, MANAGER);
+
+        // Initialize statics data
         int totalBooks = 0;
-        Map<BookCategory, Integer> bookQuantityByCategoryList = null;
         int totalReaders = 0;
-        Map<Gender, Integer> readerQuantityByGenderList = null;
+        Map<BookCategory, Integer> booksByCategory = null;
+        Map<Gender, Integer> readersByCategory = null;
 
-        if (userService.hasAccess(userId, ADMIN, MANAGER)) {
-            isCount = true;
-
-            // Count total books
+        // ADMIN and MANAGER can view all statistics
+        if (canViewFullStatics) {
+            // Count total books in library
             totalBooks = bookService.countTotalBooks();
 
-            // Count total book quantity by category
-            bookQuantityByCategoryList = bookService.countBookQuantityByCategory();
+            // Count book quantity grouped by category
+            booksByCategory = bookService.countBookQuantityByCategory();
 
             // Count total readers
             totalReaders = readerService.countTotalReaders();
 
-            // Count total reader quantity by gender
-            readerQuantityByGenderList = readerService.countReaderQuantityByGender();
+            // Count reader quantity grouped by gender
+            readersByCategory = readerService.countReaderQuantityByGender();
         }
 
-        // Count total borrowed books
+        // Count books currently being borrowed
         int totalBorrowedBooks = borrowReturnSlipService.countBorrowedBookQuantity();
 
         // Display statistics information
-        PrintUtil.printBasicStatisticsInfo(isCount, totalBooks, bookQuantityByCategoryList, totalReaders,
-                readerQuantityByGenderList, totalBorrowedBooks);
+        PrintUtil.printBasicStatisticsInfo(canViewFullStatics, totalBooks, booksByCategory,
+                totalReaders, readersByCategory, totalBorrowedBooks);
     }
 }
