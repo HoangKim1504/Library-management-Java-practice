@@ -285,17 +285,19 @@ public class ReaderService {
             genderQuantityMap.put(gender, 0);
         }
 
-        // Count quantity for each gender
+        // Count reader quantity for each gender
         for (Reader reader : readerList) {
             Gender gender = reader.getGender();
+
+            if (!genderQuantityMap.containsKey(gender)) {
+                continue;
+            }
 
             // Get current gender quantity
             int currentQuantity = genderQuantityMap.get(gender);
 
-            if (genderQuantityMap.containsKey(gender)) {
-                // Update total quantity
-                genderQuantityMap.put(gender, currentQuantity + 1);
-            }
+            // Update total quantity
+            genderQuantityMap.put(gender, currentQuantity + 1);
         }
 
         return genderQuantityMap;
