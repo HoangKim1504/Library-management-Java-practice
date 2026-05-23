@@ -901,8 +901,11 @@ public class LibraryManagement {
         // Count total reader quantity by gender
         Map<Gender, Integer> readerQuantityByGenderList = readerService.countReaderQuantityByGender();
 
+        // Count borrowing books
+        int bookQuantityByBorrowing = borrowReturnSlipService.countBookQuantityByBorrowing();
+
         // Display statistics information
         PrintUtil.printBasicStatisticsInfo(totalBooks, bookQuantityByCategoryList, totalReaders,
-                readerQuantityByGenderList);
+                readerQuantityByGenderList, bookQuantityByBorrowing);
     }
 }

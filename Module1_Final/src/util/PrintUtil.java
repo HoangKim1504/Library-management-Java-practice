@@ -177,7 +177,7 @@ public class PrintUtil {
     }
 
     public static void printBasicStatisticsInfo(int totalBooks, Map<BookCategory, Integer> categoryQuantityMap,
-                                                int totalReaders, Map<Gender, Integer> genderQuantityMap) {
+                                                int totalReaders, Map<Gender, Integer> genderQuantityMap, int bookQuantityByBorrowing) {
         int index = 1;
 
         System.out.println("\n====== THỐNG KÊ CƠ BẢN ======");
@@ -185,7 +185,7 @@ public class PrintUtil {
         // Display number of total books
         System.out.println(index++ + ". Số lượng sách trong thư viện: " + totalBooks + " quyển");
 
-        // Display quantity by category
+        // Display book quantity by category
         System.out.println(index++ + ". Số lượng sách theo thể loại: ");
         for (Map.Entry<BookCategory, Integer> entry : categoryQuantityMap.entrySet()) {
             System.out.println(" - " + entry.getKey().getDisplayName() + ": " + entry.getValue() + " quyển");
@@ -194,11 +194,13 @@ public class PrintUtil {
         // Display number of total readers
         System.out.println(index++ + ". Số lượng độc giả trong thư viện: " + totalReaders + " người");
 
-        // Display quantity by gender
+        // Display reader quantity by gender
         System.out.println(index++ + ". Số lượng độc giả theo giới tính: ");
         for (Map.Entry<Gender, Integer> entry : genderQuantityMap.entrySet()) {
             System.out.println(" - " + entry.getKey().getDisplayName() + ": " + entry.getValue() + " người");
         }
-    }
 
+        // Display book quantity by borrowing
+        System.out.println(index++ + ". Số sách đang được mượn: " + bookQuantityByBorrowing + " quyển");
+    }
 }

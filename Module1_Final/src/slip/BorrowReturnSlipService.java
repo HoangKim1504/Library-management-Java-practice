@@ -303,4 +303,19 @@ public class BorrowReturnSlipService {
         );
     }
 
+    // ================= COUNT BOOK QUANTITY BY BORROWING =================
+    public int countBookQuantityByBorrowing() {
+        int totalBorrowingBooks = 0;
+
+        for (BorrowReturnSlip slip : borrowReturnList) {
+            if (slip.getActualReturnDate() != null) {
+                continue;
+            }
+
+            totalBorrowingBooks += slip.getBorrowBookIsbns().size();
+        }
+
+        return totalBorrowingBooks;
+    }
+
 }
