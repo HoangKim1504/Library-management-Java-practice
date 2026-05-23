@@ -262,6 +262,10 @@ public class BookService {
         for (Book book : bookList) {
             BookCategory category = book.getCategory();
 
+            if (!categorQuantityMap.containsKey(category)) {
+                continue;
+            }
+
             // Get current category quantity
             int currentQuantity = categorQuantityMap.get(category);
 
