@@ -231,13 +231,17 @@ public class UserService {
             }
         }
 
-        // If no matching role -> deny access
-        System.out.println("Không có quyền truy cập. Vui lòng liên hệ quản trị viên.");
         return false;
     }
 
     // ================= REQUIRE ROLE HELPER =================
     public boolean requireRole(String userId, UserType... roles) {
-        return !hasAccess(userId, roles);
+        boolean noAccess = !hasAccess(userId, roles);
+        if (noAccess) {
+            // If no matching role -> deny access
+            System.out.println("Không có quyền truy cập. Vui lòng liên hệ quản trị viên.");
+            return true;
+        }
+        return false;
     }
 }

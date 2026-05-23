@@ -884,28 +884,38 @@ public class LibraryManagement {
 
     // ================= BASIC STATISTICS SCREEN =================
     public void basicStatisticsScreen() {
-        // Only ADMIN and MANAGER can access statistics
-        if (userService.requireRole(userId, ADMIN, MANAGER)) {
+        // All roles can access statistics
+        if (userService.requireRole(userId, ADMIN, MANAGER, USER)) {
             return;
         }
 
-        // Count total books
-        int totalBooks = bookService.countTotalBooks();
+        boolean isCount = false;
+        int totalBooks = 0;
+        Map<BookCategory, Integer> bookQuantityByCategoryList = null;
+        int totalReaders = 0;
+        Map<Gender, Integer> readerQuantityByGenderList = null;
 
-        // Count total book quantity by category
-        Map<BookCategory, Integer> bookQuantityByCategoryList = bookService.countBookQuantityByCategory();
+        if (userService.hasAccess(userId, ADMIN, MANAGER)) {
+            isCount = true;
 
-        // Count total readers
-        int totalReaders = readerService.countTotalReaders();
+            // Count total books
+            totalBooks = bookService.countTotalBooks();
 
-        // Count total reader quantity by gender
-        Map<Gender, Integer> readerQuantityByGenderList = readerService.countReaderQuantityByGender();
+            // Count total book quantity by category
+            bookQuantityByCategoryList = bookService.countBookQuantityByCategory();
 
-        // Count borrowing books
-        int bookQuantityByBorrowing = borrowReturnSlipService.countBookQuantityByBorrowing();
+            // Count total readers
+            totalReaders = readerService.countTotalReaders();
+
+            // Count total reader quantity by gender
+            readerQuantityByGenderList = readerService.countReaderQuantityByGender();
+        }
+
+        // Count total borrowed books
+        int totalBorrowedBooks = borrowReturnSlipService.countBorrowedBookQuantity();
 
         // Display statistics information
-        PrintUtil.printBasicStatisticsInfo(totalBooks, bookQuantityByCategoryList, totalReaders,
-                readerQuantityByGenderList, bookQuantityByBorrowing);
+        PrintUtil.printBasicStatisticsInfo(isCount, totalBooks, bookQuantityByCategoryList, totalReaders,
+                readerQuantityByGenderList, totalBorrowedBooks);
     }
 }
