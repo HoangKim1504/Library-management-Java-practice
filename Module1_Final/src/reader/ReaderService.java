@@ -261,4 +261,9 @@ public class ReaderService {
 
         return searchReaderList;
     }
+
+    // ================= COUNT TOTAL READERS =================
+    public int countTotalReaders() {
+        return readerList.size();
+    }
 }

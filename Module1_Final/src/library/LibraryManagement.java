@@ -895,8 +895,11 @@ public class LibraryManagement {
         // Count total book quantity by category
         Map<BookCategory, Integer> bookQuantityByCategoryList = bookService.countBookQuantityByCategory();
 
+        // Count total readers
+        int totalReaders = readerService.countTotalReaders();
+
         // Display statistics information
-        PrintUtil.printBasicStatisticsInfo(totalBooks, bookQuantityByCategoryList);
+        PrintUtil.printBasicStatisticsInfo(totalBooks, bookQuantityByCategoryList, totalReaders);
 
     }
 }

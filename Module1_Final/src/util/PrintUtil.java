@@ -175,7 +175,8 @@ public class PrintUtil {
         }
     }
 
-    public static void printBasicStatisticsInfo(int totalBooks, Map<BookCategory, Integer> categoryQuantityMap) {
+    public static void printBasicStatisticsInfo(int totalBooks, Map<BookCategory, Integer> categoryQuantityMap,
+                                                int totalReaders) {
         int index = 1;
 
         System.out.println("\n====== THỐNG KÊ SÁCH ======");
@@ -188,6 +189,9 @@ public class PrintUtil {
         for (Map.Entry<BookCategory, Integer> entry : categoryQuantityMap.entrySet()) {
             System.out.println(" - " + entry.getKey().getDisplayName() + ": " + entry.getValue() + " quyển");
         }
+
+        // Display number of total readers
+        System.out.println(index++ + ". Số lượng độc giả trong thư viện: " + totalReaders + " người");
     }
 
 }
