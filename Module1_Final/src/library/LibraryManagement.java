@@ -20,6 +20,7 @@ import validator.InputValidator;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class LibraryManagement {
@@ -883,18 +884,19 @@ public class LibraryManagement {
 
     // ================= BASIC STATISTICS SCREEN =================
     public void basicStatisticsScreen() {
-        // Only ADMIN and MANAGER roles
+        // Only ADMIN and MANAGER can access statistics
         if (userService.requireRole(userId, ADMIN, MANAGER)) {
             return;
         }
 
-        // Display number of books
-        int totalBooks = bookService.countAllBooks();
+        // Count total books
+        int totalBooks = bookService.countTotalBooks();
 
-        // Display total book quantity by category
-        List<Integer> bookQuantityByCategory = bookService.countBookQuantityByCategory();
+        // Count total book quantity by category
+        Map<BookCategory, Integer> bookQuantityByCategoryList = bookService.countBookQuantityByCategory();
 
-        PrintUtil.printBasicStaticsInfo(totalBooks, bookQuantityByCategory);
+        // Display statistics information
+        PrintUtil.printBasicStatisticsInfo(totalBooks, bookQuantityByCategoryList);
 
     }
 }

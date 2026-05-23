@@ -6,7 +6,9 @@ import util.TextUtil;
 import validator.InputValidator;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BookService {
     // ================= STORE ALL BOOKS =================
@@ -235,40 +237,38 @@ public class BookService {
         return searchBookList;
     }
 
-    // ================= COUNT ALL BOOKS =================
-    public int countAllBooks() {
+    // ================= COUNT TOTAL BOOKS =================
+    public int countTotalBooks() {
         return bookList.size();
     }
 
     // ================= COUNT BOOK QUANTITY BY CATEGORY =================
-    public List<Integer> countBookQuantityByCategory() {
-        int science = 0;
-        int novel = 0;
-        int history = 0;
-        int programming = 0;
-        int other = 0;
+    public Map<BookCategory, Integer> countBookQuantityByCategory() {
+        // Store total quantity by category
+        Map<BookCategory, Integer> categorQuantityMap = new LinkedHashMap<>();
 
-        for (Book book : bookList) {
-            if (book.getCategory().equals(BookCategory.SCIENCE)) {
-                science += book.getQuantity();
-            } else if (book.getCategory().equals(BookCategory.NOVEL)) {
-                novel += book.getQuantity();
-            } else if (book.getCategory().equals(BookCategory.HISTORY)) {
-                history += book.getQuantity();
-            } else if (book.getCategory().equals(BookCategory.PROGRAMMING)) {
-                programming += book.getQuantity();
-            } else if (book.getCategory().equals(BookCategory.OTHER)) {
-                other += book.getQuantity();
+        // Initialize all categories with 0
+        for (BookCategory category : BookCategory.values()) {
+
+            // Skip NONE category
+            if (category == BookCategory.NONE) {
+                continue;
             }
+
+            categorQuantityMap.put(category, 0);
         }
 
-        List<Integer> bookQuantityByCategoryList = new ArrayList<>();
-        bookQuantityByCategoryList.add(science);
-        bookQuantityByCategoryList.add(novel);
-        bookQuantityByCategoryList.add(history);
-        bookQuantityByCategoryList.add(programming);
-        bookQuantityByCategoryList.add(other);
+        // Count quantity for each category
+        for (Book book : bookList) {
+            BookCategory category = book.getCategory();
 
-        return bookQuantityByCategoryList;
+            // Get current category quantity
+            int currentQuantity = categorQuantityMap.get(category);
+
+            // Update total quantity
+            categorQuantityMap.put(category, currentQuantity + book.getQuantity());
+        }
+
+        return categorQuantityMap;
     }
 }
