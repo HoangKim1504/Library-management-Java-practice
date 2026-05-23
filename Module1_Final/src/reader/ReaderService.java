@@ -269,7 +269,7 @@ public class ReaderService {
         return readerList.size();
     }
 
-
+    // ================= COUNT READER QUANTITY BY GENDER =================
     public Map<Gender, Integer> countReaderQuantityByGender() {
         // Store total quantity by gender
         Map<Gender, Integer> genderQuantityMap = new LinkedHashMap<>();
