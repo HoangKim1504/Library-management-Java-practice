@@ -2,6 +2,7 @@ package reader;
 
 import enums.Gender;
 import util.DateUtil;
+import util.FileUtil;
 import util.InputUtil;
 import util.TextUtil;
 import validator.InputValidator;
@@ -14,7 +15,12 @@ import java.util.Map;
 
 public class ReaderService {
     // ================= STORE ALL READERS =================
-    private final List<Reader> readerList = new ArrayList<>(); // Prevents accidental reassignment to the list
+    private final List<Reader> readerList;
+
+    // ================= CONSTRUCTOR =================
+    public ReaderService() {
+        readerList = FileUtil.loadReadersFromFile();
+    }
 
     // ================= CREATE NEW READER =================
     public boolean createReader(Reader reader) {
@@ -31,6 +37,10 @@ public class ReaderService {
         }
 
         readerList.add(reader);
+
+        // Save updated data
+        FileUtil.saveReadersToFile(readerList);
+
         return true;
     }
 
@@ -134,6 +144,9 @@ public class ReaderService {
         String inputCreatedDate = InputValidator.inputValidString("Ngày lập thẻ: ", InputValidator::isValidDate);
         LocalDate createdDate = DateUtil.parseLocalDate(inputCreatedDate, "yyyy-MM-dd");
 
+        // Reader card expires after 48 months
+        LocalDate expiredDate = createdDate.plusMonths(48);
+
         // Create reader object
         return new Reader(
                 readerId,
@@ -143,7 +156,8 @@ public class ReaderService {
                 gender,
                 email,
                 address,
-                createdDate
+                createdDate,
+                expiredDate
         );
     }
 
@@ -198,6 +212,9 @@ public class ReaderService {
                 System.out.println("Lựa chọn không hợp lệ!");
         }
 
+        // Save updated data
+        FileUtil.saveReadersToFile(readerList);
+
         return reader;
     }
 
@@ -211,7 +228,11 @@ public class ReaderService {
 
         // Delete successfully
         if (isDeleted) {
+            // Save updated data
+            FileUtil.saveReadersToFile(readerList);
+
             System.out.println("Đã xoá thông tin độc giả thành công!");
+
             return true;
         }
 

@@ -19,7 +19,7 @@ public class Reader {
     public Reader() {
     }
 
-    public Reader(String readerId, String fullName, String nationalId, LocalDate birthDate, Gender gender, String email, String address, @NotNull LocalDate createdDate) {
+    public Reader(String readerId, String fullName, String nationalId, LocalDate birthDate, Gender gender, String email, String address, @NotNull LocalDate createdDate, LocalDate expiredDate) {
         this.readerId = readerId;
         this.fullName = fullName;
         this.nationalId = nationalId;
@@ -28,8 +28,7 @@ public class Reader {
         this.email = email;
         this.address = address;
         this.createdDate = createdDate;
-        // Reader card expires after 48 months
-        this.expiredDate = createdDate.plusMonths(48);
+        this.expiredDate = expiredDate;
     }
 
     public String getReaderId() {

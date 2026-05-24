@@ -5,6 +5,7 @@ import enums.AccountStatus;
 import enums.BookCategory;
 import enums.Gender;
 import enums.UserType;
+import reader.Reader;
 import user.User;
 
 import java.io.*;
@@ -14,6 +15,7 @@ import java.util.List;
 
 public class FileUtil {
     private static final String USER_FILE = "Module1_Final/src/data/users.txt";
+    private static final String READER_FILE = "Module1_Final/src/data/readers.txt";
     private static final String BOOK_FILE = "Module1_Final/src/data/books.txt";
 
     // ================= LOAD USERS FROM FILE =================
@@ -81,10 +83,84 @@ public class FileUtil {
 
                 writer.newLine();
             }
+
+            System.out.println("Lưu file người dùng thành công.");
         } catch (IOException e) {
             System.out.println("Lỗi lưu file người dùng:  " + e.getMessage());
         } catch (Exception e) {
             System.out.println("Lỗi xử lý dữ liệu người dùng: " + e.getMessage());
+        }
+    }
+
+    // ================= LOAD READERS FROM FILE =================
+    public static List<Reader> loadReadersFromFile() {
+        // Store all readers loaded from file
+        List<Reader> readerList = new ArrayList<>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(READER_FILE))) {
+            String line;
+
+            // Read line by line
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(",");
+
+                // Skip invalid reader data
+                if (data.length != 9) {
+                    continue;
+                }
+
+                // Create reader object from file data
+                Reader readerObj = new Reader(
+                        data[0],
+                        data[1],
+                        data[2],
+                        LocalDate.parse(data[3]),
+                        Gender.valueOf(data[4]),
+                        data[5],
+                        data[6],
+                        LocalDate.parse(data[7]),
+                        LocalDate.parse(data[8])
+                );
+
+                // Add reader to list
+                readerList.add(readerObj);
+            }
+
+            System.out.println("Đọc file độc giả thành công.");
+        } catch (IOException e) {
+            System.out.println("Lỗi đọc file độc giả: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Lỗi xử lý dữ liệu độc giả: " + e.getMessage());
+        }
+
+        return readerList;
+    }
+
+    // ================= SAVE READER LIST TO FILE =================
+    public static void saveReadersToFile(List<Reader> readerList) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(READER_FILE))) {
+            // Save each reader to file
+            for (Reader reader : readerList) {
+                String readerData = reader.getReaderId() + ","
+                        + reader.getFullName() + ","
+                        + reader.getNationalId() + ","
+                        + reader.getBirthDate() + ","
+                        + reader.getGender() + ","
+                        + reader.getEmail() + ","
+                        + reader.getAddress() + ","
+                        + reader.getCreatedDate() + ","
+                        + reader.getExpiredDate();
+
+                writer.write(readerData);
+
+                writer.newLine();
+            }
+
+            System.out.println("Lưu file độc giả thành công.");
+        } catch (IOException e) {
+            System.out.println("Lỗi lưu file độc giả:  " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Lỗi xử lý dữ liệu độc giả: " + e.getMessage());
         }
     }
 

@@ -51,23 +51,6 @@ public class LibraryManagement {
 
     // ================= INIT USER DATA =================
     public void createInitData() {
-        // Reader data
-        Reader reader1 = new Reader(
-                "R0001", "Nguyen Van An", "123654789852", LocalDate.of(2006, 8, 17),
-                Gender.MALE, "an@gmail.com", "Ho Chi Minh City", LocalDate.of(2026, 5, 6));
-        Reader reader2 = new Reader(
-                "R0002", "Tran Thi Bich", "456987123654", LocalDate.of(2004, 3, 12),
-                Gender.FEMALE, "bich@gmail.com", "Da Nang", LocalDate.of(2026, 5, 6));
-        Reader reader3 = new Reader(
-                "R0003", "Le Minh Khang", "789456123852", LocalDate.of(2002, 11, 25),
-                Gender.MALE, "khang@gmail.com", "Can Tho", LocalDate.of(2026, 5, 6));
-        Reader reader4 = new Reader(
-                "R0004", "Pham Ngoc Ha", "321654987456", LocalDate.of(2005, 1, 5),
-                Gender.FEMALE, "ha@gmail.com", "Binh Duong", LocalDate.of(2026, 5, 6));
-        Reader reader5 = new Reader(
-                "R0005", "Vo Thanh Khang", "852741963258", LocalDate.of(2001, 9, 30),
-                Gender.MALE, "khang123@gmail.com", "Ha Noi", LocalDate.of(2026, 5, 6));
-
         // Borrow slip data
         BorrowReturnSlip borrowSlip1 = new BorrowReturnSlip(
                 "BR0001", "R0001", LocalDate.of(2026, 5, 1), LocalDate.of(2026, 5, 8),
@@ -87,13 +70,6 @@ public class LibraryManagement {
         BorrowReturnSlip borrowSlip6 = new BorrowReturnSlip(
                 "BR0006", "R0002", LocalDate.of(2026, 6, 8), LocalDate.of(2026, 6, 10),
                 LocalDate.of(2026, 6, 15), List.of("BK00001", "BK00003", "BK00005"), List.of());
-
-        // Create readers
-        readerService.createReader(reader1);
-        readerService.createReader(reader2);
-        readerService.createReader(reader3);
-        readerService.createReader(reader4);
-        readerService.createReader(reader5);
 
         // Create borrow slips
         borrowReturnSlipService.createBorrowSlip(borrowSlip1);
