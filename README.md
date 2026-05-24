@@ -105,8 +105,8 @@ The application runs entirely on the console using Java.
 | 6.2 Books by Category Statistics | ✅ | ✅ | ❌ |
 | 6.3 Total Readers Statistics | ✅ | ✅ | ❌ |
 | 6.4 Readers by Gender Statistics | ✅ | ✅ | ❌ |
-| 6.5 Borrowed Books Statistics | ✅ | ✅ | ❌ |
-| 6.6 Overdue Readers Statistics | ✅ | ✅ | ❌ |
+| 6.5 Borrowed Books Statistics | ✅ | ✅ | ✅ |
+| 6.6 Overdue Readers Statistics | ✅ | ✅ | ✅ |
 
 > ✅ Allowed  
 > ❌ Not Allowed
