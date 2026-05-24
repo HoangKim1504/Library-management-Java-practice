@@ -322,10 +322,10 @@ public class BorrowReturnSlipService {
         return totalBorrowingBooks;
     }
 
-    // ================= COUNT LATE DAYS =================
-    public Map<String, Long> countLateDays() {
-        // Store total late days
-        Map<String, Long> lateDaysMap = new LinkedHashMap<>();
+    // ================= COUNT OVERDUE READER LATE DAYS =================
+    public Map<String, Long> countOverDueReaderLateDays() {
+        // Store overdue reader late days
+        Map<String, Long> overdueReaderLateDaysMap = new LinkedHashMap<>();
 
         // Find overdue readers from borrow slips
         for (BorrowReturnSlip slip : borrowReturnList) {
@@ -345,9 +345,10 @@ public class BorrowReturnSlipService {
             String readerId = slip.getReaderId();
             Long lateDays = BorrowReturnSlip.calculateLateDays(expectedReturnDate, actualReturnDate);
 
-            lateDaysMap.put(readerId, lateDays);
+            // Store overdue reader late days
+            overdueReaderLateDaysMap.put(readerId, lateDays);
         }
 
-        return lateDaysMap;
+        return overdueReaderLateDaysMap;
     }
 }

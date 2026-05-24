@@ -179,7 +179,7 @@ public class PrintUtil {
     // ================= DISPLAY BASIC STATISTICS =================
     public static void printBasicStatisticsInfo(boolean canViewFullStatistics, int totalBooks, Map<BookCategory,
                                                         Integer> categoryQuantityMap, int totalReaders, Map<Gender, Integer> genderQuantityMap,
-                                                int totalBorrowedBooks, Map<String, Long> overdueReadersMap) {
+                                                int totalBorrowedBooks, Map<String, Long> overdueReaderLateDaysMap) {
 
         int index = 1;
 
@@ -211,7 +211,7 @@ public class PrintUtil {
 
         // Display overdue readers
         System.out.println(index++ + ". Danh sách độc giả bị trễ hạn: ");
-        for (Map.Entry<String, Long> entry : overdueReadersMap.entrySet()) {
+        for (Map.Entry<String, Long> entry : overdueReaderLateDaysMap.entrySet()) {
             System.out.println(" - Mã độc giả: " + entry.getKey() + ", số ngày trễ: " + entry.getValue() + " ngày");
         }
     }

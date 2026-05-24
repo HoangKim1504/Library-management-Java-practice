@@ -894,7 +894,7 @@ public class LibraryManagement {
         }
 
         // Check whether the user can view full statistics
-        boolean canViewFullStatics = userService.hasAccess(userId, ADMIN, MANAGER);
+        boolean canViewFullStatistics = userService.hasAccess(userId, ADMIN, MANAGER);
 
         // Initialize statics data
         int totalBooks = 0;
@@ -903,7 +903,7 @@ public class LibraryManagement {
         Map<Gender, Integer> readersByGender = null;
 
         // ADMIN and MANAGER can view all statistics
-        if (canViewFullStatics) {
+        if (canViewFullStatistics) {
             // Count total books in library
             totalBooks = bookService.countTotalBooks();
 
@@ -920,11 +920,11 @@ public class LibraryManagement {
         // Count books currently being borrowed
         int totalBorrowedBooks = borrowReturnSlipService.countBorrowedBookQuantity();
 
-        // Count late days
-        Map<String, Long> overdueReaders = borrowReturnSlipService.countLateDays();
+        // Count overdue reader late days
+        Map<String, Long> overdueReaderLateDaysMap = borrowReturnSlipService.countOverDueReaderLateDays();
 
         // Display statistics information
-        PrintUtil.printBasicStatisticsInfo(canViewFullStatics, totalBooks, booksByCategory,
-                totalReaders, readersByGender, totalBorrowedBooks, overdueReaders);
+        PrintUtil.printBasicStatisticsInfo(canViewFullStatistics, totalBooks, booksByCategory,
+                totalReaders, readersByGender, totalBorrowedBooks, overdueReaderLateDaysMap);
     }
 }

@@ -116,7 +116,7 @@ public class BorrowReturnSlip {
 
     // ================= CALCULATE LATE DAYS =================
     public static long calculateLateDays(LocalDate expectedReturnDate, LocalDate actualReturnDate) {
-        // Validate input
+        // Invalid return dates
         if (expectedReturnDate == null || actualReturnDate == null) {
             return 0;
         }
@@ -133,6 +133,11 @@ public class BorrowReturnSlip {
     // ================= CALCULATE LATE FEE =================
     public static double calculateLateFee(BorrowReturnSlip returnSlip, BorrowReturnSlip currentSlip,
                                           double lateFeePerDay) {
+        // Validate slips
+        if (returnSlip == null || currentSlip == null) {
+            return 0;
+        }
+
         // Calculate late days
         long lateDays = calculateLateDays(currentSlip.getExpectedReturnDate(), returnSlip.getActualReturnDate());
 
