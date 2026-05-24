@@ -134,7 +134,7 @@ public class BorrowReturnSlip {
     public static double calculateLateFee(BorrowReturnSlip returnSlip, BorrowReturnSlip currentSlip,
                                           double lateFeePerDay) {
         // Calculate late days
-        long lateDays = calculateLateDays(returnSlip.getExpectedReturnDate(), currentSlip.getActualReturnDate());
+        long lateDays = calculateLateDays(currentSlip.getExpectedReturnDate(), returnSlip.getActualReturnDate());
 
         // Calculate total late fee
         return lateDays * lateFeePerDay;
