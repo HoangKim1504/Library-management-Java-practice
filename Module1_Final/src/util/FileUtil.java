@@ -37,9 +37,9 @@ public class FileUtil {
                 );
 
                 bookList.add(book);
-
-                System.out.println("Đọc file sách thành công.");
             }
+
+            System.out.println("Đọc file sách thành công.");
         } catch (IOException e) {
             System.out.println("Lỗi khi đọc file: " + e.getMessage());
         } catch (Exception e) {
