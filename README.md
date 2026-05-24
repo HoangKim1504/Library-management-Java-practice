@@ -124,58 +124,57 @@ The application runs entirely on the console using Java.
 
 ---
 
-# 📂 Project Structure
+# 📂 Improved Project Structure
 
 ```bash
 src/
-├── book/                  # Book management module
+├── book/
 │   ├── Book.java
-│   ├── BookService.java
-│   └── BookManagement.java
+│   └── BookService.java
 │
-├── data/                  # Store txt data files
+├── data/
 │   ├── books.txt
+│   ├── borrow_slips.txt
 │   ├── readers.txt
-│   ├── users.txt
-│   └── slips.txt
+│   └── users.txt
 │
-├── enums/                 # Enum classes
-│   ├── Gender.java
-│   ├── UserRole.java
+├── enums/
 │   ├── AccountStatus.java
-│   └── SlipStatus.java
+│   ├── BookCategory.java
+│   ├── Gender.java
+│   └── UserType.java
 │
-├── library/               # Main menu and library system
+├── library/
 │   ├── LibraryManagement.java
 │   └── Main.java
 │
-├── reader/                # Reader management module
+├── reader/
 │   ├── Reader.java
-│   ├── ReaderService.java
-│   └── ReaderManagement.java
+│   └── ReaderService.java
 │
-├── slip/                  # Borrow/Return slip module
-│   ├── BorrowSlip.java
-│   ├── ReturnSlip.java
-│   ├── SlipService.java
-│   └── SlipManagement.java
+├── slip/
+│   ├── BorrowReturnSlip.java
+│   └── BorrowReturnSlipService.java
 │
-├── user/                  # User management module
+├── user/
 │   ├── User.java
-│   ├── UserService.java
-│   └── AuthService.java
+│   └── UserService.java
 │
-├── util/                  # Utility classes
-│   ├── FileUtil.java
+├── util/
 │   ├── DateUtil.java
+│   ├── FileUtil.java
 │   ├── InputUtil.java
-│   └── FormatUtil.java
+│   ├── NumberUtil.java
+│   ├── PrintUtil.java
+│   └── TextUtil.java
 │
-└── validator/             # Input validation classes
-    ├── UserValidator.java
-    ├── ReaderValidator.java
-    ├── BookValidator.java
-    └── ValidationUtil.java
+├── validator/
+│   ├── BookValidator.java
+│   ├── InputValidator.java
+│   ├── ReaderValidator.java
+│   └── UserValidator.java
+│
+└── README.md
 
 🚀 Getting Started
 Requirements
