@@ -186,9 +186,11 @@ git clone https://github.com/your-username/Library-management-Java-practice.git
 Open the project in your IDE
 Run:
 LibraryManagement.java
+
 🧪 Sample Default Account
 Username: admin
 Password: admin
+
 📌 Learning Objectives
 
 This project helps practice:
@@ -200,6 +202,7 @@ File processing
 Exception handling
 Layered architecture
 Git workflow
+
 📷 Console Preview
 ===== LIBRARY MANAGEMENT SYSTEM =====
 1. Login
@@ -209,6 +212,7 @@ Git workflow
 5. Return Book
 6. Statistics
 0. Exit
+
 👨‍💻 Author
 
 Hoang Kim Tran
