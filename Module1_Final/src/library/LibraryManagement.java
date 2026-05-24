@@ -918,13 +918,13 @@ public class LibraryManagement {
         }
 
         // Count books currently being borrowed
-        int totalBorrowedBooks = borrowReturnSlipService.countBorrowedBookQuantity();
+        int totalBorrowingBooks = borrowReturnSlipService.countBorrowingBookQuantity();
 
         // Count overdue reader late days
         Map<String, Long> overdueReaderLateDaysMap = borrowReturnSlipService.countOverDueReaderLateDays();
 
         // Display statistics information
         PrintUtil.printBasicStatisticsInfo(canViewFullStatistics, totalBooks, booksByCategory,
-                totalReaders, readersByGender, totalBorrowedBooks, overdueReaderLateDaysMap);
+                totalReaders, readersByGender, totalBorrowingBooks, overdueReaderLateDaysMap);
     }
 }

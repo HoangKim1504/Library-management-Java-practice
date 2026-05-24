@@ -305,8 +305,8 @@ public class BorrowReturnSlipService {
         );
     }
 
-    // ================= COUNT BORROWED BOOK QUANTITY =================
-    public int countBorrowedBookQuantity() {
+    // ================= COUNT BORROWING BOOK QUANTITY =================
+    public int countBorrowingBookQuantity() {
         int totalBorrowingBooks = 0;
 
         for (BorrowReturnSlip slip : borrowReturnList) {
