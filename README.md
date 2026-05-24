@@ -77,16 +77,39 @@ The application runs entirely on the console using Java.
 
 ---
 
-# 🔑 Authorization
+# 🔑 Authorization Table
 
-| Function | Admin | Manager | Staff |
+| Function | Admin System | Manager | Staff |
 |---|---|---|---|
-| User Management | ✅ | Partial | ❌ |
-| Reader Management | ✅ | ✅ | Partial |
-| Book Management | ✅ | ✅ | Search only |
-| Borrow Books | ✅ | ✅ | ✅ |
-| Return Books | ✅ | ✅ | ✅ |
-| Statistics | ✅ | ✅ | ❌ |
+| 1.1 Login | ✅ | ✅ | ✅ |
+| 1.2 Logout | ✅ | ✅ | ✅ |
+| 1.3 Change Password | ✅ | ✅ | ✅ |
+| 1.4 Update Personal Information | ✅ | ✅ | ✅ |
+| 1.5 Create User | ✅ | ❌ | ❌ |
+| 1.6 User Role Management | ✅ | ❌ | ❌ |
+| 2.1 View Reader List | ✅ | ✅ | ✅ |
+| 2.2 Add Reader | ✅ | ✅ | ✅ |
+| 2.3 Edit Reader | ✅ | ✅ | ✅ |
+| 2.4 Delete Reader | ✅ | ✅ | ❌ |
+| 2.5 Search Reader by ID Card | ✅ | ✅ | ✅ |
+| 2.6 Search Reader by Name | ✅ | ✅ | ✅ |
+| 3.1 View Book List | ✅ | ✅ | ❌ |
+| 3.2 Add Book | ✅ | ✅ | ❌ |
+| 3.3 Edit Book | ✅ | ✅ | ❌ |
+| 3.4 Delete Book | ✅ | ✅ | ❌ |
+| 3.5 Search Book by ISBN | ✅ | ✅ | ✅ |
+| 3.6 Search Book by Title | ✅ | ✅ | ✅ |
+| 4.xxx Borrow Book Functions | ✅ | ✅ | ✅ |
+| 5.xxx Return Book Functions | ✅ | ✅ | ✅ |
+| 6.1 Total Books Statistics | ✅ | ✅ | ❌ |
+| 6.2 Books by Category Statistics | ✅ | ✅ | ❌ |
+| 6.3 Total Readers Statistics | ✅ | ✅ | ❌ |
+| 6.4 Readers by Gender Statistics | ✅ | ✅ | ❌ |
+| 6.5 Borrowed Books Statistics | ✅ | ✅ | ❌ |
+| 6.6 Overdue Readers Statistics | ✅ | ✅ | ❌ |
+
+> ✅ Allowed  
+> ❌ Not Allowed
 
 ---
 
@@ -105,12 +128,55 @@ The application runs entirely on the console using Java.
 
 ```bash
 src/
-├── model/
-├── service/
-├── utils/
-├── data/
-├── menu/
-└── Main.java
+├── book/                  # Book management module
+│   ├── Book.java
+│   ├── BookService.java
+│   └── BookManagement.java
+│
+├── data/                  # Store txt data files
+│   ├── books.txt
+│   ├── readers.txt
+│   ├── users.txt
+│   └── slips.txt
+│
+├── enums/                 # Enum classes
+│   ├── Gender.java
+│   ├── UserRole.java
+│   ├── AccountStatus.java
+│   └── SlipStatus.java
+│
+├── library/               # Main menu and library system
+│   ├── LibraryManagement.java
+│   └── Main.java
+│
+├── reader/                # Reader management module
+│   ├── Reader.java
+│   ├── ReaderService.java
+│   └── ReaderManagement.java
+│
+├── slip/                  # Borrow/Return slip module
+│   ├── BorrowSlip.java
+│   ├── ReturnSlip.java
+│   ├── SlipService.java
+│   └── SlipManagement.java
+│
+├── user/                  # User management module
+│   ├── User.java
+│   ├── UserService.java
+│   └── AuthService.java
+│
+├── util/                  # Utility classes
+│   ├── FileUtil.java
+│   ├── DateUtil.java
+│   ├── InputUtil.java
+│   └── FormatUtil.java
+│
+└── validator/             # Input validation classes
+    ├── UserValidator.java
+    ├── ReaderValidator.java
+    ├── BookValidator.java
+    └── ValidationUtil.java
+
 🚀 Getting Started
 Requirements
 Java JDK 17+ (or your current version)
