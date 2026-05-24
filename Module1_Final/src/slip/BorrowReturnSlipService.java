@@ -8,7 +8,9 @@ import validator.InputValidator;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BorrowReturnSlipService {
     // ================= STORE ALL BORROW RETURN SLIPS =================
@@ -320,31 +322,32 @@ public class BorrowReturnSlipService {
         return totalBorrowingBooks;
     }
 
-    // ================= COUNT OVERDUE READER LIST =================
-    public List<String> countOverdueReaderList() {
-        List<String> overdueReaderList = new ArrayList<>();
+    // ================= COUNT LATE DAYS =================
+    public Map<String, Long> countLateDays() {
+        // Store total late days
+        Map<String, Long> lateDaysMap = new LinkedHashMap<>();
 
+        // Find overdue readers from borrow slips
         for (BorrowReturnSlip slip : borrowReturnList) {
-            LocalDate actualReturnDate = slip.getActualReturnDate();
             LocalDate expectedReturnDate = slip.getExpectedReturnDate();
+            LocalDate actualReturnDate = slip.getActualReturnDate();
 
-            if (actualReturnDate == null || expectedReturnDate == null) {
+            // Skip unreturned or invalid slips
+            if (expectedReturnDate == null || actualReturnDate == null) {
                 continue;
             }
 
+            // Skip on-time returns
             if (!actualReturnDate.isAfter(expectedReturnDate)) {
                 continue;
             }
 
             String readerId = slip.getReaderId();
+            Long lateDays = BorrowReturnSlip.calculateLateDays(expectedReturnDate, actualReturnDate);
 
-            if (overdueReaderList.contains(readerId)) {
-                continue;
-            }
-
-            overdueReaderList.add(readerId);
+            lateDaysMap.put(readerId, lateDays);
         }
 
-        return overdueReaderList;
+        return lateDaysMap;
     }
 }

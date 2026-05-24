@@ -114,16 +114,12 @@ public class BorrowReturnSlip {
                 ", Danh sách ISBN sách mất: " + lostBookIsbns + '\'';
     }
 
-    // ================= CALCULATE LATE FEE =================
-    public static double calculateLateFee(BorrowReturnSlip returnSlip, BorrowReturnSlip currentSlip,
-                                          double lateFeePerDay) {
+    // ================= CALCULATE LATE DAYS =================
+    public static long calculateLateDays(LocalDate expectedReturnDate, LocalDate actualReturnDate) {
         // Validate input
-        if (returnSlip == null || currentSlip == null) {
+        if (expectedReturnDate == null || actualReturnDate == null) {
             return 0;
         }
-
-        LocalDate expectedReturnDate = currentSlip.getExpectedReturnDate();
-        LocalDate actualReturnDate = returnSlip.getActualReturnDate();
 
         // Return on time
         if (!actualReturnDate.isAfter(expectedReturnDate)) {
@@ -131,7 +127,14 @@ public class BorrowReturnSlip {
         }
 
         // Calculate late days
-        long lateDays = ChronoUnit.DAYS.between(expectedReturnDate, actualReturnDate);
+        return ChronoUnit.DAYS.between(expectedReturnDate, actualReturnDate);
+    }
+
+    // ================= CALCULATE LATE FEE =================
+    public static double calculateLateFee(BorrowReturnSlip returnSlip, BorrowReturnSlip currentSlip,
+                                          double lateFeePerDay) {
+        // Calculate late days
+        long lateDays = calculateLateDays(returnSlip.getExpectedReturnDate(), currentSlip.getActualReturnDate());
 
         // Calculate total late fee
         return lateDays * lateFeePerDay;

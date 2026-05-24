@@ -8,7 +8,6 @@ import slip.BorrowReturnSlip;
 import user.User;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Map;
 
 public class PrintUtil {
@@ -180,7 +179,7 @@ public class PrintUtil {
     // ================= DISPLAY BASIC STATISTICS =================
     public static void printBasicStatisticsInfo(boolean canViewFullStatistics, int totalBooks, Map<BookCategory,
                                                         Integer> categoryQuantityMap, int totalReaders, Map<Gender, Integer> genderQuantityMap,
-                                                int totalBorrowedBooks, List<String> overdueReaderList) {
+                                                int totalBorrowedBooks, Map<String, Long> overdueReadersMap) {
 
         int index = 1;
 
@@ -211,6 +210,9 @@ public class PrintUtil {
         System.out.println(index++ + ". Số sách đang được mượn: " + totalBorrowedBooks + " quyển");
 
         // Display overdue readers
-        System.out.println(index++ + ". Danh sách độc giả bị trễ hạn: " + overdueReaderList);
+        System.out.println(index++ + ". Danh sách độc giả bị trễ hạn: ");
+        for (Map.Entry<String, Long> entry : overdueReadersMap.entrySet()) {
+            System.out.println(" - Mã độc giả: " + entry.getKey() + ", số ngày trễ: " + entry.getValue() + " ngày");
+        }
     }
 }

@@ -900,7 +900,7 @@ public class LibraryManagement {
         int totalBooks = 0;
         int totalReaders = 0;
         Map<BookCategory, Integer> booksByCategory = null;
-        Map<Gender, Integer> readersByCategory = null;
+        Map<Gender, Integer> readersByGender = null;
 
         // ADMIN and MANAGER can view all statistics
         if (canViewFullStatics) {
@@ -914,17 +914,17 @@ public class LibraryManagement {
             totalReaders = readerService.countTotalReaders();
 
             // Count reader quantity grouped by gender
-            readersByCategory = readerService.countReaderQuantityByGender();
+            readersByGender = readerService.countReaderQuantityByGender();
         }
 
         // Count books currently being borrowed
         int totalBorrowedBooks = borrowReturnSlipService.countBorrowedBookQuantity();
 
-        // Count overdue readers
-        List<String> overdueReaderList = borrowReturnSlipService.countOverdueReaderList();
+        // Count late days
+        Map<String, Long> overdueReaders = borrowReturnSlipService.countLateDays();
 
         // Display statistics information
         PrintUtil.printBasicStatisticsInfo(canViewFullStatics, totalBooks, booksByCategory,
-                totalReaders, readersByCategory, totalBorrowedBooks, overdueReaderList);
+                totalReaders, readersByGender, totalBorrowedBooks, overdueReaders);
     }
 }
