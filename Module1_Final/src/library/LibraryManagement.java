@@ -85,26 +85,6 @@ public class LibraryManagement {
                 "R0005", "Vo Thanh Khang", "852741963258", LocalDate.of(2001, 9, 30),
                 Gender.MALE, "khang123@gmail.com", "Ha Noi", LocalDate.of(2026, 5, 6));
 
-        // Book data
-        Book book1 = new Book(
-                "BK00001", "Lập Trình Java Cơ Bản", "Nguyễn Văn A", "NXB Giáo Dục", 2020,
-                BookCategory.PROGRAMMING, 180000, 12);
-        Book book2 = new Book(
-                "BK00002", "Dế Mèn Phiêu Lưu Ký", "Tô Hoài", "NXB Kim Đồng", 2019,
-                BookCategory.NOVEL, 75000, 15);
-        Book book3 = new Book(
-                "BK00003", "Lược Sử Việt Nam", "Trần Trọng Kim", "NXB Văn Học", 2021,
-                BookCategory.HISTORY, 120000, 10);
-        Book book4 = new Book(
-                "BK00004", "Vũ Trụ Trong Vỏ Hạt Dẻ", "Stephen Hawking", "NXB Trẻ", 2018,
-                BookCategory.SCIENCE, 210000, 8);
-        Book book5 = new Book(
-                "BK00005", "Nghệ Thuật Sống", "Nhiều tác giả", "NXB Tổng Hợp", 2022,
-                BookCategory.OTHER, 95000, 20);
-        Book book6 = new Book(
-                "BK00006", "Sự im lặng của bầy cừu", "Thomas Harris", "NXB Nhã Nam", 2015,
-                BookCategory.NOVEL, 115000, 30);
-
         // Borrow slip data
         BorrowReturnSlip borrowSlip1 = new BorrowReturnSlip(
                 "BR0001", "R0001", LocalDate.of(2026, 5, 1), LocalDate.of(2026, 5, 8),
@@ -138,14 +118,6 @@ public class LibraryManagement {
         readerService.createReader(reader3);
         readerService.createReader(reader4);
         readerService.createReader(reader5);
-
-        // Create books
-        bookService.createBook(book1);
-        bookService.createBook(book2);
-        bookService.createBook(book3);
-        bookService.createBook(book4);
-        bookService.createBook(book5);
-        bookService.createBook(book6);
 
         // Create borrow slips
         borrowReturnSlipService.createBorrowSlip(borrowSlip1);

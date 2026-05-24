@@ -1,0 +1,6 @@
+BK00001,Lập Trình Java Cơ Bản,Nguyễn Văn A,NXB Giáo Dục,2020,PROGRAMMING,180000.0,12
+BK00002,Dế Mèn Phiêu Lưu Ký,Tô Hoài,NXB Kim Đồng,2019,NOVEL,75000.0,15
+BK00003,Lược Sử Việt Nam,Trần Trọng Kim,NXB Văn Học,2021,HISTORY,120000.0,10
+BK00004,Vũ Trụ Trong Vỏ Hạt Dẻ,Stephen Hawking,NXB Trẻ,2018,SCIENCE,210000.0,8
+BK00005,Nghệ Thuật Sống,Nhiều tác giả,NXB Tổng Hợp,2022,OTHER,95.865,20
+BK00006,Sự im lặng của bầy cừu,Thomas Harris,NXB Nhã Nam,2015,NOVEL,115.568,30

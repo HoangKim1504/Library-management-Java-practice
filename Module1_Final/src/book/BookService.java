@@ -1,6 +1,7 @@
 package book;
 
 import enums.BookCategory;
+import util.FileUtil;
 import util.InputUtil;
 import util.TextUtil;
 import validator.InputValidator;
@@ -12,7 +13,12 @@ import java.util.Map;
 
 public class BookService {
     // ================= STORE ALL BOOKS =================
-    private final List<Book> bookList = new ArrayList<>(); // Prevents accidental reassignment to the list
+    private final List<Book> bookList;
+
+    // ================= CONSTRUCTOR =================
+    public BookService() {
+        bookList = FileUtil.loadBooksFromFile();
+    }
 
     // ================= CREATE NEW BOOK =================
     public boolean createBook(Book book) {
@@ -29,6 +35,10 @@ public class BookService {
         }
 
         bookList.add(book);
+
+        // Save updated data
+        FileUtil.saveBooksToFile(bookList);
+
         return true;
     }
 
@@ -192,6 +202,9 @@ public class BookService {
                 System.out.println("Lựa chọn không hợp lệ!");
         }
 
+        // Save updated data
+        FileUtil.saveBooksToFile(bookList);
+
         return book;
     }
 
@@ -205,7 +218,11 @@ public class BookService {
 
         // Delete successfully
         if (isDeleted) {
+            // Save updated data
+            FileUtil.saveBooksToFile(bookList);
+
             System.out.println("Đã xoá thông tin sách thành công!");
+
             return true;
         }
 
