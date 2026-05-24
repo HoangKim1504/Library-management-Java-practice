@@ -12,19 +12,22 @@ public class FileUtil {
 
     // ================= LOAD BOOKS FROM FILE =================
     public static List<Book> loadBooksFromFile() {
+        // Store all books loaded from file
         List<Book> bookList = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(BOOK_FILE))) {
             String line;
 
+            // Read file line by line
             while ((line = reader.readLine()) != null) {
                 String[] data = line.split(",");
 
-                // Invalid data
+                // Skip invalid book data
                 if (data.length != 8) {
                     continue;
                 }
 
+                // Create book object from file data
                 Book book = new Book(
                         data[0],
                         data[1],
@@ -36,14 +39,15 @@ public class FileUtil {
                         Integer.parseInt(data[7])
                 );
 
+                // Add book to list
                 bookList.add(book);
             }
 
             System.out.println("Đọc file sách thành công.");
         } catch (IOException e) {
-            System.out.println("Lỗi khi đọc file: " + e.getMessage());
+            System.out.println("Lỗi đọc file sách: " + e.getMessage());
         } catch (Exception e) {
-            System.out.println("Lỗi xử lý: " + e.getMessage());
+            System.out.println("Lỗi xử lý dữ liệu sách: " + e.getMessage());
         }
 
         return bookList;
@@ -52,6 +56,7 @@ public class FileUtil {
     // ================= SAVE BOOK LIST TO FILE =================
     public static void saveBooksToFile(List<Book> bookList) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(BOOK_FILE))) {
+            // Save each book to file
             for (Book book : bookList) {
                 String bookData = book.getIsbn() + ","
                         + book.getTitle() + ","
@@ -69,9 +74,9 @@ public class FileUtil {
 
             System.out.println("Lưu file sách thành công.");
         } catch (IOException e) {
-            System.out.println("Lỗi khi đọc file: " + e.getMessage());
+            System.out.println("Lỗi lưu file sách:  " + e.getMessage());
         } catch (Exception e) {
-            System.out.println("Lỗi xử lý: " + e.getMessage());
+            System.out.println("Lỗi xử lý dữ liệu sách: " + e.getMessage());
         }
     }
 }
