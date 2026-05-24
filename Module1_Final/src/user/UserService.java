@@ -5,17 +5,22 @@ import enums.Gender;
 import enums.UserType;
 import org.jetbrains.annotations.NotNull;
 import util.DateUtil;
+import util.FileUtil;
 import util.InputUtil;
 import validator.InputValidator;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 public class UserService {
 
     // ================= STORE ALL USERS =================
-    private final List<User> userList = new ArrayList<>(); // Prevents accidental reassignment to the list
+    private final List<User> userList;
+
+    // ================= CONSTRUCTOR =================
+    public UserService() {
+        userList = FileUtil.loadUsersFromFile();
+    }
 
     // ================= CREATE NEW USER =================
     public boolean createUser(User user) {
@@ -32,6 +37,10 @@ public class UserService {
         }
 
         userList.add(user);
+
+        // Save updated data
+        FileUtil.saveUsersToFile(userList);
+
         return true;
     }
 
@@ -84,6 +93,10 @@ public class UserService {
 
         // Update new password
         user.setPassword(newPass);
+
+        // Save updated data
+        FileUtil.saveUsersToFile(userList);
+
         return true;
     }
 
@@ -183,6 +196,9 @@ public class UserService {
             default:
                 System.out.println("Lựa chọn không hợp lệ!");
         }
+
+        // Save updated data
+        FileUtil.saveUsersToFile(userList);
 
         return user;
     }

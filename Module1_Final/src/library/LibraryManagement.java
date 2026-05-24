@@ -51,23 +51,6 @@ public class LibraryManagement {
 
     // ================= INIT USER DATA =================
     public void createInitData() {
-        // User data
-        User admin = new User(
-                "admin", "admin", "Admin system", LocalDate.of(1990, 1, 1),
-                "123456789875", "TP.HCM", Gender.MALE, AccountStatus.ACTIVATED, UserType.ADMIN, "0001");
-        User manager = new User(
-                "manager", "manager", "Manager", LocalDate.of(1995, 12, 1),
-                "987654321954", "TP.HCM", Gender.FEMALE, AccountStatus.ACTIVATED, UserType.MANAGER, "0002");
-        User user1 = new User(
-                "user1", "user1", "User1", LocalDate.of(1994, 8, 17),
-                "159753852851", "TP.Ha Noi", Gender.MALE, AccountStatus.ACTIVATED, UserType.USER, "0003");
-        User user2 = new User(
-                "user2", "user2", "User2", LocalDate.of(1999, 5, 20),
-                "456789158487", "TP.Can Tho", Gender.FEMALE, AccountStatus.ACTIVATED, UserType.USER, "0004");
-        User user3 = new User(
-                "user3", "user3", "User3", LocalDate.of(2000, 1, 15),
-                "789541259851", "TP.HCM", Gender.MALE, AccountStatus.BLOCK, UserType.USER, "0005");
-
         // Reader data
         Reader reader1 = new Reader(
                 "R0001", "Nguyen Van An", "123654789852", LocalDate.of(2006, 8, 17),
@@ -104,13 +87,6 @@ public class LibraryManagement {
         BorrowReturnSlip borrowSlip6 = new BorrowReturnSlip(
                 "BR0006", "R0002", LocalDate.of(2026, 6, 8), LocalDate.of(2026, 6, 10),
                 LocalDate.of(2026, 6, 15), List.of("BK00001", "BK00003", "BK00005"), List.of());
-
-        // Create users
-        userService.createUser(admin);
-        userService.createUser(manager);
-        userService.createUser(user1);
-        userService.createUser(user2);
-        userService.createUser(user3);
 
         // Create readers
         readerService.createReader(reader1);
