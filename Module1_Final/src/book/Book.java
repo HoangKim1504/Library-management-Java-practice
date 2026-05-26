@@ -9,13 +9,13 @@ public class Book {
     private String publisher;
     private int publishYear;
     private BookCategory category;
-    private double price;
+    private long price;
     private int quantity;
 
     public Book() {
     }
 
-    public Book(String isbn, String title, String author, String publisher, int publishYear, BookCategory category, double price, int quantity) {
+    public Book(String isbn, String title, String author, String publisher, int publishYear, BookCategory category, long price, int quantity) {
         this.isbn = isbn;
         this.title = title;
         this.author = author;
@@ -74,11 +74,11 @@ public class Book {
         this.category = category;
     }
 
-    public double getPrice() {
+    public long getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(long price) {
         this.price = price;
     }
 

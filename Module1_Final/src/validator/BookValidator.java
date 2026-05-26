@@ -17,7 +17,7 @@ public class BookValidator {
                 if (InputValidator.isValidYear(Integer.parseInt(newInfo))) return true;
                 break;
             case 6:
-                if (InputValidator.isValidPrice(Double.parseDouble(newInfo))) return true;
+                if (InputValidator.isValidPrice(Long.parseLong(newInfo))) return true;
                 break;
             case 7:
                 if (InputValidator.isValidQuantity(Integer.parseInt(newInfo))) return true;

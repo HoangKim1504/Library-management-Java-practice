@@ -133,7 +133,7 @@ public class BookService {
         }
 
         // Price
-        double price = InputValidator.inputValidDouble("Giá sách: ", InputValidator::isValidPrice);
+        long price = InputValidator.inputValidLong("Giá sách: ", InputValidator::isValidPrice);
 
         // Quantity
         int quantity = InputValidator.inputValidInt("Số lượng: ", InputValidator::isValidQuantity);
@@ -193,7 +193,7 @@ public class BookService {
                 book.setCategory((BookCategory) newInfo);
                 break;
             case 6:
-                book.setPrice(Double.parseDouble((String) newInfo));
+                book.setPrice(Long.parseLong((String) newInfo));
                 break;
             case 7:
                 book.setQuantity(Integer.parseInt((String) newInfo));

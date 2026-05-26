@@ -60,19 +60,19 @@ public class InputValidator {
         }
     }
 
-    // ================= INPUT VALID DOUBLE NUMBER =================
-    public static double inputValidDouble(String prompt, @NotNull Predicate<Double> validator) {
+    // ================= INPUT VALID LONG NUMBER =================
+    public static long inputValidLong(String prompt, @NotNull Predicate<Long> validator) {
         while (true) {
             System.out.print(prompt);
             String input = sc.nextLine().trim();
 
             try {
-                // Convert to double
-                double numberDouble = Double.parseDouble(input);
+                // Convert to long
+                long numberLong = Long.parseLong(input);
 
                 // Validate price
-                if (validator.test(numberDouble)) {
-                    return numberDouble;
+                if (validator.test(numberLong)) {
+                    return numberLong;
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Vui lòng nhập số hợp lệ!");
@@ -331,7 +331,7 @@ public class InputValidator {
     }
 
     // ================= VALID NEW PRICE =================
-    public static boolean isValidPrice(double price) {
+    public static boolean isValidPrice(long price) {
         return price > 0;
     }
 
