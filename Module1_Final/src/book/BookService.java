@@ -256,7 +256,13 @@ public class BookService {
 
     // ================= COUNT TOTAL BOOKS =================
     public int countTotalBooks() {
-        return bookList.size();
+        int totalBooks = 0;
+
+        for (Book book : bookList) {
+            totalBooks += book.getQuantity();
+        }
+
+        return totalBooks;
     }
 
     // ================= COUNT BOOK QUANTITY BY CATEGORY =================
