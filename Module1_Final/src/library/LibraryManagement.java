@@ -18,7 +18,6 @@ import util.PrintUtil;
 import util.TextUtil;
 import validator.InputValidator;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -45,39 +44,7 @@ public class LibraryManagement {
 
     public static void main(String[] args) {
         LibraryManagement app = new LibraryManagement();
-        app.createInitData();
         app.run();
-    }
-
-    // ================= INIT USER DATA =================
-    public void createInitData() {
-        // Borrow slip data
-        BorrowReturnSlip borrowSlip1 = new BorrowReturnSlip(
-                "BR0001", "R0001", LocalDate.of(2026, 5, 1), LocalDate.of(2026, 5, 8),
-                null, List.of("BK00001", "BK00003"), List.of());
-        BorrowReturnSlip borrowSlip2 = new BorrowReturnSlip(
-                "BR0002", "R0002", LocalDate.of(2026, 5, 3), LocalDate.of(2026, 5, 10),
-                LocalDate.of(2026, 5, 15), List.of("BK00002", "BK00004"), List.of());
-        BorrowReturnSlip borrowSlip3 = new BorrowReturnSlip(
-                "BR0003", "R0003", LocalDate.of(2026, 5, 5), LocalDate.of(2026, 5, 12),
-                LocalDate.of(2026, 5, 15), List.of("BK00001", "BK00005"), List.of("BK00005"));
-        BorrowReturnSlip borrowSlip4 = new BorrowReturnSlip(
-                "BR0004", "R0004", LocalDate.of(2026, 5, 7), LocalDate.of(2026, 5, 14),
-                null, List.of("BK00003"), List.of());
-        BorrowReturnSlip borrowSlip5 = new BorrowReturnSlip(
-                "BR0005", "R0005", LocalDate.of(2026, 5, 8), LocalDate.of(2026, 5, 15),
-                LocalDate.of(2026, 5, 15), List.of("BK00002", "BK00004", "BK00005"), List.of());
-        BorrowReturnSlip borrowSlip6 = new BorrowReturnSlip(
-                "BR0006", "R0002", LocalDate.of(2026, 6, 8), LocalDate.of(2026, 6, 10),
-                LocalDate.of(2026, 6, 15), List.of("BK00001", "BK00003", "BK00005"), List.of());
-
-        // Create borrow slips
-        borrowReturnSlipService.createBorrowSlip(borrowSlip1);
-        borrowReturnSlipService.createBorrowSlip(borrowSlip2);
-        borrowReturnSlipService.createBorrowSlip(borrowSlip3);
-        borrowReturnSlipService.createBorrowSlip(borrowSlip4);
-        borrowReturnSlipService.createBorrowSlip(borrowSlip5);
-        borrowReturnSlipService.createBorrowSlip(borrowSlip6);
     }
 
     // ================= MAIN PROGRAM FLOW =================

@@ -5,18 +5,22 @@ import enums.AccountStatus;
 import enums.BookCategory;
 import enums.Gender;
 import enums.UserType;
+import org.jetbrains.annotations.NotNull;
 import reader.Reader;
+import slip.BorrowReturnSlip;
 import user.User;
 
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class FileUtil {
     private static final String USER_FILE = "Module1_Final/src/data/users.txt";
     private static final String READER_FILE = "Module1_Final/src/data/readers.txt";
     private static final String BOOK_FILE = "Module1_Final/src/data/books.txt";
+    private static final String BORROW_SLIP_FILE = "Module1_Final/src/data/borrow_slips.txt";
 
     // ================= LOAD USERS FROM FILE =================
     public static List<User> loadUsersFromFile() {
@@ -232,5 +236,121 @@ public class FileUtil {
         } catch (Exception e) {
             System.out.println("Lỗi xử lý dữ liệu sách: " + e.getMessage());
         }
+    }
+
+    // ================= LOAD BORROW SLIPS FROM FILE =================
+    public static List<BorrowReturnSlip> loadBorrowSlipsFromFile() {
+        // Store all borrow slips loaded from file
+        List<BorrowReturnSlip> borrowSlipList = new ArrayList<>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(BORROW_SLIP_FILE))) {
+            String line;
+
+            // Read file line by line
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(",");
+
+                // Skip invalid data
+                if (data.length != 7) {
+                    continue;
+                }
+
+                // Borrow slip
+                BorrowReturnSlip borrowSlip = getBorrowReturnSlip(data);
+
+                // Add book to list
+                borrowSlipList.add(borrowSlip);
+            }
+
+            System.out.println("Đọc file phiếu mượn trả sách thành công.");
+        } catch (IOException e) {
+            System.out.println("Lỗi đọc file phiếu mượn trả sách: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Lỗi xử lý dữ liệu khi đọc file phiếu mượn trả sách: " + e.getMessage());
+        }
+
+        return borrowSlipList;
+    }
+
+    // ================= SAVE BORROW SLIP LIST TO FILE =================
+    public static boolean saveBorrowSlipsToFile(List<BorrowReturnSlip> borrowSlipList) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(BORROW_SLIP_FILE))) {
+            // Save each slip to file
+            for (BorrowReturnSlip slip : borrowSlipList) {
+
+                // Borrow slip data
+                String slipData = getString(slip);
+
+                writer.write(slipData);
+
+                writer.newLine();
+            }
+
+            System.out.println("Lưu file phiếu mượn trả sách thành công.");
+
+            // Save success
+            return true;
+        } catch (IOException e) {
+            System.out.println("Lỗi lưu file phiếu mượn trả sách:  " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Lỗi xử lý dữ liệu khi lưu file phiếu mượn trả sách: " + e.getMessage());
+        }
+
+        // Save failed
+        return false;
+    }
+
+    // ================= GET BORROW RETURN SLIP =================
+    private static @NotNull BorrowReturnSlip getBorrowReturnSlip(String[] data) {
+        // Convert actual return date
+        LocalDate actualReturnDate = data[4].equals("null")
+                ? null
+                : LocalDate.parse(data[4]);
+
+        // Convert borrow ISBN list
+        List<String> borrowBookList = Arrays.asList(data[5].split("\\|"));
+
+        // Convert lost ISBN list
+        List<String> lostBookList = data[6].equals("null")
+                ? null
+                : Arrays.asList(data[6].split("\\|"));
+
+        // Create borrow slip object from file data
+        return new BorrowReturnSlip(
+                data[0],
+                data[1],
+                LocalDate.parse(data[2]),
+                LocalDate.parse(data[3]),
+                actualReturnDate,
+                borrowBookList,
+                lostBookList
+        );
+    }
+
+    // ================= GET STRING =================
+    private static @NotNull String getString(BorrowReturnSlip slip) {
+        // Convert borrow ISBN list
+        String borrowBookList = slip.getBorrowBookIsbns() == null
+                ? "null"
+                : String.join("|", slip.getBorrowBookIsbns());
+
+        // Convert lost ISBN list
+        String lostBookList = slip.getLostBookIsbns() == null || slip.getLostBookIsbns().isEmpty()
+                ? "null"
+                : String.join("|", slip.getLostBookIsbns());
+
+        // Convert actual return date
+        String actualReturnDate = slip.getActualReturnDate() == null
+                ? "null"
+                : slip.getActualReturnDate().toString();
+
+        // Borrow slip data
+        return slip.getBorrowId() + ","
+                + slip.getReaderId() + ","
+                + slip.getBorrowDate() + ","
+                + slip.getExpectedReturnDate() + ","
+                + actualReturnDate + ","
+                + borrowBookList + ","
+                + lostBookList;
     }
 }

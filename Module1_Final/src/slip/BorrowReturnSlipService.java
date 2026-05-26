@@ -3,6 +3,7 @@ package slip;
 import reader.Reader;
 import reader.ReaderService;
 import util.DateUtil;
+import util.FileUtil;
 import util.InputUtil;
 import validator.InputValidator;
 
@@ -14,7 +15,12 @@ import java.util.Map;
 
 public class BorrowReturnSlipService {
     // ================= STORE ALL BORROW RETURN SLIPS =================
-    private final List<BorrowReturnSlip> borrowReturnList = new ArrayList<>(); // Prevents accidental reassignment to the list
+    private final List<BorrowReturnSlip> borrowReturnList;
+
+    // ================= CONSTRUCTOR =================
+    public BorrowReturnSlipService() {
+        borrowReturnList = FileUtil.loadBorrowSlipsFromFile();
+    }
 
     // ================= CREATE NEW BORROW SLIP =================
     public boolean createBorrowSlip(BorrowReturnSlip borrowSlip) {
@@ -32,6 +38,15 @@ public class BorrowReturnSlipService {
 
         // Add new borrow slip
         borrowReturnList.add(borrowSlip);
+
+        // Save updated data
+        boolean isSaved = FileUtil.saveBorrowSlipsToFile(borrowReturnList);
+
+        // Check save result
+        if (!isSaved) {
+            System.out.println("Lưu phiếu mượn thất bại!");
+            return false;
+        }
 
         return true;
     }
@@ -55,6 +70,9 @@ public class BorrowReturnSlipService {
         // Update borrow slip
         currentSlip.setActualReturnDate(returnSlip.getActualReturnDate());
         currentSlip.setLostBookIsbns(returnSlip.getLostBookIsbns());
+
+        // Save updated data
+        FileUtil.saveBorrowSlipsToFile(borrowReturnList);
 
         return currentSlip;
     }
@@ -179,7 +197,9 @@ public class BorrowReturnSlipService {
                 readerId,
                 borrowDate,
                 expectedReturnDate,
-                borrowBookIsbnList
+                null,
+                borrowBookIsbnList,
+                new ArrayList<>()
         );
     }
 
