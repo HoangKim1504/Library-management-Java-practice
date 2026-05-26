@@ -4,6 +4,8 @@ import book.Book;
 import book.BookService;
 import validator.BookValidator;
 
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class NumberUtil {
@@ -26,5 +28,13 @@ public class NumberUtil {
 
             return updatedBook != null;
         }
+    }
+
+    // ================= FORMAT VIETNAMESE CURRENCY =================
+    public static String formatCurrency(long price) {
+        // Format number to Vietnamese currency style
+        NumberFormat formatter = NumberFormat.getInstance(Locale.of("vi", "VN"));
+        // Formatted price
+        return formatter.format(price);
     }
 }

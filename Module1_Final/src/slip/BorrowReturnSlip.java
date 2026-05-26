@@ -1,5 +1,7 @@
 package slip;
 
+import util.NumberUtil;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -141,8 +143,8 @@ public class BorrowReturnSlip {
                 ", Ngày trả thực tế: " + actualReturnDate + '\'' +
                 ", Danh sách ISBN sách mượn: " + borrowBookIsbns + '\'' +
                 ", Danh sách ISBN sách mất: " + lostBookIsbns + '\'' +
-                ", Phí mượn sách quá hạn: " + lateFee + '\'' +
-                ", Phí làm mất sách: " + lostBookFee + '\'' +
-                ", Tổng phí phạt: " + totalPenaltyFee + '\'';
+                ", Phí mượn sách quá hạn: " + NumberUtil.formatCurrency(lateFee) + '\'' +
+                ", Phí làm mất sách: " + NumberUtil.formatCurrency(lostBookFee) + '\'' +
+                ", Tổng phí phạt: " + NumberUtil.formatCurrency(totalPenaltyFee) + '\'';
     }
 }

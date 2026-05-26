@@ -7,9 +7,7 @@ import reader.Reader;
 import slip.BorrowReturnSlip;
 import user.User;
 
-import java.text.NumberFormat;
 import java.time.LocalDate;
-import java.util.Locale;
 import java.util.Map;
 
 public class PrintUtil {
@@ -136,14 +134,12 @@ public class PrintUtil {
         System.out.println(index++ + ". Nhà xuất bản: " + book.getPublisher());
         System.out.println(index++ + ". Năm xuất bản: " + book.getPublishYear());
         System.out.println(index++ + ". Thể loại: " + book.getCategory().getDisplayName());
-        System.out.println(index++ + ". Giá sách: " + book.getPrice() + " VNĐ");
+        System.out.println(index++ + ". Giá sách: " + NumberUtil.formatCurrency(book.getPrice()) + " VNĐ");
         System.out.println(index++ + ". Số lượng: " + book.getQuantity());
     }
 
     // ================= PRINT BORROW SLIP INFO =================
     public static void printBorrowBookSlipInfo(BorrowReturnSlip borrowReturnSlip, long lateFee, long lostBookFee) {
-        NumberFormat formatter = NumberFormat.getInstance(Locale.of("vi", "VN"));
-
         if (borrowReturnSlip == null) {
             System.out.println("Không có thông tin phiếu mượn");
             return;
@@ -172,11 +168,11 @@ public class PrintUtil {
 
         if (actualReturnDate != null) {
             System.out.println(index++ + ". Danh sách ISBN sách bị mất: " + borrowReturnSlip.getLostBookIsbns());
-            System.out.println(index++ + ". Phí mượn sách quá hạn: " + formatter.format(lateFee) + " VNĐ");
-            System.out.println(index++ + ". Phí làm mất sách: " + formatter.format(lostBookFee) + " VNĐ");
+            System.out.println(index++ + ". Phí mượn sách quá hạn: " + NumberUtil.formatCurrency(lateFee) + " VNĐ");
+            System.out.println(index++ + ". Phí làm mất sách: " + NumberUtil.formatCurrency(lostBookFee) + " VNĐ");
 
-            double totalFee = lateFee + lostBookFee;
-            System.out.println(index++ + ". Tổng phí phạt: " + formatter.format(totalFee) + " VNĐ");
+            long totalFee = lateFee + lostBookFee;
+            System.out.println(index++ + ". Tổng phí phạt: " + NumberUtil.formatCurrency(totalFee) + " VNĐ");
         }
     }
 

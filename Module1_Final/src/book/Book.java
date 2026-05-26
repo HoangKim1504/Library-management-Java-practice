@@ -1,6 +1,7 @@
 package book;
 
 import enums.BookCategory;
+import util.NumberUtil;
 
 public class Book {
     private String isbn;
@@ -99,7 +100,7 @@ public class Book {
                 ", Nhà xuất bản: '" + publisher + '\'' +
                 ", Năm xuất bản: '" + publishYear + '\'' +
                 ", Thể loại: '" + category.getDisplayName() + '\'' +
-                ", Giá sách: '" + price + " VNĐ" + '\'' +
+                ", Giá sách: '" + NumberUtil.formatCurrency(price) + " VNĐ" + '\'' +
                 ", Số lượng: '" + quantity + '\'';
     }
 }
