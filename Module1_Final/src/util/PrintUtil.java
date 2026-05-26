@@ -21,7 +21,7 @@ public class PrintUtil {
         System.out.println(index++ + ". Quản lý sách");
         System.out.println(index++ + ". Lập phiếu mượn sách");
         System.out.println(index++ + ". Lập phiếu trả sách");
-        System.out.println(index++ + ". Thống kê");
+        System.out.println(index + ". Thống kê");
     }
 
     // ================= USER MENU =================
@@ -32,7 +32,7 @@ public class PrintUtil {
         System.out.println(index++ + ". Đăng xuất");
         System.out.println(index++ + ". Thay đổi mật khẩu");
         System.out.println(index++ + ". Cập nhật thông tin cá nhân");
-        System.out.println(index++ + ". Tạo người dùng");
+        System.out.println(index + ". Tạo người dùng");
         System.out.println("0. Quay lại");
     }
 
@@ -45,7 +45,7 @@ public class PrintUtil {
         System.out.println(index++ + ". Chỉnh sửa thông tin một độc giả");
         System.out.println(index++ + ". Xóa thông tin một độc giả");
         System.out.println(index++ + ". Tìm kiếm độc giả theo CMND");
-        System.out.println(index++ + ". Tìm kiếm độc giả theo họ tên");
+        System.out.println(index + ". Tìm kiếm độc giả theo họ tên");
         System.out.println("0. Quay lại");
     }
 
@@ -59,7 +59,7 @@ public class PrintUtil {
         System.out.println(index++ + ". Chỉnh sửa thông tin một quyển sách");
         System.out.println(index++ + ". Xóa thông tin sách");
         System.out.println(index++ + ". Tìm kiếm sách theo ISBN");
-        System.out.println(index++ + ". Tìm kiếm sách theo tên sách");
+        System.out.println(index + ". Tìm kiếm sách theo tên sách");
         System.out.println("0. Quay lại");
     }
 
@@ -85,7 +85,7 @@ public class PrintUtil {
         System.out.println(index++ + ". Địa chỉ: " + user.getAddress());
         System.out.println(index++ + ". Giới tính: " + user.getGender().getDisplayName());
         System.out.println(index++ + ". Tình trạng: " + user.getStatus().getDisplayName());
-        System.out.println(index++ + ". Loại người dùng: " + user.getUserType().getDisplayName());
+        System.out.println(index + ". Loại người dùng: " + user.getUserType().getDisplayName());
     }
 
     // ================= PRINT READER INFO =================
@@ -110,7 +110,7 @@ public class PrintUtil {
         System.out.println(index++ + ". Giới tính: " + reader.getGender().getDisplayName());
         System.out.println(index++ + ". Email: " + reader.getEmail());
         System.out.println(index++ + ". Ngày lập thẻ: " + reader.getCreatedDate());
-        System.out.println(index++ + ". Ngày hết hạn của thẻ (48 tháng kể từ ngày lập thẻ): " + reader.getExpiredDate());
+        System.out.println(index + ". Ngày hết hạn của thẻ (48 tháng kể từ ngày lập thẻ): " + reader.getExpiredDate());
     }
 
     // ================= PRINT BOOK INFO =================
@@ -135,7 +135,7 @@ public class PrintUtil {
         System.out.println(index++ + ". Năm xuất bản: " + book.getPublishYear());
         System.out.println(index++ + ". Thể loại: " + book.getCategory().getDisplayName());
         System.out.println(index++ + ". Giá sách: " + NumberUtil.formatCurrency(book.getPrice()) + " VNĐ");
-        System.out.println(index++ + ". Số lượng: " + book.getQuantity());
+        System.out.println(index + ". Số lượng: " + book.getQuantity());
     }
 
     // ================= PRINT BORROW SLIP INFO =================
@@ -172,7 +172,7 @@ public class PrintUtil {
             System.out.println(index++ + ". Phí làm mất sách: " + NumberUtil.formatCurrency(lostBookFee) + " VNĐ");
 
             long totalFee = lateFee + lostBookFee;
-            System.out.println(index++ + ". Tổng phí phạt: " + NumberUtil.formatCurrency(totalFee) + " VNĐ");
+            System.out.println(index + ". Tổng phí phạt: " + NumberUtil.formatCurrency(totalFee) + " VNĐ");
         }
     }
 
@@ -210,7 +210,7 @@ public class PrintUtil {
         System.out.println(index++ + ". Số sách đang được mượn: " + totalBorrowingBooks + " quyển");
 
         // Display overdue readers
-        System.out.println(index++ + ". Danh sách độc giả bị trễ hạn: ");
+        System.out.println(index + ". Danh sách độc giả bị trễ hạn: ");
         for (Map.Entry<String, Long> entry : overdueReaderLateDaysMap.entrySet()) {
             System.out.println(" - Mã độc giả: " + entry.getKey() + ", số ngày trễ: " + entry.getValue() + " ngày");
         }
