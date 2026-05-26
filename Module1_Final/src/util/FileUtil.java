@@ -56,12 +56,10 @@ public class FileUtil {
                 // Add user to list
                 userList.add(user);
             }
-
-            System.out.println("Đọc file người dùng thành công.");
         } catch (IOException e) {
-            System.out.println("Lỗi đọc file người dùng: " + e.getMessage());
+            System.out.println("\nLỗi đọc file người dùng: " + e.getMessage());
         } catch (Exception e) {
-            System.out.println("Lỗi xử lý dữ liệu người dùng: " + e.getMessage());
+            System.out.println("\nLỗi xử lý dữ liệu khi đọc file người dùng: " + e.getMessage());
         }
 
         return userList;
@@ -87,12 +85,10 @@ public class FileUtil {
 
                 writer.newLine();
             }
-
-            System.out.println("Lưu file người dùng thành công.");
         } catch (IOException e) {
-            System.out.println("Lỗi lưu file người dùng:  " + e.getMessage());
+            System.out.println("\nLỗi lưu file người dùng:  " + e.getMessage());
         } catch (Exception e) {
-            System.out.println("Lỗi xử lý dữ liệu người dùng: " + e.getMessage());
+            System.out.println("\nLỗi xử lý dữ liệu khi lưu file người dùng: " + e.getMessage());
         }
     }
 
@@ -129,12 +125,10 @@ public class FileUtil {
                 // Add reader to list
                 readerList.add(readerObj);
             }
-
-            System.out.println("Đọc file độc giả thành công.");
         } catch (IOException e) {
-            System.out.println("Lỗi đọc file độc giả: " + e.getMessage());
+            System.out.println("\nLỗi đọc file độc giả: " + e.getMessage());
         } catch (Exception e) {
-            System.out.println("Lỗi xử lý dữ liệu độc giả: " + e.getMessage());
+            System.out.println("\nLỗi xử lý dữ liệu khi đọc file độc giả: " + e.getMessage());
         }
 
         return readerList;
@@ -159,12 +153,10 @@ public class FileUtil {
 
                 writer.newLine();
             }
-
-            System.out.println("Lưu file độc giả thành công.");
         } catch (IOException e) {
-            System.out.println("Lỗi lưu file độc giả:  " + e.getMessage());
+            System.out.println("\nLỗi lưu file độc giả:  " + e.getMessage());
         } catch (Exception e) {
-            System.out.println("Lỗi xử lý dữ liệu độc giả: " + e.getMessage());
+            System.out.println("\nLỗi xử lý dữ liệu khi lưu file độc giả: " + e.getMessage());
         }
     }
 
@@ -200,12 +192,10 @@ public class FileUtil {
                 // Add book to list
                 bookList.add(book);
             }
-
-            System.out.println("Đọc file sách thành công.");
         } catch (IOException e) {
-            System.out.println("Lỗi đọc file sách: " + e.getMessage());
+            System.out.println("\nLỗi đọc file sách: " + e.getMessage());
         } catch (Exception e) {
-            System.out.println("Lỗi xử lý dữ liệu sách: " + e.getMessage());
+            System.out.println("\nLỗi xử lý dữ liệu khi đọc file sách: " + e.getMessage());
         }
 
         return bookList;
@@ -230,11 +220,11 @@ public class FileUtil {
                 writer.newLine();
             }
 
-            System.out.println("Lưu file sách thành công.");
+            System.out.println("\nLưu file sách thành công.");
         } catch (IOException e) {
-            System.out.println("Lỗi lưu file sách:  " + e.getMessage());
+            System.out.println("\nLỗi lưu file sách:  " + e.getMessage());
         } catch (Exception e) {
-            System.out.println("Lỗi xử lý dữ liệu sách: " + e.getMessage());
+            System.out.println("\nLỗi xử lý dữ liệu khi lưu file sách: " + e.getMessage());
         }
     }
 
@@ -261,12 +251,10 @@ public class FileUtil {
                 // Add book to list
                 borrowSlipList.add(borrowSlip);
             }
-
-            System.out.println("Đọc file phiếu mượn trả sách thành công.");
         } catch (IOException e) {
-            System.out.println("Lỗi đọc file phiếu mượn trả sách: " + e.getMessage());
+            System.out.println("\nLỗi đọc file phiếu mượn sách: " + e.getMessage());
         } catch (Exception e) {
-            System.out.println("Lỗi xử lý dữ liệu khi đọc file phiếu mượn trả sách: " + e.getMessage());
+            System.out.println("\nLỗi xử lý dữ liệu khi đọc file phiếu mượn sách: " + e.getMessage());
         }
 
         return borrowSlipList;
@@ -286,14 +274,14 @@ public class FileUtil {
                 writer.newLine();
             }
 
-            System.out.println("Lưu file phiếu mượn trả sách thành công.");
+            System.out.println("\nLưu file phiếu mượn trả sách thành công.");
 
             // Save success
             return true;
         } catch (IOException e) {
-            System.out.println("Lỗi lưu file phiếu mượn trả sách:  " + e.getMessage());
+            System.out.println("\nLỗi lưu file phiếu mượn/ trả sách:  " + e.getMessage());
         } catch (Exception e) {
-            System.out.println("Lỗi xử lý dữ liệu khi lưu file phiếu mượn trả sách: " + e.getMessage());
+            System.out.println("\nLỗi xử lý dữ liệu khi lưu file phiếu mượn/ trả sách: " + e.getMessage());
         }
 
         // Save failed
