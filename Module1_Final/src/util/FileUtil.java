@@ -193,7 +193,7 @@ public class FileUtil {
                         data[3],
                         Integer.parseInt(data[4]),
                         BookCategory.valueOf(data[5]),
-                        Double.parseDouble(data[6]),
+                        Long.parseLong(data[6]),
                         Integer.parseInt(data[7])
                 );
 
@@ -251,7 +251,7 @@ public class FileUtil {
                 String[] data = line.split(",");
 
                 // Skip invalid data
-                if (data.length != 7) {
+                if (data.length != 10) {
                     continue;
                 }
 
@@ -278,7 +278,7 @@ public class FileUtil {
             // Save each slip to file
             for (BorrowReturnSlip slip : borrowSlipList) {
 
-                // Borrow slip data
+                // Slip data
                 String slipData = getString(slip);
 
                 writer.write(slipData);
@@ -323,7 +323,10 @@ public class FileUtil {
                 LocalDate.parse(data[3]),
                 actualReturnDate,
                 borrowBookList,
-                lostBookList
+                lostBookList,
+                Long.parseLong(data[7]),
+                Long.parseLong(data[8]),
+                Long.parseLong(data[9])
         );
     }
 
@@ -351,6 +354,9 @@ public class FileUtil {
                 + slip.getExpectedReturnDate() + ","
                 + actualReturnDate + ","
                 + borrowBookList + ","
-                + lostBookList;
+                + lostBookList + ","
+                + slip.getLateFee() + ","
+                + slip.getLostBookFee() + ","
+                + slip.getTotalPenaltyFee();
     }
 }

@@ -1,10 +1,6 @@
 package slip;
 
-import book.Book;
-import book.BookService;
-
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 public class BorrowReturnSlip {
@@ -15,11 +11,14 @@ public class BorrowReturnSlip {
     private LocalDate actualReturnDate;
     private List<String> borrowBookIsbns;
     private List<String> lostBookIsbns;
+    private long lateFee;
+    private long lostBookFee;
+    private long totalPenaltyFee;
 
     public BorrowReturnSlip() {
     }
 
-    public BorrowReturnSlip(String borrowId, String readerId, LocalDate borrowDate, LocalDate expectedReturnDate, LocalDate actualReturnDate, List<String> borrowBookIsbns, List<String> lostBookIsbns) {
+    public BorrowReturnSlip(String borrowId, String readerId, LocalDate borrowDate, LocalDate expectedReturnDate, LocalDate actualReturnDate, List<String> borrowBookIsbns, List<String> lostBookIsbns, long lateFee, long lostBookFee, long totalPenaltyFee) {
         this.borrowId = borrowId;
         this.readerId = readerId;
         this.borrowDate = borrowDate;
@@ -27,6 +26,9 @@ public class BorrowReturnSlip {
         this.actualReturnDate = actualReturnDate;
         this.borrowBookIsbns = borrowBookIsbns;
         this.lostBookIsbns = lostBookIsbns;
+        this.lateFee = lateFee;
+        this.lostBookFee = lostBookFee;
+        this.totalPenaltyFee = totalPenaltyFee;
     }
 
     // ================= CREATE BORROW SLIP =================
@@ -39,11 +41,14 @@ public class BorrowReturnSlip {
     }
 
     // ================= CREATE RETURN SLIP =================
-    public BorrowReturnSlip(String borrowId, String readerId, LocalDate actualReturnDate, List<String> lostBookIsbns) {
+    public BorrowReturnSlip(String borrowId, String readerId, LocalDate actualReturnDate, List<String> lostBookIsbns, long lateFee, long lostBookFee, long totalPenaltyFee) {
         this.borrowId = borrowId;
         this.readerId = readerId;
         this.actualReturnDate = actualReturnDate;
         this.lostBookIsbns = lostBookIsbns;
+        this.lateFee = lateFee;
+        this.lostBookFee = lostBookFee;
+        this.totalPenaltyFee = totalPenaltyFee;
     }
 
     public String getBorrowId() {
@@ -102,6 +107,30 @@ public class BorrowReturnSlip {
         this.lostBookIsbns = lostBookIsbns;
     }
 
+    public long getLateFee() {
+        return lateFee;
+    }
+
+    public void setLateFee(long lateFee) {
+        this.lateFee = lateFee;
+    }
+
+    public long getLostBookFee() {
+        return lostBookFee;
+    }
+
+    public void setLostBookFee(long lostBookFee) {
+        this.lostBookFee = lostBookFee;
+    }
+
+    public long getTotalPenaltyFee() {
+        return totalPenaltyFee;
+    }
+
+    public void setTotalPenaltyFee(long totalPenaltyFee) {
+        this.totalPenaltyFee = totalPenaltyFee;
+    }
+
     @Override
     public String toString() {
         return "\n===== THÔNG TIN PHIẾU MƯỢN/TRẢ =====" +
@@ -111,72 +140,9 @@ public class BorrowReturnSlip {
                 ", Ngày trả dự kiến: " + expectedReturnDate + '\'' +
                 ", Ngày trả thực tế: " + actualReturnDate + '\'' +
                 ", Danh sách ISBN sách mượn: " + borrowBookIsbns + '\'' +
-                ", Danh sách ISBN sách mất: " + lostBookIsbns + '\'';
-    }
-
-    // ================= CALCULATE LATE DAYS =================
-    public static long calculateLateDays(LocalDate expectedReturnDate, LocalDate actualReturnDate) {
-        // Invalid return dates
-        if (expectedReturnDate == null || actualReturnDate == null) {
-            return 0;
-        }
-
-        // Return on time
-        if (!actualReturnDate.isAfter(expectedReturnDate)) {
-            return 0;
-        }
-
-        // Calculate late days
-        return ChronoUnit.DAYS.between(expectedReturnDate, actualReturnDate);
-    }
-
-    // ================= CALCULATE LATE FEE =================
-    public static double calculateLateFee(BorrowReturnSlip returnSlip, BorrowReturnSlip currentSlip,
-                                          double lateFeePerDay) {
-        // Validate slips
-        if (returnSlip == null || currentSlip == null) {
-            return 0;
-        }
-
-        // Calculate late days
-        long lateDays = calculateLateDays(currentSlip.getExpectedReturnDate(), returnSlip.getActualReturnDate());
-
-        // Calculate total late fee
-        return lateDays * lateFeePerDay;
-    }
-
-    // ================= CALCULATE LOST BOOK FEE =================
-    public static double calculateLostBookFee(BorrowReturnSlip returnSlip,
-                                              double lostBookFeeRatio, BookService bookService) {
-        // Validate return slip
-        if (returnSlip == null) {
-            return 0;
-        }
-
-        // Get lost book ISBN list
-        List<String> lostBookIsbnList = returnSlip.getLostBookIsbns();
-
-        // No lost books
-        if (lostBookIsbnList == null || lostBookIsbnList.isEmpty()) {
-            return 0;
-        }
-
-        double totalLostBookFee = 0;
-
-        // Calculate lost book fee
-        for (String isbn : lostBookIsbnList) {
-            Book currentBook = bookService.findCurrentBook(isbn);
-
-            // Skip invalid book
-            if (currentBook == null) {
-                System.out.println("Không tìm thấy sách có mã ISBN: " + isbn);
-                continue;
-            }
-
-            double bookPrice = currentBook.getPrice();
-            totalLostBookFee += bookPrice * lostBookFeeRatio;
-        }
-
-        return totalLostBookFee;
+                ", Danh sách ISBN sách mất: " + lostBookIsbns + '\'' +
+                ", Phí mượn sách quá hạn: " + lateFee + '\'' +
+                ", Phí làm mất sách: " + lostBookFee + '\'' +
+                ", Tổng phí phạt: " + totalPenaltyFee + '\'';
     }
 }

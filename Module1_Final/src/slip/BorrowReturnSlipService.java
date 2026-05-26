@@ -1,5 +1,7 @@
 package slip;
 
+import book.Book;
+import book.BookService;
 import reader.Reader;
 import reader.ReaderService;
 import util.DateUtil;
@@ -8,6 +10,7 @@ import util.InputUtil;
 import validator.InputValidator;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -51,30 +54,20 @@ public class BorrowReturnSlipService {
         return true;
     }
 
-    // ================= CREATE NEW RETURN SLIP =================
-    public BorrowReturnSlip updateBorrowSlip(BorrowReturnSlip returnSlip) {
-        // Validate return slip object
-        if (returnSlip == null) {
-            System.out.println("Phiếu trả sách không hợp lệ!");
-            return null;
+    // ================= CALCULATE LATE DAYS =================
+    public static long calculateLateDays(LocalDate expectedReturnDate, LocalDate actualReturnDate) {
+        // Invalid return dates
+        if (expectedReturnDate == null || actualReturnDate == null) {
+            return 0;
         }
 
-        BorrowReturnSlip currentSlip = findCurrentBorrowReturnSlip(returnSlip.getBorrowId());
-
-        // Check exist of borrow slip
-        if (currentSlip == null) {
-            System.out.println("Phiếu mượn sách không tồn tại!");
-            return null;
+        // Return on time
+        if (!actualReturnDate.isAfter(expectedReturnDate)) {
+            return 0;
         }
 
-        // Update borrow slip
-        currentSlip.setActualReturnDate(returnSlip.getActualReturnDate());
-        currentSlip.setLostBookIsbns(returnSlip.getLostBookIsbns());
-
-        // Save updated data
-        FileUtil.saveBorrowSlipsToFile(borrowReturnList);
-
-        return currentSlip;
+        // Calculate late days
+        return ChronoUnit.DAYS.between(expectedReturnDate, actualReturnDate);
     }
 
     // ================= FIND CURRENT BORROW RETURN SLIP =================
@@ -142,6 +135,121 @@ public class BorrowReturnSlipService {
         return true;
     }
 
+    // ================= CALCULATE LATE FEE =================
+    public static long calculateLateFee(BorrowReturnSlip returnSlip, BorrowReturnSlip currentSlip,
+                                        long lateFeePerDay) {
+        // Validate slips
+        if (returnSlip == null || currentSlip == null) {
+            return 0;
+        }
+
+        // Calculate late days
+        long lateDays = calculateLateDays(currentSlip.getExpectedReturnDate(), returnSlip.getActualReturnDate());
+
+        // Calculate total late fee
+        return lateDays * lateFeePerDay;
+    }
+
+    // ================= ADD LOST BOOK ISBN =================
+    public boolean addLostBookIsbn(String lostBookIsbn, List<String> lostBookIsbnList, List<String> borrowedBookIsbnList) {
+        // Check borrowed ISBN exists
+        boolean isBorrowedBook = false;
+
+        for (String borrowedIsbn : borrowedBookIsbnList) {
+            if (lostBookIsbn.equals(borrowedIsbn)) {
+                isBorrowedBook = true;
+                break;
+            }
+        }
+
+        // ISBN not found in borrowed list
+        if (!isBorrowedBook) {
+            System.out.println("Không tìm thấy mã sách trong danh sâch đã mượn!");
+            return false;
+        }
+
+        // Check duplicate lost ISBN
+        if (lostBookIsbnList.contains(lostBookIsbn)) {
+            System.out.println("Mã sách bị mất đã tồn tại!");
+            return false;
+        }
+
+        // Add lost ISBN
+        lostBookIsbnList.add(lostBookIsbn);
+
+        return true;
+    }
+
+    // ================= CALCULATE LOST BOOK FEE =================
+    public static long calculateLostBookFee(BorrowReturnSlip returnSlip,
+                                            long lostBookFeeRatio, BookService bookService) {
+        // Validate return slip
+        if (returnSlip == null) {
+            return 0;
+        }
+
+        // Get lost book ISBN list
+        List<String> lostBookIsbnList = returnSlip.getLostBookIsbns();
+
+        // No lost books
+        if (lostBookIsbnList == null || lostBookIsbnList.isEmpty()) {
+            return 0;
+        }
+
+        long totalLostBookFee = 0;
+
+        // Calculate lost book fee
+        for (String isbn : lostBookIsbnList) {
+            Book currentBook = bookService.findCurrentBook(isbn);
+
+            // Skip invalid book
+            if (currentBook == null) {
+                System.out.println("Không tìm thấy sách có mã ISBN: " + isbn);
+                continue;
+            }
+
+            long bookPrice = currentBook.getPrice();
+            totalLostBookFee += bookPrice * lostBookFeeRatio;
+        }
+
+        return totalLostBookFee;
+    }
+
+    // ================= CREATE NEW RETURN SLIP =================
+    public BorrowReturnSlip updateBorrowSlip(BorrowReturnSlip returnSlip, long lateFee, long lostBookFee) {
+        // Validate return slip object
+        if (returnSlip == null) {
+            System.out.println("Phiếu trả sách không hợp lệ!");
+            return null;
+        }
+
+        BorrowReturnSlip currentSlip = findCurrentBorrowReturnSlip(returnSlip.getBorrowId());
+
+        // Check exist of borrow slip
+        if (currentSlip == null) {
+            System.out.println("Phiếu mượn sách không tồn tại!");
+            return null;
+        }
+
+        // Update borrow slip
+        currentSlip.setActualReturnDate(returnSlip.getActualReturnDate());
+        currentSlip.setLostBookIsbns(returnSlip.getLostBookIsbns());
+        if (lateFee != 0) {
+            currentSlip.setLateFee(lateFee);
+        }
+        if (lostBookFee != 0) {
+            currentSlip.setLostBookFee(lostBookFee);
+        }
+        if (lateFee != 0 || lostBookFee != 0) {
+            currentSlip.setTotalPenaltyFee(lateFee + lostBookFee);
+        }
+
+        // Save updated data
+        FileUtil.saveBorrowSlipsToFile(borrowReturnList);
+
+        return currentSlip;
+    }
+
     // ================= INPUT BORROW SLIP INFO =================
     public BorrowReturnSlip inputBorrowSlipInfo(ReaderService readerService) {
         // Generate borrow ID
@@ -199,38 +307,11 @@ public class BorrowReturnSlipService {
                 expectedReturnDate,
                 null,
                 borrowBookIsbnList,
-                new ArrayList<>()
+                new ArrayList<>(),
+                0,
+                0,
+                0
         );
-    }
-
-    // ================= ADD LOST BOOK ISBN =================
-    public boolean addLostBookIsbn(String lostBookIsbn, List<String> lostBookIsbnList, List<String> borrowedBookIsbnList) {
-        // Check borrowed ISBN exists
-        boolean isBorrowedBook = false;
-
-        for (String borrowedIsbn : borrowedBookIsbnList) {
-            if (lostBookIsbn.equals(borrowedIsbn)) {
-                isBorrowedBook = true;
-                break;
-            }
-        }
-
-        // ISBN not found in borrowed list
-        if (!isBorrowedBook) {
-            System.out.println("Không tìm thấy mã sách trong danh sâch đã mượn!");
-            return false;
-        }
-
-        // Check duplicate lost ISBN
-        if (lostBookIsbnList.contains(lostBookIsbn)) {
-            System.out.println("Mã sách bị mất đã tồn tại!");
-            return false;
-        }
-
-        // Add lost ISBN
-        lostBookIsbnList.add(lostBookIsbn);
-
-        return true;
     }
 
     // ================= INPUT RETURN SLIP INFO =================
@@ -321,7 +402,10 @@ public class BorrowReturnSlipService {
                 borrowId,
                 readerId,
                 actualReturnDate,
-                lostBookIsbnList
+                lostBookIsbnList,
+                0,
+                0,
+                0
         );
     }
 
@@ -363,7 +447,7 @@ public class BorrowReturnSlipService {
             }
 
             String readerId = slip.getReaderId();
-            Long lateDays = BorrowReturnSlip.calculateLateDays(expectedReturnDate, actualReturnDate);
+            Long lateDays = calculateLateDays(expectedReturnDate, actualReturnDate);
 
             // Store overdue reader late days
             overdueReaderLateDaysMap.put(readerId, lateDays);

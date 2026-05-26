@@ -39,8 +39,8 @@ public class LibraryManagement {
     private static final UserType MANAGER = UserType.MANAGER;
     private static final UserType USER = UserType.USER;
 
-    private static final double LATE_FEE_PER_DAY = 5000;
-    private static final double LOST_BOOK_FEE_RATIO = 2.0;
+    private static final long LATE_FEE_PER_DAY = 5000;
+    private static final long LOST_BOOK_FEE_RATIO = 2;
 
     public static void main(String[] args) {
         LibraryManagement app = new LibraryManagement();
@@ -750,23 +750,23 @@ public class LibraryManagement {
                 continue;
             }
 
+            // Find current borrow slip
+            BorrowReturnSlip currentSlip = borrowReturnSlipService.findCurrentBorrowReturnSlip(returnSlip.getBorrowId());
+
+            // Calculate late fee
+            long lateFee = BorrowReturnSlipService.calculateLateFee(returnSlip, currentSlip, LATE_FEE_PER_DAY);
+
+            // Calculate lost book fee
+            long lostBookFee = BorrowReturnSlipService.calculateLostBookFee(returnSlip, LOST_BOOK_FEE_RATIO, bookService);
+
             // Update current borrow slip
-            BorrowReturnSlip updatedSlip = borrowReturnSlipService.updateBorrowSlip(returnSlip);
+            BorrowReturnSlip updatedSlip = borrowReturnSlipService.updateBorrowSlip(returnSlip, lateFee, lostBookFee);
 
             // Update failed
             if (updatedSlip == null) {
                 System.out.println("Tạo phiếu trả sách thất bại!");
                 continue;
             }
-
-            // Find current borrow slip
-            BorrowReturnSlip currentSlip = borrowReturnSlipService.findCurrentBorrowReturnSlip(returnSlip.getBorrowId());
-
-            // Calculate late fee
-            double lateFee = BorrowReturnSlip.calculateLateFee(returnSlip, currentSlip, LATE_FEE_PER_DAY);
-
-            // Calculate lost book fee
-            double lostBookFee = BorrowReturnSlip.calculateLostBookFee(returnSlip, LOST_BOOK_FEE_RATIO, bookService);
 
             // Create return slip successfully
             System.out.println("Tạo phiếu trả sách thành công!");
