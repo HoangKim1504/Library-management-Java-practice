@@ -1,4 +1,3 @@
-📚 Library Management System - Java Console Application
 # 📚 Library Management System - Java Practice
 
 A console-based Library Management System developed in Java for practicing Object-Oriented Programming (OOP), file handling, authentication, role-based authorization, and software design principles.
