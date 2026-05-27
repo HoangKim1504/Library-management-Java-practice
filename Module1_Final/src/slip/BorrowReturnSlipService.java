@@ -330,6 +330,12 @@ public class BorrowReturnSlipService {
                 continue;
             }
 
+            // Borrow slip already returned
+            if (currentBorrowSlip.getActualReturnDate() != null) {
+                System.out.println("Phiếu mượn sách đã được trả. Vui lòng chọn phiếu khác!");
+                continue;
+            }
+
             break;
         }
 
@@ -339,11 +345,9 @@ public class BorrowReturnSlipService {
         while (true) {
             readerId = InputValidator.inputValidString("Mã độc giả: ", InputValidator::isValidReaderId);
 
-            Reader foundReader = readerService.findCurrentReader(readerId);
-
-            // Reader not found
-            if (foundReader == null) {
-                System.out.println("Không tìm thấy mã độc giả!");
+            // Reader does not match borrow slip
+            if (!readerId.equals(currentBorrowSlip.getReaderId())) {
+                System.out.println("Mã độc giả không khớp với phiếu mượn!");
                 continue;
             }
 
