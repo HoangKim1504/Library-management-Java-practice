@@ -136,7 +136,7 @@ public class BorrowReturnSlipService {
     }
 
     // ================= CALCULATE LATE FEE =================
-    public static long calculateLateFee(BorrowReturnSlip returnSlip, BorrowReturnSlip currentSlip,
+    public long calculateLateFee(BorrowReturnSlip returnSlip, BorrowReturnSlip currentSlip,
                                         long lateFeePerDay) {
         // Validate slips
         if (returnSlip == null || currentSlip == null) {
@@ -181,7 +181,7 @@ public class BorrowReturnSlipService {
     }
 
     // ================= CALCULATE LOST BOOK FEE =================
-    public static long calculateLostBookFee(BorrowReturnSlip returnSlip,
+    public long calculateLostBookFee(BorrowReturnSlip returnSlip,
                                             long lostBookFeeRatio, BookService bookService) {
         // Validate return slip
         if (returnSlip == null) {

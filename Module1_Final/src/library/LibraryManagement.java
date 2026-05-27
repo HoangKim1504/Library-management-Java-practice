@@ -754,10 +754,10 @@ public class LibraryManagement {
             BorrowReturnSlip currentSlip = borrowReturnSlipService.findCurrentBorrowReturnSlip(returnSlip.getBorrowId());
 
             // Calculate late fee
-            long lateFee = BorrowReturnSlipService.calculateLateFee(returnSlip, currentSlip, LATE_FEE_PER_DAY);
+            long lateFee = borrowReturnSlipService.calculateLateFee(returnSlip, currentSlip, LATE_FEE_PER_DAY);
 
             // Calculate lost book fee
-            long lostBookFee = BorrowReturnSlipService.calculateLostBookFee(returnSlip, LOST_BOOK_FEE_RATIO, bookService);
+            long lostBookFee = borrowReturnSlipService.calculateLostBookFee(returnSlip, LOST_BOOK_FEE_RATIO, bookService);
 
             // Update current borrow slip
             BorrowReturnSlip updatedSlip = borrowReturnSlipService.updateBorrowSlip(returnSlip, lateFee, lostBookFee);
